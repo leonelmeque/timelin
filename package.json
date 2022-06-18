@@ -22,6 +22,8 @@
     "@types/styled-components-react-native": "^5.1.3"
   },
   "scripts": {
-    "test": "jest"
+    "web": "yarn workspace @todo/web dev",
+    "mobile": "yarn workspace @todo/mobile ios",
+    "push": "git push origin $(git branch --show-current)"
   }
 }
