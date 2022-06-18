@@ -1,0 +1,8 @@
+{
+  "name": "@todo/commons",
+  "version": "0.0.0",
+  "description": "commons for todo app",
+  "main": "index.js",
+  "author": "Leonel Meque",
+  "license": "MIT"
+}
