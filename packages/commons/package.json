@@ -2,7 +2,11 @@
   "name": "@todo/commons",
   "version": "0.0.0",
   "description": "commons for todo app",
-  "main": "index.js",
+  "main": "index.ts",
   "author": "Leonel Meque",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  }
 }

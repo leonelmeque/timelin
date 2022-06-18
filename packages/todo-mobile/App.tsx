@@ -1,11 +1,12 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text as RNText, View } from "react-native";
 import styled from "styled-components/native";
+import {useGreetings} from "@todo/commons"
 
-const _Hello = ({ style }: { style?: any }) => {
+const _Hello = ({ style, message}: { style?: any, message:string }) => {
     return (
         <View style={style}>
-            <Text>Running react native with styled components</Text>
+            <Text>{message}</Text>
         </View>
     );
 };
@@ -22,9 +23,10 @@ const Text = styled(RNText)`
 `;
 
 export default function App() {
+   const greetings = useGreetings({whoToGreet:"Meque"});
     return (
         <View style={styles.container}>
-            <Hello />
+            <Hello message={greetings} />
             <StatusBar style="auto" />
         </View>
     );
