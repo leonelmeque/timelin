@@ -1,6 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-
+const InterpolateHtmlPlugin = require("interpolate-html-plugin")
 module.exports = {
     entry: path.resolve(__dirname,'..','./src/index.tsx'),
     output: {
@@ -29,11 +29,12 @@ module.exports = {
             // this line will be used for images formats
             {
                 test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
-                type: 'asset/resource'
+                type: 'public/resource'
             },
             // this line will be use for fonts and svg files
             {
                 test: /\.(woff(2)?|eot|tff|otf|svg|)$/,
+                use: ['file-loader?name=[name].[ext]'],
                 type: 'asset/inline'
             }
         ]
@@ -43,7 +44,11 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname,'..','./public/index.html')
+            template: path.resolve(__dirname,'..','./public/index.html'),
+            favicon: "./public/favicon.ico"
+        }),
+        new InterpolateHtmlPlugin({
+            PUBLIC_URL: 'static'
         })
     ]
 }
