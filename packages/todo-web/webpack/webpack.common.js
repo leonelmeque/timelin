@@ -1,8 +1,11 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const InterpolateHtmlPlugin = require("interpolate-html-plugin")
+const DotEnv = require("dotenv-webpack")
+
+
 module.exports = {
-    entry: path.resolve(__dirname,'..','./src/index.tsx'),
+    entry: path.resolve(__dirname, '..', './src/index.tsx'),
     output: {
         path: path.join(__dirname, '..', './src/dist'),
         filename: 'bundle.js'
@@ -19,6 +22,14 @@ module.exports = {
                 use: [
                     {
                         loader: 'babel-loader'
+                    },
+                    {
+                        loader: 'ts-loader',
+                        options: {
+                            compilerOptions: {
+                                noEmit: false
+                            }
+                        }
                     }
                 ]
             },
@@ -43,8 +54,9 @@ module.exports = {
         extensions: ['.jsx', '.tsx', '.ts', '.js'],
     },
     plugins: [
+        new DotEnv(),
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname,'..','./public/index.html'),
+            template: path.resolve(__dirname, '..', './public/index.html'),
             favicon: "./public/favicon.ico"
         }),
         new InterpolateHtmlPlugin({
