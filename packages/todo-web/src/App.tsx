@@ -1,5 +1,5 @@
 import "./App.css";
-import {Button} from "@todo/ui/platform-web"
+import {Button, Input} from "@todo/ui/platform-web"
 
 const App = () => (
     <div className="App">
@@ -11,6 +11,8 @@ const App = () => (
             size="lg"
             onClick={() => alert("I am a button")}
         />
+
+        <Input  />
     </div>
 );
 

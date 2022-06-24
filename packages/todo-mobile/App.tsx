@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text as RNText, View } from "react-native";
 import styled from "styled-components/native";
 import {useGreetings} from "@todo/commons"
-import Button from "./src/components/atoms/Button";
+import {RNButton, RNInput} from "@todo/ui/platform-mobile"
 
 const _Hello = ({ style, message}: { style?: any, message:string }) => {
     return (
@@ -29,7 +29,8 @@ export default function App() {
         <View style={styles.container}>
             <Hello message={greetings} />
             <StatusBar style="auto" />
-            <Button label="Button" size="md" variant="primary" onPress={()=>alert("React Native Button")} />
+            <RNButton label="Button" size="md" variant="primary" onPress={()=>alert("React Native Button")} />
+            <RNInput placeholder="React Native Shared" />
         </View>
     );
 }
