@@ -23,6 +23,7 @@
   },
   "scripts": {
     "web": "yarn workspace @todo/web dev",
+    "web:build": "yarn workspace @todo/web build",
     "mobile": "yarn workspace @todo/mobile ios",
     "push": "git push origin $(git branch --show-current)"
   }
