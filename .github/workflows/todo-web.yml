@@ -2,9 +2,9 @@ name: Todo Web CI/CD
 
 on:
     push:
-        branches: [deploy]
+        branches: [develop]
     pull_request:
-        branches: [deploy, main]
+        branches: [develop, main]
 
 jobs:
     build:
@@ -24,8 +24,8 @@ jobs:
             - name: Installing dependecies...
               run: yarn 
             - name: Testing the app...
-              run: yarn test
+              run: yarn web:test
             - name: Building the app...
-              run: yarn run build
+              run: yarn run web:build
             - name: "Message"
               run: echo "Success"
