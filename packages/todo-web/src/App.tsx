@@ -1,19 +1,21 @@
-import "./App.css";
-import {Button, Input} from "@todo/ui/platform-web"
+import './App.css'
+import { Button, Input } from '@todo/ui/platform-web'
 
-const App = () => (
+function App() {
+  return (
     <div className="App">
-        <Button
-            type="button"
-            aria-pressed="true"
-            label="Button"
-            variant="primary"
-            size="lg"
-            onClick={() => alert("I am a button")}
-        />
+      <Button
+        type="button"
+        aria-pressed="true"
+        label="Button"
+        variant="primary"
+        size="lg"
+        onClick={() => alert('I am a button')}
+      />
 
-        <Input  />
+      <Input />
     </div>
-);
+  )
+}
 
-export default App;
+export default App

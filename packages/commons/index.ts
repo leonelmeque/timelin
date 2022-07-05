@@ -1,1 +1,1 @@
-export {default as useGreetings} from './hooks/useGreetings'
+export { default as useGreetings } from "./hooks/useGreetings";
