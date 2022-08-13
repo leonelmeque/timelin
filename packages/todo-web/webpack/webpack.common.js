@@ -21,6 +21,17 @@ module.exports = {
         use: [
           {
             loader: "babel-loader",
+            options: {
+              "plugins": [
+                "@babel/plugin-transform-react-jsx-source",
+                "babel-plugin-styled-components"
+              ],
+              "presets": [
+                "@babel/preset-env",
+                ["@babel/preset-react", { "runtime": "automatic" }],
+                "@babel/preset-typescript"
+              ]
+            }
           },
           {
             loader: "ts-loader",

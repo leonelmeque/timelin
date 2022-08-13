@@ -6,7 +6,10 @@ interface TodoListProps extends ComponentPropsWithoutRef<"div"> {
 }
 
 const _TodoList: VoidFunctionComponent<TodoListProps> = ({ todos }) => {
-  return <ul>{todos.map(() => [])}</ul>;
+  return <div>
+    <h1>Todo</h1>
+    <ul>{todos.map(() => [])}</ul>
+  </div>;
 };
 
 const TodoList = styled(_TodoList)``;

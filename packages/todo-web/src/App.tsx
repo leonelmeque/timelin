@@ -1,9 +1,11 @@
 import './App.css'
 import { Button, Input } from '@todo/ui/platform-web'
+import TodoList from './components/TodoList'
 
 function App() {
   return (
     <div className="App">
+      <TodoList todos={[]} />
       <Button
         type="button"
         aria-pressed="true"
