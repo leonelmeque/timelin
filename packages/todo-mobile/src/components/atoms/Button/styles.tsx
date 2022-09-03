@@ -34,6 +34,7 @@ export const _sizes = {
 };
 
 export const Label = styled(Text)`
-color: white;
-font-weight: bold;
+  color: white;
+  font-weight: bold;
+  text-align: center;
 `
