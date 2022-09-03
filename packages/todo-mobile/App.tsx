@@ -1,50 +1,27 @@
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Text as RNText, View } from 'react-native'
-import styled from 'styled-components/native'
-import { useGreetings } from '@todo/commons'
-import { RNButton, RNInput } from '@todo/ui/platform-mobile'
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-})
-
-function _Hello({ style, message }: { style?: any; message: string }) {
-  return (
-    <View style={style}>
-      <Text>{message}</Text>
-    </View>
-  )
-}
-
-const Hello = styled(_Hello)`
-  background: black;
-`
-
-const Text = styled(RNText)`
-  color: white;
-  color: white;
-  font-size: 24px;
-  margin: 12px 12px;
-`
+import { SafeAreaView, View } from 'react-native'
+import Button from './src/components/atoms/Button/Button'
+import { ThemeProvider } from 'styled-components/native'
+import { lightTheme, darkTheme } from './src/utils/theme'
+import { useThemeSwitcher } from './src/hooks/use-theme-switcher'
+import { ThemeContext } from './src/context'
+import Layout from './src/components/atoms/Layout/Layout'
 
 export default function App() {
-  const greetings = useGreetings({ whoToGreet: 'Meque' })
+  const [activeTheme, themeToggler] = useThemeSwitcher()
   return (
-    <View style={styles.container}>
-      <Hello message={greetings} />
-      <StatusBar style="auto" />
-      <RNButton
-        label="Button"
-        size="md"
-        variant="primary"
-        onPress={() => alert('React Native Button')}
-      />
-      <RNInput placeholder="React Native Shared" />
-    </View>
+    <ThemeProvider theme={activeTheme === 'light' ? lightTheme : darkTheme}>
+      <ThemeContext>
+        <SafeAreaView>
+          <StatusBar style="auto" />
+          <Layout>
+            <Button label='React native is great' variant='secondary' size='md' />
+            <Button label='Switch Theme' variant='primary' size='lg' onPress={() => {
+              themeToggler()
+            }} />
+          </Layout>
+        </SafeAreaView>
+      </ThemeContext>
+    </ThemeProvider>
   )
 }
