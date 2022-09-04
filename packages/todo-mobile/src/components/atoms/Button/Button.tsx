@@ -1,16 +1,14 @@
 import React from 'react'
-import { Pressable, PressableProps, Text } from 'react-native'
+import { Pressable, PressableProps } from 'react-native'
 import styled from 'styled-components/native'
-import { Label, _sizes, _variants } from './styles';
+import { Label, _sizes, _variants } from './styles'
 
-export interface CommonButtonProps<V = {}, S = {}> extends PressableProps {
-  label: string;
-  variant: keyof typeof _variants;
-  size: keyof typeof _sizes;
-  fluid?: boolean;
+export interface Props extends PressableProps {
+  label: string
+  variant: keyof typeof _variants
+  size: keyof typeof _sizes
 }
 
-type Props = CommonButtonProps & PressableProps
 
 function StyledButton({ label, style, ...rest }: Props) {
   return (

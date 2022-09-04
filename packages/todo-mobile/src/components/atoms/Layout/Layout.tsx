@@ -1,5 +1,8 @@
 import { StyledLayout } from "./styles";
 
-const Layout = ({ children }: { children: any }) => <StyledLayout>{children}</StyledLayout>
+// eslint-disable-next-line react/require-default-props
+const Layout = ({ children, ...rest }: { children: any; rest?: never }) => (
+  <StyledLayout {...rest}>{children}</StyledLayout>
+)
 
 export default Layout;
