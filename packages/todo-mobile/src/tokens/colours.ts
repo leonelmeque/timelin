@@ -6,7 +6,8 @@ const light: DefaultTheme['colours'] = {
   accent: '#F5EDDC',
   background: '#F5EDDC',
   white: '#FFFFFF',
-  dark: '#16213E'
+  dark: '#16213E',
+  danger: '#E94560',
 }
 
 const dark: DefaultTheme['colours'] = {
@@ -15,7 +16,8 @@ const dark: DefaultTheme['colours'] = {
   accent: '#F5EDDC',
   background: '#F5EDDC',
   white: '#FFFFFF',
-  dark: '#16213E'
+  dark: '#16213E',
+  danger: '#E94560',
 }
 
 const colours = {
