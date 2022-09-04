@@ -6,7 +6,7 @@ const StyledText = styled(Text)<{
   size: keyof typeof typography.sizes
   weight: 'bold' | 'regular'
 }>`
-  font-size: ${(props) => props.theme.typography.sizes[props.size]};
+  font-size: ${(props) => props.theme.typography.sizes[props.size]}px;
   font-weight: ${(props) => props.weight};
 `
 
