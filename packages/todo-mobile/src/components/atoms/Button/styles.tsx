@@ -1,6 +1,6 @@
 import { Text } from "react-native";
 import styled, { css } from "styled-components/native";
-import { sizes, typography } from "../../../tokens";
+import { typography } from '../../../tokens'
 import { unitsConverter } from "../../../utils/uiUtils";
 
 export const _variants = {

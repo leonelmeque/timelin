@@ -9,7 +9,6 @@ export interface Props extends PressableProps {
   size: keyof typeof _sizes
 }
 
-
 function StyledButton({ label, style, ...rest }: Props) {
   return (
     <Pressable style={style} {...rest}>
