@@ -38,6 +38,7 @@
     "web:build": "yarn workspace @todo/web build",
     "web:test": "yarn workspace @todo/web test",
     "mobile": "yarn workspace @todo/mobile ios",
-    "push": "git push origin $(git branch --show-current)"
+    "push": "git push origin $(git branch --show-current)",
+    "server": "json-server --watch ./data.json"
   }
 }
