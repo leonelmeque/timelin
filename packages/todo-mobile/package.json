@@ -25,7 +25,9 @@
     "react-native-screens": "^3.17.0",
     "react-native-web": "0.17.7",
     "styled-components": "*",
-    "yarn": "^1.22.19"
+    "yarn": "^1.22.19",
+    "@testing-library/react-native": "11.0.0",
+    "@testing-library/jest-native": "4.0.11"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

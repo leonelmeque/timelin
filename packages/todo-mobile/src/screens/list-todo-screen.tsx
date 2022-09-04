@@ -5,8 +5,8 @@ import styled from 'styled-components/native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Button from '../components/atoms/Button/Button'
 import Layout from '../components/atoms/Layout/Layout'
-import data from '../utils/data.json'
 import { Header, TodoCard } from '../components'
+import useFetchTodos from '../hooks/use-fetch-todos'
 
 export const StyledScrollView = styled(FlatList)`
   flex: 1;
@@ -18,6 +18,7 @@ export const Divider = styled(View)`
 `
 
 export default function TodosScreen() {
+  const todos = useFetchTodos()
   const _renderItem = useCallback(({ item }: any) => <TodoCard {...item} />, [])
 
   return (
@@ -31,7 +32,7 @@ export default function TodosScreen() {
       <Header />
       <Layout>
         <StyledScrollView
-          data={data.todos}
+          data={todos}
           keyExtractor={(item: any) => item.id.toString()}
           ItemSeparatorComponent={Divider}
           renderItem={_renderItem}

@@ -1,10 +1,15 @@
 import { Todo } from './types'
 
-const todosURL = 'localhost:3000/todos'
+const todosURL = 'http://localhost:3001/todos'
+
+const headers = {
+  'Content-Type': 'application/json',
+}
 
 const postTodos = async (payload: Todo) => {
   const resp = await fetch(`${todosURL}`, {
     method: 'POST',
+    headers,
     body: JSON.stringify(payload),
   })
   const data = await resp.json()

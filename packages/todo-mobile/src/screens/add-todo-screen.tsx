@@ -5,6 +5,9 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import styled from 'styled-components/native'
 import { Button, TextButton } from '../components'
 import Layout from '../components/atoms/Layout/Layout'
+import { todosAPI } from '../utils/backend'
+import { Todo } from '../utils/types'
+import { generateId } from '../utils/uiUtils'
 
 export const TextInput = styled(RNTextInput)<{ isFocused?: boolean }>`
   border: 2px;
@@ -21,9 +24,12 @@ export const TextAreaInput = styled(TextInput)`
   height: 160px;
 `
 
-const formInput = {
-  todoName: '',
+const formInput: Todo = {
+  todo: '',
   description: '',
+  isComplete: false,
+  timestamp: '',
+  id: '',
   color: '#c3c3c3',
 }
 
@@ -39,11 +45,22 @@ const AddTodoScreen = () => {
     })
   }
 
-  const saveTodo = () => {
-    if (state.todoName === '') {
+  const saveTodo = async () => {
+    if (state.todo === '') {
       alert('Your Todo is empty, please enter todo name')
       return
     }
+    const timestamp = Date.now()
+
+    const newData: Todo = {
+      ...state,
+      timestamp: `${timestamp}`,
+      id: generateId(),
+      color: '#c3c3c3',
+    }
+
+    await todosAPI.postTodos(newData)
+
     navigation.goBack()
   }
 
@@ -56,8 +73,8 @@ const AddTodoScreen = () => {
       <StatusBar auto />
       <Layout>
         <TextInput
-          onChangeText={handleInput('todoName')}
-          value={state.todoName}
+          onChangeText={handleInput('todo')}
+          value={state.todo}
           placeholder="Enter todo name"
         />
         <View style={{ height: 12 }} />
