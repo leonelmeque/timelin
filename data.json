@@ -39,6 +39,14 @@
       "timestamp": "1662313370073",
       "id": "ffaeeg",
       "color": "#c3c3c3"
+    },
+    {
+      "todo": "Todo",
+      "description": "Name of todo",
+      "isComplete": false,
+      "timestamp": "1670150733197",
+      "id": "vyn63",
+      "color": "#c3c3c3"
     }
   ],
   "users": []
