@@ -1,31 +1,31 @@
 name: Todo Web CI/CD
 
 on:
-    push:
-        branches: [develop]
-    pull_request:
-        branches: [develop, main]
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop, main]
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-        strategy:
-            matrix:
-                node-version: [14.x]
+    strategy:
+      matrix:
+        node-version: [14.x]
 
-        steps:
-            - name: Clone repository
-              uses: actions/checkout@v2
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v1
-              with:
-                  node-version: ${{ matrix.node-version }}
-            - name: Installing dependecies...
-              run: yarn 
-            - name: Testing the app...
-              run: yarn web:test
-            - name: Building the app...
-              run: yarn run web:build
-            - name: "Message"
-              run: echo "Success"
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Installing dependecies...
+        run: yarn
+      - name: Testing the app...
+        run: yarn web:test
+      - name: Building the app...
+        run: yarn run web:build
+      - name: "Message"
+        run: echo "Success"
