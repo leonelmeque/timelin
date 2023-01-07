@@ -1,1 +1,2 @@
-export {default as useGreetings} from './hooks/useGreetings'
+console.log('aaa')
+export { default as useGreetings } from './src/hooks/useGreetings'

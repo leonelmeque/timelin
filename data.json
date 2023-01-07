@@ -1,0 +1,53 @@
+{
+  "todos": [
+    {
+      "id": "qweiq",
+      "todo": "Learn react native",
+      "description": "Learn react native to get better jobs in the future",
+      "timestamp": "12/12/2022",
+      "isComplete": false,
+      "color": "#FF9F12"
+    },
+    {
+      "id": "q3eiq",
+      "todo": "Go to the beach",
+      "description": "To have fun with friends and get some exercise and sun",
+      "timestamp": "12/12/2022",
+      "isComplete": true,
+      "color": "#AFB11E"
+    },
+    {
+      "id": "q1eiq",
+      "todo": "Be proactive",
+      "description": "To not wait on a situation to take a particular action",
+      "timestamp": "12/12/2022",
+      "isComplete": false,
+      "color": "#0C918F"
+    },
+    {
+      "todo": "Finish list Todos",
+      "description": "Okay I will finish",
+      "isComplete": false,
+      "timestamp": "1662313342103",
+      "id": "kvqev",
+      "color": "#c3c3c3"
+    },
+    {
+      "todo": "One more Todo",
+      "description": "Hey ",
+      "isComplete": false,
+      "timestamp": "1662313370073",
+      "id": "ffaeeg",
+      "color": "#c3c3c3"
+    },
+    {
+      "todo": "Todo",
+      "description": "Name of todo",
+      "isComplete": false,
+      "timestamp": "1670150733197",
+      "id": "vyn63",
+      "color": "#c3c3c3"
+    }
+  ],
+  "users": []
+}

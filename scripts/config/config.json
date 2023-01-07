@@ -1,0 +1,12 @@
+{
+  "packageManager": "yarn",
+  "moduleTag": "workspaces",
+  "menu": [
+    "Show list of modules",
+    "Run a specific module",
+    "Build and install all modules",
+    "Clean modules",
+    "Exit CLI"
+  ],
+  "buildOrder": ["packages", "apps"]
+}

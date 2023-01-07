@@ -1,10 +1,13 @@
 {
   "name": "@todo/commons",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "commons for todo app",
   "main": "index.ts",
   "author": "Leonel Meque",
   "license": "MIT",
+  "scripts": {
+    "build": "echo 'Top of the world'"
+  },
   "dependencies": {
     "react": "17.0.2",
     "react-dom": "17.0.2"
