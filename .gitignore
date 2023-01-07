@@ -1,4 +1,4 @@
-/node_modules
+node_modules
 /.pnp
 .pnp.js
 
@@ -22,3 +22,4 @@ dist
 *.log
 
 *.bin
+node_modules
