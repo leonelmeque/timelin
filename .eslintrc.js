@@ -29,6 +29,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'react/function-component-definition': 'off',
     'import/extensions': [1, { pattern: { tsx: 'never' } }],
+    'no-console': 'off',
   },
   settings: {
     'import/resolver': {
