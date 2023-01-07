@@ -1,31 +1,73 @@
-import readLineSync from 'readline-sync';
+import 'colors';
+import inquirer from 'inquirer';
+import type { QuestionCollection } from 'inquirer';
 import { execSync } from 'child_process';
 import { readConfig } from './helpers/read-config';
 import { bundleModules } from './helpers/bundle-modules';
+import { readModules } from './helpers/read-modules';
 
 const config = readConfig();
 
-const getMenuOptionsFromConfig = () =>
-  config.menu.map(({ option }: { option: string }) => option);
+console.log('Hi, welcome to Todo app CLI'.cyan);
 
-const index = readLineSync.keyInSelect(getMenuOptionsFromConfig());
+const questions: QuestionCollection = [
+  {
+    type: 'rawlist',
+    name: 'action',
+    message: 'What would you like to do?',
+    choices: config.menu,
+    validate(answers) {
+      if (answers.length < 1) {
+        return 'please choose an option';
+      }
+      return true;
+    },
+  },
+];
 
-if (index === -1) {
-  console.log('No choice was selected from menu');
-  process.exit();
+function main() {
+  inquirer
+    .prompt(questions)
+    .then((answers) => {
+      const index = (config.menu as string[]).indexOf(answers.action);
+
+      switch (index) {
+        case 0: {
+          const modules = readModules();
+          const normalizeData = Object.entries(modules).map(
+            ([module]) => module
+          );
+
+          console.info('List of available modules'.yellow);
+          console.log(normalizeData.toString().replace(/,/g, '\n'));
+          main();
+          break;
+        }
+        case 1: {
+          try {
+            execSync('ts-node ./scripts/actions/dev.ts', {
+              stdio: 'inherit',
+            });
+          } catch (err) {
+            console.log('');
+          }
+          break;
+        }
+        case 2:
+          bundleModules();
+          main();
+          break;
+        case 3:
+          execSync('ts-node ./scripts/actions/clean.ts', { stdio: 'inherit' });
+          main();
+          break;
+        default:
+          console.log('Exiting CLI...'.yellow);
+      }
+    })
+    .catch((reason) => {
+      console.log(reason);
+    });
 }
 
-switch (index) {
-  case 0:
-    break;
-  case 1:
-    break;
-  case 2:
-    bundleModules();
-    break;
-  case 3:
-    execSync('ts-node ./scripts/actions/clean.ts');
-    break;
-  default:
-    console.log('Exiting menu');
-}
+main();

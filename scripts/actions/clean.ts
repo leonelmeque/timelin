@@ -9,7 +9,11 @@ Object.entries(modules).forEach(([module, { path: _path }]) => {
     return;
   }
 
-  fs.rmSync(`${_path}/node_modules`, { recursive: true });
+  try {
+    fs.rmSync(`${_path}/node_modules`, { recursive: true });
+    console.log(`Finished cleaning ${module}`.green);
+  } catch (error) {
+    console.error(error);
+  }
 
-  console.log(`Finished cleaning ${module}`.green);
 });

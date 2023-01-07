@@ -1,7 +1,9 @@
 import minimist from 'minimist';
 import { spawn } from 'child_process';
-import { BUILD_TOOL_COMMAND } from '../helpers/constants';
 import { readModules } from '../helpers/read-modules';
+import { readConfig } from '../helpers/read-config';
+
+const config = readConfig();
 
 const argv = minimist(process.argv.slice(2));
 
@@ -19,7 +21,7 @@ if (!modules[packageName]) {
   process.exit(1);
 }
 
-const manager = spawn(`${BUILD_TOOL_COMMAND}`, [
+const manager = spawn(`${config.packageManager}`, [
   'workspace',
   `@todo/${packageName}`,
   `build`,

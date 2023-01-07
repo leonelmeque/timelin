@@ -1,20 +1,12 @@
 {
+  "packageManager": "yarn",
   "moduleTag": "workspaces",
-  "commands": ["build", "install", "clean"],
   "menu": [
-    {
-      "option": "Show list of apps and packages"
-    },
-    {
-      "option": "Run a specific app or package",
-      "menu": ["StoryBook", "Dev server", "Tests"]
-    },
-    {
-      "option": "Build and install all workspace modules"
-    },
-    {
-      "option": "Reset workspaces"
-    }
+    "Show list of modules",
+    "Run a specific module",
+    "Build and install all modules",
+    "Clean modules",
+    "Exit CLI"
   ],
   "buildOrder": ["packages", "apps"]
 }
