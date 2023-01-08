@@ -2,6 +2,6 @@ type Props = {
   whoToGreet: string;
 };
 
-export default function useGreetings({ whoToGreet }: Props) {
-  return `Hello ${whoToGreet}, how can I help you today?`;
+export function useGreetings({ whoToGreet }: Props) {
+  return `Hello ${whoToGreet}, how can I help you today? MR UX Engineer`;
 }
