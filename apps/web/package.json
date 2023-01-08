@@ -13,8 +13,8 @@
   },
   "dependencies": {
     "click-to-react-component": "^1.0.8",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "~18.1.0",
+    "react-dom": "~18.1.0",
     "styled-components": "*",
     "typescript": "^4.7.4"
   },
@@ -31,7 +31,7 @@
     "@testing-library/user-event": "^14.2.1",
     "@types/jest": "^28.1.2",
     "@types/node": "^16.7.10",
-    "@types/react": "^17.0.38",
+    "@types/react": "~18.0.14",
     "@types/react-dom": "^17.0.11",
     "babel-loader": "^8.2.5",
     "babel-plugin-styled-components": "^2.0.7",
