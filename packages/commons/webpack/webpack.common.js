@@ -6,13 +6,14 @@ module.exports = {
   entry: path.resolve(__dirname, '..', './src/index.ts'),
   externals: [nodeExternals()],
   output: {
-    path: path.join(__dirname, '..', './lib'),
+    path: path.join(__dirname, '..', './dist'),
     filename: 'index.js',
     libraryTarget: 'commonjs',
+    clean: true,
   },
   devtool: 'inline-source-map',
   devServer: {
-    static: './lib',
+    static: './dist',
     open: false,
     port: 'auto',
     hot: true,
