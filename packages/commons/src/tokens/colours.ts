@@ -1,4 +1,4 @@
-import { DefaultTheme } from "styled-components/native"
+import type { DefaultTheme } from '../theme/types';
 
 const light: DefaultTheme['colours'] = {
   primary: '#645CAA',
@@ -8,7 +8,7 @@ const light: DefaultTheme['colours'] = {
   white: '#FFFFFF',
   dark: '#16213E',
   danger: '#E94560',
-}
+};
 
 const dark: DefaultTheme['colours'] = {
   primary: '#16213E',
@@ -18,11 +18,11 @@ const dark: DefaultTheme['colours'] = {
   white: '#FFFFFF',
   dark: '#16213E',
   danger: '#E94560',
-}
+};
 
 const colours = {
   light,
-  dark
-}
+  dark,
+};
 
-export { colours }
+export { colours };
