@@ -5,4 +5,9 @@ import { CenterView } from '../../storybook/decorators';
 
 storiesOf('Button', module)
   .addDecorator(CenterView)
-  .add('Button', () => <Button />);
+  .add('primary', () => (
+    <Button variant="primary" size="md" label="Normal Button" />
+  ))
+  .add('secondary', () => (
+    <Button variant="secondary" size="md" label="Weird Button" />
+  ));

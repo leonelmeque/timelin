@@ -1,5 +1,11 @@
-import StorybookUIRoot from './storybook';
+import React from 'react';
+import { ThemeProvider as ActiveThemeProvider } from '@todo/commons';
+import { Default } from './default';
 
 export default function App() {
-  return <StorybookUIRoot />;
+  return (
+    <ActiveThemeProvider>
+      <Default />
+    </ActiveThemeProvider>
+  );
 }
