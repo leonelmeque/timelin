@@ -2,18 +2,17 @@
   "name": "@todo/commons",
   "version": "1.0.0",
   "description": "commons for todo app",
-  "main": "index.ts",
+  "main": "./dist/index.js",
   "author": "Leonel Meque",
   "license": "MIT",
   "scripts": {
-    "build": "rm -r ./dist && webpack --config  webpack/webpack.config.js --env env=prod",
+    "build": "webpack --config  webpack/webpack.config.js --env env=prod",
     "dev": "webpack serve --port 3000 --config webpack/webpack.config.js --env  env=dev",
     "test": "yarn run jest --passWithNoTests"
   },
   "dependencies": {
     "react": "~18.1.0",
-    "react-dom": "~18.1.0",
-    "styled-components": "^5.3.5"
+    "react-dom": "~18.1.0"
   },
   "devDependencies": {
     "terser-webpack-plugin": "^5.3.3",
