@@ -1,15 +1,11 @@
 import React from 'react';
 import { hooks, theme } from '@todo/commons';
 import styled, { ThemeProvider } from 'styled-components/native';
-import { SafeAreaView, ScrollView } from 'react-native';
-import { Button, Text } from './src';
+import { SafeAreaView, ScrollView, View } from 'react-native';
+import { Button, Text, Spacer } from './src';
 
 const Container = styled.View`
   padding: 16px;
-`;
-
-const Spacer = styled.View<{ size?: number }>`
-  padding: ${(props) => (props.size ? props.size * 2 : 4)}px;
 `;
 
 const ButtonsScreen = () => (
@@ -17,10 +13,14 @@ const ButtonsScreen = () => (
     <Text size="heading" weight="bold">
       Buttons
     </Text>
-    <Spacer size={4} />
-    <Button label="Primary large" size="lg" variant="primary" />
-    <Spacer size={8} />
-    <Button label="Button" size="sm" variant="primary" />
+    <View>
+      <Spacer size={'4'} />
+      <Button label="Primary large" size="lg" variant="primary" />
+      <Spacer size={'8'} />
+      <Button label="Button" size="md" variant="primary" />
+      <Spacer size={'8'} />
+      <Button label="Button" size="sm" variant="primary" />
+    </View>
   </Container>
 );
 
@@ -29,17 +29,17 @@ const TypographyScreen = () => (
     <Text size="heading" weight="bold">
       Typography
     </Text>
-    <Spacer size={4} />
+    <Spacer size={'4'} />
     <Text size="heading" weight="bold">
       Heading Text
     </Text>
-    <Spacer size={4} />
+    <Spacer size={'4'} />
     <Text size="large" weight="bold">
       Large Text
     </Text>
-    <Spacer size={4} />
+    <Spacer size={'4'} />
     <Text size="body">Body Text</Text>
-    <Spacer size={4} />
+    <Spacer size={'4'} />
     <Text size="small">Small Text</Text>
   </Container>
 );
