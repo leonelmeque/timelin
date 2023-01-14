@@ -2,7 +2,7 @@ import React from 'react';
 import { hooks, theme } from '@todo/commons';
 import styled, { ThemeProvider } from 'styled-components/native';
 import { SafeAreaView, ScrollView, View } from 'react-native';
-import { Button, Text, Spacer } from './src';
+import { Button, Text, Spacer, Input } from './src';
 
 const Container = styled.View`
   padding: 16px;
@@ -44,6 +44,20 @@ const TypographyScreen = () => (
   </Container>
 );
 
+const InputScreen = () => (
+  <Container>
+    <Text size="heading" weight="bold">
+      Input
+    </Text>
+    <Spacer size={'4'} />
+    <Input placeholder="Placeholder" value="Input has text" />
+    <Spacer size={'4'} />
+    <Input placeholder="Default State" />
+    <Spacer size={'4'} />
+    <Input placeholder="Default State" numberOfLines={5} />
+  </Container>
+);
+
 export const Default = () => {
   const { useThemeSwitcher } = hooks;
   const [selectedTheme] = useThemeSwitcher();
@@ -54,6 +68,7 @@ export const Default = () => {
         <ScrollView>
           <ButtonsScreen />
           <TypographyScreen />
+          <InputScreen />
         </ScrollView>
       </SafeAreaView>
     </ThemeProvider>
