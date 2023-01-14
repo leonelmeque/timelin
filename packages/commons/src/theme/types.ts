@@ -1,3 +1,6 @@
+type ColourLevel = '500' | '400' | '300' | '200' | '100';
+type Color = { [K in ColourLevel]: string };
+
 export interface DefaultTheme {
   colours: {
     primary: string;
