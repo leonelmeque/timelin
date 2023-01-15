@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "isolatedModules": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "jsx": "react-native",
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "target": "ESNext",
+    "emitDeclarationOnly": true,
+    "outDir": "dist",
+    "declaration": true
+  },
+  "include": [
+    "./src/*"
+  ]
+}
