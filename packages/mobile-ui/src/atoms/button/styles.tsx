@@ -1,5 +1,5 @@
 import { PressableProps } from 'react-native';
-import styled, { css } from 'styled-components/native';
+import { css } from 'styled-components/native';
 
 export interface Props extends PressableProps {
   label: string;
@@ -9,17 +9,17 @@ export interface Props extends PressableProps {
 
 export const _variants = {
   primary: css`
-    background: ${(props) => props.theme.colours.primary};
-    color: ${(props) => props.theme.colours.white};
+    background: ${(props) => props.theme.colours.primary.P500};
+    color: ${(props) => props.theme.colours.neutrals.white};
   `,
   secondary: css`
-    background: ${(props) => props.theme.colours.accent};
-    color: ${(props) => props.theme.colours.dark};
+    background: ${(props) => props.theme.colours.primary.P300};
+    color: ${(props) => props.theme.colours.neutrals.dark};
   `,
   tertiary: css``,
   danger: css`
-    background-color: ${(props) => props.theme.colours.danger};
-    color: ${(props) => props.theme.colours.white};
+    background-color: ${(props) => props.theme.colours.danger.D300};
+    color: ${(props) => props.theme.colours.neutrals.white};
   `,
 };
 
