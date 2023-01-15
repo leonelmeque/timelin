@@ -2,12 +2,18 @@
   "name": "@todo/mobile-ui",
   "version": "1.0.0",
   "main": "index.ts",
+  "types": "dist/index.d.ts",
+  "react-native": "dist/index.js",
+  "files": [
+    "/dist"
+  ],
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "prestart": "sb-rn-get-stories"
+    "ts-types": "tsc --p ./tsconfig.build.json",
+    "build": "rimraf lib && node ./esbuild.js && yarn run ts-types"
   },
   "dependencies": {
     "@todo/commons": "*",
@@ -24,7 +30,12 @@
     "@types/react": "~18.0.14",
     "@types/react-dom": "~18.0.10",
     "@types/react-native": "~0.70.6",
+    "babel-cli": "^6.26.0",
     "babel-loader": "^8.3.0",
+    "babel-plugin-react-native": "^1.0.1",
+    "esbuild": "^0.17.0",
+    "react-native-esbuild": "^0.4.0",
+    "rimraf": "^4.0.5",
     "typescript": "^4.6.3"
   },
   "private": true
