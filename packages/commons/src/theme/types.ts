@@ -1,15 +1,20 @@
-type ColourLevel = '500' | '400' | '300' | '200' | '100';
-type Color = { [K in ColourLevel]: string };
+type ColourLevel = '500' | '400' | '300' | '200' | '100' | '75' | '50';
+type Spacing = '64' | '56' | '48' | '40' | '32' | '24' | '16' | '8' | '4';
+type Shadow = 'L1' | 'L2' | 'L3' | 'L4' | 'L5';
+
+type Color<T extends string> = { [K in ColourLevel as `${T}${K}`]: string };
 
 export interface DefaultTheme {
   colours: {
-    primary: string;
-    secondary: string;
-    accent: string;
-    background: string;
-    white: string;
-    dark: string;
-    danger: string;
+    primary: Color<'P'>;
+    success: Color<'S'>;
+    warning: Color<'W'>;
+    danger: Color<'D'>;
+    greys: Color<'G'>;
+    neutrals: {
+      dark: string;
+      white: string;
+    };
   };
   sizes: {
     extraSmall: number;
@@ -19,6 +24,7 @@ export interface DefaultTheme {
     extraLarge: number;
     big: number;
   };
+  spacing: { [K in Spacing as `size${K}`]: number };
   typography: {
     sizes: {
       small: number;
@@ -27,4 +33,5 @@ export interface DefaultTheme {
       heading: number;
     };
   };
+  shadow: { [K in Shadow]: string };
 }
