@@ -1,7 +1,7 @@
 {
   "name": "@todo/mobile-ui",
   "version": "1.0.0",
-  "main": "index.ts",
+  "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "react-native": "dist/index.js",
   "files": [
@@ -13,7 +13,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "ts-types": "tsc --p ./tsconfig.build.json",
-    "build": "rimraf lib && node ./esbuild.js && yarn run ts-types"
+    "build": "rimraf lib && node ./esbuild.js && yarn run ts-types",
+    "build:watch": "rimraf lib && yarn run ts-types && node ./esbuild.dev.js"
   },
   "dependencies": {
     "@todo/commons": "*",
