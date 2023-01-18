@@ -50,6 +50,13 @@ const light: DefaultTheme['colours'] = {
     dark: '#15141A',
     white: '#FFFFFF',
   },
+  todoPalette: {
+    blue: '#E0EEFD',
+    green: '#E9FBF3',
+    orange: '#FDEEE0',
+    pink: '#FDE7F0',
+    yellow: '#FAFBE9',
+  },
 };
 
 /**
