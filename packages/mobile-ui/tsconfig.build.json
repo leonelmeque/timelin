@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "strict": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "allowJs": true,
     "esModuleInterop": true,
     "jsx": "react-native",
@@ -9,15 +9,21 @@
       "DOM",
       "ESNext"
     ],
+    "module": "ESNext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "target": "ESNext",
     "emitDeclarationOnly": true,
-    "outDir": "dist",
-    "declaration": true
+    "outDir": "./dist",
+    "declaration": true,
+    "sourceMap": false
   },
   "include": [
-    "./src/*"
+    "./src/**/*"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
   ]
 }

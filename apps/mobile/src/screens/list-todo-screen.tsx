@@ -1,25 +1,26 @@
-import { StatusBar } from 'expo-status-bar'
-import { useCallback } from 'react'
-import { FlatList, View } from 'react-native'
-import styled from 'styled-components/native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import Button from '../components/atoms/Button/Button'
-import Layout from '../components/atoms/Layout/Layout'
-import { Header, TodoCard } from '../components'
-import useFetchTodos from '../hooks/use-fetch-todos'
+import { useCallback } from 'react';
+import { FlatList } from 'react-native';
+import styled from 'styled-components/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Box from '../components/atoms/Layout/Layout';
+import { Header } from '../components';
+import useFetchTodos from '../hooks/use-fetch-todos';
+import { SearchHeader, Spacer, TodoCard } from '@todo/mobile-ui';
 
-export const StyledScrollView = styled(FlatList)`
+export const TodoList = styled(FlatList)`
   flex: 1;
   height: 100px;
-  padding-top: 12px;
-`
-export const Divider = styled(View)`
-  height: ${(props) => props.theme.sizes.large}px;
-`
+  padding: ${({ theme: { spacing } }) =>
+    `${spacing.size16}px ${spacing.size16}px ${spacing.size64}px`};
+`;
 
 export default function TodosScreen() {
-  const todos = useFetchTodos()
-  const _renderItem = useCallback(({ item }: any) => <TodoCard {...item} />, [])
+  const todos = useFetchTodos();
+
+  const _renderItem = useCallback(
+    ({ item }: any) => <TodoCard {...item} />,
+    []
+  );
 
   return (
     <SafeAreaView
@@ -28,24 +29,23 @@ export default function TodosScreen() {
         backgroundColor: '#FFF',
       }}
     >
-      <StatusBar style="auto" />
       <Header />
-      <Layout>
-        <StyledScrollView
-          data={todos}
-          keyExtractor={(item: any) => item.id.toString()}
-          ItemSeparatorComponent={Divider}
-          renderItem={_renderItem}
+      <Spacer size="8" />
+      <Box>
+        <SearchHeader
+          title="Your tasks"
+          onPress={() => alert('Feature not ready yet')}
         />
-        <Button
-          variant="primary"
-          size="md"
-          label="Add Todo"
-          onPress={() => {
-            alert('Hello world')
-          }}
-        />
-      </Layout>
+      </Box>
+      <Spacer size="4" />
+      <TodoList
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        data={todos}
+        keyExtractor={(item: any) => item.id.toString()}
+        ItemSeparatorComponent={() => <Spacer size="16" />}
+        renderItem={_renderItem}
+      />
     </SafeAreaView>
-  )
+  );
 }
