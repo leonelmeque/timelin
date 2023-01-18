@@ -9,14 +9,13 @@ export interface Props extends PressableProps {
 
 export const _variants = {
   primary: css`
-    background: ${(props) => props.theme.colours.primary.P500};
+    background: ${(props) => props.theme.colours.primary.P300};
     color: ${(props) => props.theme.colours.neutrals.white};
   `,
   secondary: css`
     background: ${(props) => props.theme.colours.primary.P300};
     color: ${(props) => props.theme.colours.neutrals.dark};
   `,
-  tertiary: css``,
   danger: css`
     background-color: ${(props) => props.theme.colours.danger.D300};
     color: ${(props) => props.theme.colours.neutrals.white};

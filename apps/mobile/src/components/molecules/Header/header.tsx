@@ -1,30 +1,39 @@
-import { FontAwesome } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native'
-import { useTheme } from 'styled-components'
-import Typography from '../../atoms/Typography/typography'
-import { AddTodoButton, ContainerHeader } from './styles'
+import { Palette, Spacer, Text } from '@todo/mobile-ui';
+import { FC } from 'react';
+import { PressableProps, View } from 'react-native';
+import { Avatar, Container, FunnyBadge } from './styles';
 
-const Header = () => {
-  const currentTheme = useTheme()
-  const navigation = useNavigation()
-
-  const action = () => {
-    navigation.navigate('AddTodo' as never)
-  }
-  return (
-    <ContainerHeader>
-      <Typography size="large" weight="bold" style={{ fontSize: 34 }}>
-        List of TODO&apos;s
-      </Typography>
-      <AddTodoButton onPress={action}>
-        <FontAwesome
-          name="plus"
-          size={currentTheme.sizes.extraLarge}
-          color={`${currentTheme.colours.white}`}
-        />
-      </AddTodoButton>
-    </ContainerHeader>
-  )
+interface HeaderProps extends PressableProps {
+  /**
+   * URL link users profile
+   */
+  avatarURI?: string;
 }
 
-export default Header
+export const Header: FC<HeaderProps> = ({ avatarURI, ...rest }) => {
+  return (
+    <Container {...rest}>
+      <View>
+        <FunnyBadge />
+        <Text size="large" weight="bold" colour={Palette.neutrals.white}>
+          Your Tasks
+        </Text>
+        <Spacer size="4" />
+        <Text size="small" weight="bold" colour={Palette.neutrals.white}>
+          👋🏾 Hello user
+        </Text>
+      </View>
+      <View>
+        <Avatar
+          source={{
+            uri: avatarURI
+              ? avatarURI
+              : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1364&q=80',
+          }}
+        />
+      </View>
+    </Container>
+  );
+};
+
+Header.displayName = 'Header';
