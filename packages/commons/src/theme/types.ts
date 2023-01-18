@@ -1,6 +1,7 @@
 type ColourLevel = '500' | '400' | '300' | '200' | '100' | '75' | '50';
 type Spacing = '64' | '56' | '48' | '40' | '32' | '24' | '16' | '8' | '4';
 type Shadow = 'L1' | 'L2' | 'L3' | 'L4' | 'L5';
+type TodoPalette = 'blue' | 'orange' | 'green' | 'pink' | 'yellow';
 
 type Color<T extends string> = { [K in ColourLevel as `${T}${K}`]: string };
 
@@ -15,6 +16,7 @@ export interface DefaultTheme {
       dark: string;
       white: string;
     };
+    todoPalette: { [K in TodoPalette]: string };
   };
   sizes: {
     extraSmall: number;
