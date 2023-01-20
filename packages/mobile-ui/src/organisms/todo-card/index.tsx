@@ -41,11 +41,11 @@ export const TodoCard: FC<TodoCardProps> = ({
       <Text size="small" weight="bold" colour={Palette.greys.G200}>
         {dateFormatter(timestamp)}
       </Text>
-      {assigned?.map(({ avatar }) => {
+      {/* {assigned?.map(({ avatar }) => {
         return (
           <Avatar imageUrl={avatar} radius={'full'} size={tokens.sizes.small} />
         );
-      })}
+      })} */}
     </TodoCardContainer>
   </TouchableOpacity>
 );
