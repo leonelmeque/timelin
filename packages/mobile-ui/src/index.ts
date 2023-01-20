@@ -9,3 +9,4 @@ export { Badge } from './atoms/badge';
 // Organisms
 export { TodoCard } from './organisms/todo-card';
 export { SearchHeader } from './organisms/search-header';
+export { Header } from './organisms/header';
