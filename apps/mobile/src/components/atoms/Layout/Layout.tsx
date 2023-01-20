@@ -1,8 +1,10 @@
 import { StyledLayout } from "./styles";
+import { ViewProps } from 'react-native';
 
-// eslint-disable-next-line react/require-default-props
-const Box = ({ children, ...rest }: { children: any; rest?: never }) => (
-  <StyledLayout {...rest}>{children}</StyledLayout>
+const Box = ({ children, style, ...rest }: ViewProps) => (
+  <StyledLayout style={style} {...rest}>
+    {children}
+  </StyledLayout>
 );
 
 export default Box;
