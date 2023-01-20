@@ -4,7 +4,7 @@ export const StyledInput = styled.TextInput<{
   hasFocus: boolean;
   isDisabled: boolean;
 }>`
-  flex: 1;
+  width: 100%;
   padding: 16px;
   border: 2px solid ${(props) => props.theme.colours.neutrals.dark};
   border-radius: 4px;
