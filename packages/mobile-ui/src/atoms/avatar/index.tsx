@@ -1,11 +1,11 @@
 import { tokens } from '@todo/commons';
+import { ImageProps } from 'react-native';
 import styled from 'styled-components/native';
 
 type AvatarProps = {
   size: typeof tokens.sizes | number;
   radius: typeof tokens.sizes | 'full';
-  imageUrl: string;
-};
+} & ImageProps;
 
 const StyledAvatar = styled.Image<Omit<AvatarProps, 'imageUrl'>>`
   width: ${(props) => props.size}px;
@@ -14,6 +14,6 @@ const StyledAvatar = styled.Image<Omit<AvatarProps, 'imageUrl'>>`
     props.radius === 'full' ? 9999 : props.radius}px;
 `;
 
-export const Avatar = ({ imageUrl, radius, size }: AvatarProps) => (
-  <StyledAvatar source={{ uri: imageUrl }} radius={radius} size={size} />
+export const Avatar = ({ radius, size, ...rest }: AvatarProps) => (
+  <StyledAvatar radius={radius} size={size} {...rest} />
 );

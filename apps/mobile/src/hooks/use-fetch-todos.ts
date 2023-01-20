@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react'
-import { todosAPI } from '../utils/backend'
-import { Todo } from '../utils/types'
+import { TodoProps } from '@todo/commons';
+import { useEffect, useState } from 'react';
+import { todosAPI } from '../utils/backend';
 
 const useFetchTodos = () => {
-  const [state, setState] = useState<Todo[] | null>(null)
+  const [state, setState] = useState<TodoProps[] | null>(null);
 
   useEffect(() => {
     todosAPI.getTodos().then((data) => {
-      setState(data)
-    })
-  }, [])
+      setState(data);
+    });
+  }, []);
 
-  return state
-}
+  return state;
+};
 
-export default useFetchTodos
+export default useFetchTodos;
