@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, PropsWithChildren, ReactNode, useState } from 'react';
 import { hooks, theme } from '@todo/commons';
-import styled, { ThemeProvider } from 'styled-components/native';
+import { ThemeProvider } from 'styled-components/native';
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -10,27 +10,9 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import { Button, Text, Spacer, Input, FormInput } from './src';
-
-const Container = styled.View`
-  padding: 16px;
-`;
-
-const ButtonsScreen = () => (
-  <Container>
-    <Text size="heading" weight="bold">
-      Buttons
-    </Text>
-    <View>
-      <Spacer size={'4'} />
-      <Button label="Primary large" size="lg" variant="primary" />
-      <Spacer size={'8'} />
-      <Button label="Button" size="md" variant="primary" />
-      <Spacer size={'8'} />
-      <Button label="Button" size="sm" variant="primary" />
-    </View>
-  </Container>
-);
+import { Text, Spacer, Input, FormInput } from './src';
+import { ButtonPage } from './src/presentations/pages/button-page';
+import { Container } from './src/presentations/components/container';
 
 const TypographyScreen = () => (
   <Container>
@@ -124,7 +106,7 @@ export const Default = () => {
           <ScrollView showsVerticalScrollIndicator={false}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
               <View>
-                <ButtonsScreen />
+                <ButtonPage />
                 <TypographyScreen />
                 <InputScreen />
               </View>
