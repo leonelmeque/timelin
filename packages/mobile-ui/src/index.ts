@@ -7,6 +7,7 @@ export { Palette } from './atoms/palette';
 export { Badge } from './atoms/badge';
 export { Caption } from './atoms/caption';
 export { Avatar } from './atoms/avatar';
+export { Chip } from './atoms/chip';
 
 // molecules
 export { FormInput } from './molecules/form-input';
