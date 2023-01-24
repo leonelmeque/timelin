@@ -51,7 +51,7 @@ export const SearchView = ({ data }: { data: TodoProps[] | null }) => {
           <Spacer size="8" />
         </>
       )}
-      <TodoListView data={searchResults || []} />
+      <TodoListView showDescription showStatus data={searchResults || []} />
     </>
   );
 };
