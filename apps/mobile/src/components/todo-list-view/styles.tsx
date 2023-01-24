@@ -3,7 +3,8 @@ import styled from 'styled-components/native';
 
 export const TodoList = styled(FlatList)`
   flex: 1;
-  height: 100px;
-  padding: ${({ theme: { spacing } }) =>
-    `${spacing.size16}px ${spacing.size16}px ${spacing.size64}px`};
+  max-height: ${(props) => (props.horizontal ? `200px` : 'auto')};
+  border-radius: 19px;
+  margin: 14px 14px;
+  padding: 2px 2px;
 `;
