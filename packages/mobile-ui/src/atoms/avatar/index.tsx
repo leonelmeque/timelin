@@ -3,8 +3,8 @@ import { ImageProps } from 'react-native';
 import styled from 'styled-components/native';
 
 type AvatarProps = {
-  size: typeof tokens.sizes | number;
-  radius: typeof tokens.sizes | 'full';
+  size: string | number;
+  radius: string | number | 'full';
 } & ImageProps;
 
 const StyledAvatar = styled.Image<Omit<AvatarProps, 'imageUrl'>>`

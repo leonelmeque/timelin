@@ -5,7 +5,7 @@ const { typography } = tokens;
 
 const StyledText = styled.Text<{
   size: keyof typeof typography.sizes;
-  weight?: 'bold' | 'regular';
+  weight?: 'bold' | 'regular' | 'medium';
   colour?: string;
 }>`
   font-size: ${(props) => props.theme.typography.sizes[props.size]}px;

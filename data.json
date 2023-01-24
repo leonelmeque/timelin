@@ -5,15 +5,16 @@
       "todo": "Learn react native",
       "description": "Learn react native to get better jobs in the future",
       "timestamp": "1674031253",
-      "status": "IN_PROGRESS",
-      "color": "yellow"
+      "status": "Ongoing",
+      "color": "yellow",
+      "assigned": ["q3eiq", "ffaeeg", "vyn63"]
     },
     {
       "id": "q3eiq",
       "todo": "Go to the beach",
       "description": "To have fun with friends and get some exercise and sun",
       "timestamp": "1674031253",
-      "status": "FINISHED",
+      "status": "Completed",
       "color": "pink"
     },
     {
@@ -21,13 +22,13 @@
       "todo": "Be proactive",
       "description": "To not wait on a situation to take a particular action",
       "timestamp": "1674031253",
-      "status": "IN_PROGRESS",
+      "status": "Ongoing",
       "color": "blue"
     },
     {
       "todo": "Finish list Todos",
       "description": "Okay I will finish",
-      "status": "IN_PROGRESS",
+      "status": "Completed",
       "timestamp": "1674031253",
       "id": "kvqev",
       "color": "green"
@@ -35,7 +36,7 @@
     {
       "todo": "One more Todo",
       "description": "Hey ",
-      "status": "IN_PROGRESS",
+      "status": "On hold",
       "timestamp": "1674031253",
       "id": "ffaeeg",
       "color": "orange"
@@ -43,7 +44,7 @@
     {
       "todo": "Todo",
       "description": "Name of todo",
-      "status": "IN_PROGRESS",
+      "status": "On Going",
       "timestamp": "1674031253",
       "id": "vyn63",
       "color": "pink"
