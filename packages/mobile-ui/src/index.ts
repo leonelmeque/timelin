@@ -6,6 +6,7 @@ export { Input } from './atoms/input';
 export { Palette } from './atoms/palette';
 export { Badge } from './atoms/badge';
 export { Caption } from './atoms/caption';
+export { Avatar } from './atoms/avatar';
 
 // molecules
 export { FormInput } from './molecules/form-input';
