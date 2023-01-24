@@ -51,7 +51,7 @@ export const StyledInput = styled.TextInput<{
 }>`
   width: 100%;
   padding: 16px;
-  border: 2px solid ${(props) => props.theme.colours.neutrals.dark};
+  border: 1.35px solid ${(props) => props.theme.colours.neutrals.dark};
   border-radius: 4px;
   ${(props) => getInputVariant(props.variant)};
 `;
