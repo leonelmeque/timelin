@@ -20,10 +20,6 @@ const toRender = {
       label: 'Default',
       size: 'lg',
     },
-    {
-      label: 'Disabled',
-      size: 'lg',
-    },
   ],
   size: [
     {
