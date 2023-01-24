@@ -1,23 +1,51 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { View, Text, PressableProps, Pressable } from 'react-native';
-import { _sizes, _variants } from './styles';
+import { PressableProps, Pressable, View, ViewProps } from 'react-native';
+import { Label, _sizes, _variants } from './styles';
 
-export interface Props extends PressableProps {
+export interface ButtonProps extends ViewProps {
   label: string;
-  variant: keyof typeof _variants;
+  variant: keyof ReturnType<typeof _variants>;
   size: keyof typeof _sizes;
+  pressed?: boolean;
 }
 
-const Component = ({ label, style, children, ...rest }: Props) => (
-  <Pressable style={style} {...rest}>
-    {children ? children : <Text style={{ textAlign: 'center' }}>{label}</Text>}
+export const Button = ({
+  label,
+  children,
+  variant,
+  size,
+  style,
+  ...rest
+}: ButtonProps & PressableProps) => (
+  <Pressable {...rest}>
+    {({ pressed }) => (
+      <StyledButton
+        style={style}
+        variant={variant}
+        size={size}
+        pressed={pressed}
+      >
+        {children ? (
+          children
+        ) : (
+          <Label
+            size="body"
+            weight="bold"
+            labelSize={size}
+            labelColor={variant}
+          >
+            {label}
+          </Label>
+        )}
+      </StyledButton>
+    )}
   </Pressable>
 );
 
-export const Button = styled(Component)<Omit<Props, 'label'>>`
+const StyledButton = styled.View<Omit<ButtonProps, 'label'>>`
   all: unset;
-  ${(props) => _variants[props.variant]};
+  ${(props) => _variants(props.pressed || false)[props.variant]};
   ${(props) => _sizes[props.size]};
   cursor: pointer;
   &:hover {
