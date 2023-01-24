@@ -1,5 +1,5 @@
 const esbuild = require('esbuild');
-
+const { execSync } = require('child_process');
 esbuild
   .context({
     entryPoints: ['src/index.ts'],
@@ -21,6 +21,7 @@ esbuild
       {
         name: 'start',
         setup(build) {
+          execSync('yarn ts-types');
           build.onStart(() => console.log('Starting to watch files'));
         },
       },
