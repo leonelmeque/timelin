@@ -1,18 +1,25 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { hooks, TodoProps } from '@todo/commons';
-import { Header, Text } from '@todo/mobile-ui';
+import { Header, Spacer, Text } from '@todo/mobile-ui';
 import { FC, useState } from 'react';
 import { Pressable } from 'react-native';
 import Box from '../components/atoms/Layout/Layout';
 import { CustomSafeAreaView } from '../components/safe-area-view';
 import { StatusList } from '../components/status-list';
 import { TodoListView } from '../components/todo-list-view';
+import ArrowLeft from '../../assets/icons/arrow-left.svg';
+import styled from 'styled-components/native';
 
 type ListTodoScreenProps = {
   Params: {
     todos: TodoProps[] | null;
   };
 };
+
+const BackButton = styled.View`
+  align-items: center;
+  flex-direction: row;
+`;
 
 export const ListTodoScreen: FC = () => {
   const navigation = useNavigation();
@@ -33,9 +40,11 @@ export const ListTodoScreen: FC = () => {
       <Header
         renderLeftContent={() => (
           <Pressable onPress={() => navigation.goBack()}>
-            <Text size="body" weight="bold">
-              Back
-            </Text>
+            <BackButton>
+              <ArrowLeft />
+              <Spacer size="4" />
+              <Text size="body">Back</Text>
+            </BackButton>
           </Pressable>
         )}
         renderRigthContent={() => (
