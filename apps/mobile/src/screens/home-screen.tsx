@@ -6,6 +6,7 @@ import { CustomSafeAreaView } from '../components/safe-area-view';
 import { useNavigation } from '@react-navigation/native';
 import { Pressable } from 'react-native';
 import { tokens } from '@todo/commons';
+import SearchIcon from '../../assets/icons/search.svg';
 
 export default function HomeScreen() {
   const todos = useFetchTodos();
@@ -15,7 +16,7 @@ export default function HomeScreen() {
     <Pressable
       onPress={() => navigation.navigate<string>('Todo/Search', { todos })}
     >
-      <Text size="body">Search</Text>
+      <SearchIcon></SearchIcon>
     </Pressable>
   );
 

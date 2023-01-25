@@ -5,12 +5,19 @@ import { FC } from 'react';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { SearchView } from '../components/search-view';
 import { Pressable } from 'react-native';
+import ArrowLeft from '../../assets/icons/arrow-left.svg';
+import styled from 'styled-components/native';
 
 type SearchScreenProps = {
   Params: {
     todos: TodoProps[] | null;
   };
 };
+
+const BackButton = styled.View`
+  align-items: center;
+  flex-direction: row;
+`;
 
 export const SearchScreen: FC = () => {
   const {
@@ -23,7 +30,11 @@ export const SearchScreen: FC = () => {
       <Header
         renderLeftContent={() => (
           <Pressable onPress={() => navigation.goBack()}>
-            <Text size="body">Back</Text>
+            <BackButton>
+              <ArrowLeft />
+              <Spacer size="4" />
+              <Text size="body">Back</Text>
+            </BackButton>
           </Pressable>
         )}
         renderRigthContent={() => <Text size="body">Search</Text>}
