@@ -1,53 +1,59 @@
-import { Todo } from './types'
+import { TodoProps } from '@todo/commons';
 
-const todosURL = 'http://localhost:3001/todos'
+const todosURL = 'http://localhost:3001/todos';
 
 const headers = {
   'Content-Type': 'application/json',
-}
+};
 
-const postTodos = async (payload: Todo) => {
+const postTodos = async (payload: TodoProps) => {
   const resp = await fetch(`${todosURL}`, {
     method: 'POST',
     headers,
     body: JSON.stringify(payload),
-  })
-  const data = await resp.json()
+  });
+  const data = await resp.json();
 
-  return data
-}
+  return data;
+};
 
 const getTodos = async () => {
-  const resp = await fetch(todosURL)
-  const data = await resp.json()
+  const resp = await fetch(todosURL);
+  const data = await resp.json();
 
-  return data
-}
+  return data;
+};
 
-const updateTodo = async (id: string, payload: Todo) => {
-  const resp = await fetch(`${todosURL}/${id}`, {
+const updateTodo = async (
+  id: string,
+  payload: TodoProps,
+  signal: AbortController['signal']
+) => {
+  const resp = await fetch(`http://localhost:3001/todos/${id}`, {
     method: 'PUT',
     body: JSON.stringify(payload),
-  })
-  const data = resp.json()
+    headers,
+    signal,
+  });
+  const data = resp.json();
 
-  return data
-}
+  return data;
+};
 
 const deleteTodo = async (id: string) => {
-  const resp = await fetch(`${todosURL}/${id}`)
-  const data = await resp.json()
+  const resp = await fetch(`${todosURL}/${id}`);
+  const data = await resp.json();
 
-  return data
-}
+  return data;
+};
 
 const todosAPI = {
   postTodos,
   getTodos,
   updateTodo,
   deleteTodo,
-}
+};
 
-const userAPI = {}
+const userAPI = {};
 
-export { todosAPI, userAPI }
+export { todosAPI, userAPI };
