@@ -4,13 +4,16 @@ import { Spacer, Header, Text, Avatar, Palette } from '@todo/mobile-ui';
 import { TodoListView } from '../components/todo-list-view';
 import { CustomSafeAreaView } from '../components/safe-area-view';
 import { useNavigation } from '@react-navigation/native';
-import { Pressable } from 'react-native';
+import { Keyboard, Pressable } from 'react-native';
 import { tokens } from '@todo/commons';
 import SearchIcon from '../../assets/icons/search.svg';
+import { AddTodoModalView } from '../components/add-todo-modal-view';
+import { useCustomModal } from '../context';
 
 export default function HomeScreen() {
   const todos = useFetchTodos();
   const navigation = useNavigation();
+  const [modalVisibility, setModalVisibility] = useCustomModal();
 
   const renderRigthContent = () => (
     <Pressable
@@ -30,13 +33,14 @@ export default function HomeScreen() {
     />
   );
 
-  const navigateToSearch = () =>
-    //@ts-ignore
-    navigation.navigate<string>('Todo/Search', { todos });
-
   const nagivateToTodoList = () =>
     //@ts-ignore
     navigation.navigate<string>('Todo/ListTodo', { todos });
+
+  const onModalDismiss = () => {
+    Keyboard.dismiss();
+    setModalVisibility(!modalVisibility);
+  };
 
   return (
     <CustomSafeAreaView
@@ -45,6 +49,10 @@ export default function HomeScreen() {
         backgroundColor: '#FFF',
       }}
     >
+      <AddTodoModalView
+        visibility={modalVisibility}
+        onModalDismiss={onModalDismiss}
+      />
       <Header
         renderLeftContent={renderLeftContent}
         renderRigthContent={renderRigthContent}
