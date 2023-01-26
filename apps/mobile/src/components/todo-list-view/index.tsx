@@ -1,7 +1,8 @@
+import { useNavigation } from '@react-navigation/native';
 import { TodoProps } from '@todo/commons';
 import { Spacer, TodoCard } from '@todo/mobile-ui';
 import { FC, useCallback } from 'react';
-import { View } from 'react-native';
+import { GestureResponderEvent, Pressable, View } from 'react-native';
 import { TodoList } from './styles';
 
 type TodoListViewProps = {
@@ -17,20 +18,25 @@ export const TodoListView: FC<TodoListViewProps> = ({
   showDescription,
   horizontal,
 }) => {
+  const navigation = useNavigation();
+  const onPressTodoCard = (todo: TodoProps) => (e: GestureResponderEvent) => {
+    navigation.navigate<string>('Todo/View', { todo });
+  };
   const _renderItem = useCallback(
     ({ item }: any) => (
-      <View
+      <Pressable
         style={{
           flex: 1,
           minWidth: 200,
         }}
+        onPress={onPressTodoCard(item)}
       >
         <TodoCard
           showStatus={showStatus}
           showDescription={showDescription}
           {...item}
         />
-      </View>
+      </Pressable>
     ),
     [data]
   );
