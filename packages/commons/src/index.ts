@@ -18,3 +18,7 @@ export * from './shared-types';
 
 //helpers
 export { dateFormatter } from './utils/date-formatter';
+
+
+//api
+export * as api from './api';
