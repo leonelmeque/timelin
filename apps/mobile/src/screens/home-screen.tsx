@@ -3,17 +3,19 @@ import useFetchTodos from '../hooks/use-fetch-todos';
 import { Spacer, Header, Text, Avatar, Palette } from '@todo/mobile-ui';
 import { TodoListView } from '../components/todo-list-view';
 import { CustomSafeAreaView } from '../components/safe-area-view';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Keyboard, Pressable } from 'react-native';
 import { tokens } from '@todo/commons';
 import SearchIcon from '../../assets/icons/search.svg';
 import { AddTodoModalView } from '../components/add-todo-modal-view';
 import { useCustomModal } from '../context';
+import { useCallback, useState } from 'react';
 
 export default function HomeScreen() {
-  const todos = useFetchTodos();
   const navigation = useNavigation();
   const [modalVisibility, setModalVisibility] = useCustomModal();
+  const [shouldRefresh, setShouldRefresh] = useState(false);
+  const todos = useFetchTodos(shouldRefresh);
 
   const renderRigthContent = () => (
     <Pressable
@@ -42,6 +44,15 @@ export default function HomeScreen() {
     setModalVisibility(!modalVisibility);
   };
 
+  useFocusEffect(
+    useCallback(() => {
+      setShouldRefresh(true);
+      return () => {
+        setShouldRefresh(false);
+      };
+    }, [])
+  );
+
   return (
     <CustomSafeAreaView
       style={{
@@ -57,7 +68,6 @@ export default function HomeScreen() {
         renderLeftContent={renderLeftContent}
         renderRigthContent={renderRigthContent}
       />
-
       <Spacer size="8" />
       <Box
         style={{
@@ -76,7 +86,6 @@ export default function HomeScreen() {
         </Pressable>
       </Box>
       <Spacer size="4" />
-
       {!todos && (
         <Box
           style={{
