@@ -2,7 +2,7 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationOptions,
 } from '@react-navigation/native-stack'
-import AddTodoScreen from '../screens/add-todo-screen'
+import TodoScreen from '../screens/todo-screen';
 import HomeScreen from '../screens/home-screen';
 import { ListTodoScreen } from '../screens/list-todo-screen';
 import { SearchScreen } from '../screens/search-screen';
@@ -24,6 +24,11 @@ const TodoListStack = () => (
     <Stack.Screen
       component={SearchScreen}
       name="Todo/Search"
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      component={TodoScreen}
+      name="Todo/View"
       options={{ headerShown: false }}
     />
   </Stack.Navigator>
