@@ -1,9 +1,9 @@
 import { ThemeProvider } from 'styled-components/native'
 import { NavigationContainer } from '@react-navigation/native'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { useThemeSwitcher } from './src/hooks/use-theme-switcher'
 import { hooks, theme } from '@todo/commons';
-import TodoListStack from './src/routes/todo-routes';
+import { Tabs } from './src/routes/tab-routes';
+import { CustomModalProvider } from './src/context';
 
 export default function App() {
   const [activeTheme] = hooks.useThemeSwitcher();
@@ -11,11 +11,13 @@ export default function App() {
     <ThemeProvider
       theme={activeTheme === 'light' ? theme[activeTheme] : theme[activeTheme]}
     >
-      <SafeAreaProvider>
-        <NavigationContainer>
-          <TodoListStack />
-        </NavigationContainer>
-      </SafeAreaProvider>
+      <CustomModalProvider>
+        <SafeAreaProvider>
+          <NavigationContainer>
+            <Tabs />
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </CustomModalProvider>
     </ThemeProvider>
   );
 }
