@@ -1,8 +1,13 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import { hooks, TodoProps } from '@todo/commons';
+import { api, hooks, TodoProps } from '@todo/commons';
 import { Chip, Header, Palette, Spacer, Text } from '@todo/mobile-ui';
 import { useState } from 'react';
-import { Pressable, ScrollView, View } from 'react-native';
+import {
+  GestureResponderEvent,
+  Pressable,
+  ScrollView,
+  View,
+} from 'react-native';
 import Box from '../components/atoms/Layout/Layout';
 import { PlainTextInput } from '../components/plain-input';
 import { CustomSafeAreaView } from '../components/safe-area-view';
@@ -31,6 +36,12 @@ const TodoScreen = () => {
     });
   };
 
+  const onPressDeleteTodo = (id: string) => (e: GestureResponderEvent) => {
+    api.todo.deleteTodo(id).then(() => {
+      navigation.goBack();
+    });
+  };
+
   hooks.useUpdateTodo(state);
 
   const renderTodoActions = () => (
@@ -44,7 +55,7 @@ const TodoScreen = () => {
         <ShareIcon width={20} height={20} />
       </Pressable>
       <Spacer size="8" />
-      <Pressable>
+      <Pressable onPress={onPressDeleteTodo(params.todo.id)}>
         <DeleteIcon />
       </Pressable>
     </View>
