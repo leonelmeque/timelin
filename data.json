@@ -3,11 +3,15 @@
     {
       "id": "qweiq",
       "todo": "Learn react native",
-      "description": "Learn react native to get better jobs in the future",
+      "description": "Learn react native to get better jobs in the future, this will make me wealthier. I am going to start writing an app to build this feature",
       "timestamp": "1674031253",
       "status": "ongoing",
       "color": "yellow",
-      "assigned": ["q3eiq", "ffaeeg", "vyn63"]
+      "assigned": [
+        "q3eiq",
+        "ffaeeg",
+        "vyn63"
+      ]
     },
     {
       "id": "q3eiq",
@@ -35,7 +39,7 @@
     },
     {
       "todo": "One more Todo",
-      "description": "Hey ",
+      "description": "Hey didn’t I just updated this is nice",
       "status": "on_hold",
       "timestamp": "1674031253",
       "id": "ffaeeg",
@@ -48,6 +52,22 @@
       "timestamp": "1674031253",
       "id": "vyn63",
       "color": "pink"
+    },
+    {
+      "todo": "New todo to test focus",
+      "description": "Adding description to see if its working fine",
+      "status": "todo",
+      "id": "9xakp",
+      "timestamp": 1674721437922,
+      "assigned": []
+    },
+    {
+      "todo": "New todo ",
+      "description": "",
+      "status": "todo",
+      "id": "srist",
+      "timestamp": 1674723959379,
+      "assigned": []
     }
   ],
   "users": [

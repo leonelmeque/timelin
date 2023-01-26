@@ -2,7 +2,7 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { hooks, TodoProps } from '@todo/commons';
 import { Chip, Header, Palette, Spacer, Text } from '@todo/mobile-ui';
 import { useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
 import Box from '../components/atoms/Layout/Layout';
 import { PlainTextInput } from '../components/plain-input';
 import { CustomSafeAreaView } from '../components/safe-area-view';
@@ -19,7 +19,7 @@ type AddTodoScreenProps = {
   };
 };
 
-const AddTodoScreen = () => {
+const TodoScreen = () => {
   const navigation = useNavigation();
   const { params } = useRoute<RouteProp<AddTodoScreenProps>>();
   const [state, setState] = useState<TodoProps>(params.todo);
@@ -73,81 +73,83 @@ const AddTodoScreen = () => {
         )}
         renderRigthContent={renderTodoActions}
       />
-      <Box
-        style={{
-          paddingLeft: 56,
-        }}
-      >
-        <PlainTextInput
-          size="large"
-          weight="500"
-          value={state.todo}
-          onChangeText={(value) => onFormChange(value, 'todo')}
-        />
-      </Box>
-      <Spacer size="4" />
-      <Box
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingRight: 16,
-        }}
-      >
-        <DescriptionIcon />
-        <Spacer size="8" />
-        <View>
+      <ScrollView>
+        <Box
+          style={{
+            paddingLeft: 56,
+          }}
+        >
           <PlainTextInput
-            size="body"
+            size="large"
             weight="500"
-            multiline
-            textAlignVertical="top"
-            placeholder="Add a description"
-            value={state.description}
-            onChangeText={(value) => onFormChange(value, 'description')}
+            value={state.todo}
+            onChangeText={(value) => onFormChange(value, 'todo')}
           />
-        </View>
-      </Box>
-      <Spacer size="16" />
-      <Box
-        style={{
-          padding: 0,
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}
-      >
-        <CalendarIcon />
+        </Box>
+        <Spacer size="4" />
+        <Box
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingRight: 16,
+          }}
+        >
+          <DescriptionIcon />
+          <Spacer size="8" />
+          <View>
+            <PlainTextInput
+              size="body"
+              weight="500"
+              multiline
+              textAlignVertical="top"
+              placeholder="Add a description"
+              value={state.description}
+              onChangeText={(value) => onFormChange(value, 'description')}
+            />
+          </View>
+        </Box>
+        <Spacer size="16" />
+        <Box
+          style={{
+            padding: 0,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >
+          <CalendarIcon />
+          <Spacer size="8" />
+          <Chip label="Has not started" isActive />
+        </Box>
+        <Spacer size="16" />
+        <Box
+          style={{
+            padding: 0,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >
+          <TimelineIcon />
+          <Spacer size="8" />
+          <Text size="body" weight="medium" colour={Palette.primary.P300}>
+            + Add new timeline update
+          </Text>
+        </Box>
+        <Spacer size="16" />
+        <Box
+          style={{
+            padding: 0,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >
+          <CalendarIcon />
+          <Spacer size="8" />
+          <Chip label="No deadline" isActive />
+        </Box>
         <Spacer size="8" />
-        <Chip label="Has not started" isActive />
-      </Box>
-      <Spacer size="16" />
-      <Box
-        style={{
-          padding: 0,
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}
-      >
-        <TimelineIcon />
-        <Spacer size="8" />
-        <Text size="body" weight="medium" colour={Palette.primary.P300}>
-          + Add new timeline update
-        </Text>
-      </Box>
-      <Spacer size="16" />
-      <Box
-        style={{
-          padding: 0,
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}
-      >
-        <CalendarIcon />
-        <Spacer size="8" />
-        <Chip label="No deadline" isActive />
-      </Box>
-      <Spacer size="8" />
+      </ScrollView>
     </CustomSafeAreaView>
   );
 };
 
-export default AddTodoScreen;
+export default TodoScreen;
