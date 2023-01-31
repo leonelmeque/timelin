@@ -67,16 +67,16 @@ export const TodoCard: FC<TodoCardProps> = ({
         )}
       </TodoCardHeader>
       <TodoCardContent>
-        <Text size="large" weight="bold">
+        <Text size="large" weight="bold" numberOfLines={1}>
           {todo}
         </Text>
         {showDescription && (
           <>
             <Spacer size="4" />
-            <Text size="small" weight="regular">
+            <Text size="small" weight="regular" numberOfLines={2}>
               {description}
             </Text>
-            <Spacer size="4" />
+            <Spacer size="8" />
           </>
         )}
       </TodoCardContent>
