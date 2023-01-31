@@ -32,9 +32,8 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
   };
 
   const prepareData = (): TodoProps => {
-    const randomPalette = Math.random() * 5;
+    const randomPalette = parseInt((Math.random() * 5).toFixed(0));
     const id = generateId();
-
     return {
       todo: todoName,
       description: '',
@@ -42,7 +41,7 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
       id,
       //@ts-ignore
       timestamp: Date.now(),
-      color: Object.keys(Palette).map((key) => key)[randomPalette],
+      color: Object.keys(Palette.todoPalette).map((key) => key)[randomPalette],
       assigned: [],
     };
   };
@@ -53,20 +52,14 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
     todosAPI
       .postTodos(todo)
       .then(() => {
-        onModalDismiss(e);
-
         onChangeText('');
-
+        onModalDismiss(e);
         setTimeout(() => {
-          navigation.navigate<string>(
-            'Todo/Add',
-            {
-              todo,
-              autofocusDescription: true,
-            },
-            1000
-          );
-        });
+          navigation.navigate<string>('Todo/Add', {
+            todo,
+            autofocusDescription: true,
+          });
+        }, 1000);
       })
       .catch(() => {
         //Notification Error
@@ -95,7 +88,7 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
 
   return (
     <Modal visible={visibility} transparent>
-      <CustomSafeAreaView style={{ flex: 1 }}>
+      <CustomSafeAreaView style={{ backgroundColor: 'transparent' }}>
         <TouchableWithoutFeedback onPress={onModalDismiss}>
           <Box
             style={{
