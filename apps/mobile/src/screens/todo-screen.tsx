@@ -1,7 +1,7 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { api, hooks, TodoProps } from '@todo/commons';
 import { Chip, Header, Palette, Spacer, Text } from '@todo/mobile-ui';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   GestureResponderEvent,
   Pressable,
@@ -36,10 +36,18 @@ const TodoScreen = () => {
     });
   };
 
+  useEffect(() => {
+    setState(params.todo);
+  }, [params.todo]);
   const onPressDeleteTodo = (id: string) => (e: GestureResponderEvent) => {
-    api.todo.deleteTodo(id).then(() => {
-      navigation.goBack();
-    });
+    api.todo
+      .deleteTodo(id)
+      .then(() => {
+        navigation.goBack();
+      })
+      .catch((error) => {
+        alert(error);
+      });
   };
 
   hooks.useUpdateTodo(state);
@@ -62,12 +70,7 @@ const TodoScreen = () => {
   );
 
   return (
-    <CustomSafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: Palette.neutrals.white,
-      }}
-    >
+    <CustomSafeAreaView>
       {/* <StatusBar auto /> */}
 
       <Header
