@@ -31,12 +31,7 @@ export const ListTodoScreen: FC = () => {
   const filteredData = hooks.useFilterByStatus(status, todos || []);
 
   return (
-    <CustomSafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: 'white',
-      }}
-    >
+    <CustomSafeAreaView>
       <Header
         renderLeftContent={() => (
           <Pressable onPress={() => navigation.goBack()}>
