@@ -5,17 +5,29 @@ export function useFetchAvatar<T = unknown>(id: T): UserProps[] {
   const [avatar, setAvatar] = useState<any>(null);
 
   const getSingleAvatar = async (id: string) => {
-    const res = await fetch(`http://localhost:3001/users?id=${id}`);
-    const data = (await res.json()) as [UserProps];
-    return data[0];
+    try {
+      const res = await fetch(`http://localhost:3001/users?id=${id}`);
+      const data = (await res.json()) as [UserProps];
+      return data[0];
+    } catch (e) {
+      console.error(e as Error);
+      return [];
+    }
   };
 
   const getMultipleAvatar = async () => {
-    const avatars = Promise.all(
-      (id as string[]).map((value) => getSingleAvatar(value))
-    );
+    if (!id) return [];
 
-    return avatars;
+    try {
+      const avatars = await Promise.all(
+        (id as string[]).map((value) => getSingleAvatar(value))
+      );
+
+      return avatars;
+    } catch (error) {
+      console.error(error as Error);
+      return [];
+    }
   };
 
   useEffect(() => {
