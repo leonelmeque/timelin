@@ -20,6 +20,7 @@ export const TodoListView: FC<TodoListViewProps> = ({
 }) => {
   const navigation = useNavigation();
   const onPressTodoCard = (todo: TodoProps) => (e: GestureResponderEvent) => {
+    //@ts-ignore
     navigation.navigate<string>('Todo/View', { todo });
   };
   const _renderItem = useCallback(
@@ -28,6 +29,7 @@ export const TodoListView: FC<TodoListViewProps> = ({
         style={{
           flex: 1,
           minWidth: 200,
+          maxWidth: horizontal ? 216 : 'auto',
         }}
         onPress={onPressTodoCard(item)}
       >
