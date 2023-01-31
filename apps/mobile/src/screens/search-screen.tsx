@@ -26,7 +26,7 @@ export const SearchScreen: FC = () => {
   const navigation = useNavigation();
 
   return (
-    <CustomSafeAreaView style={{ flex: 1 }}>
+    <CustomSafeAreaView>
       <Header
         renderLeftContent={() => (
           <Pressable onPress={() => navigation.goBack()}>
