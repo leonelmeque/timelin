@@ -3,8 +3,21 @@ import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { useCustomModal } from '../context';
 import TodoScreen from '../screens/todo-screen';
 import TodoListStack from './todo-routes';
+import ClipBoardIcon from '../../assets/icons/clipboard.svg';
+import PlusCircleIcon from '../../assets/icons/plus-circle.svg';
 
 const Tab = createBottomTabNavigator();
+
+const TabBarIcon = ({ route, color }: { route: string; color: string }) => {
+  switch (route) {
+    case 'Todo/Home':
+      return <ClipBoardIcon stroke={color} />;
+    case 'Todo/Add':
+      return <PlusCircleIcon stroke={color} />;
+    default:
+      return <>Unknow Route</>;
+  }
+};
 
 export function Tabs() {
   const [, dispatch] = useCustomModal();
@@ -14,6 +27,7 @@ export function Tabs() {
       initialRouteName="Todo/Home"
       screenOptions={{
         headerShown: false,
+        tabBarShowLabel: false,
       }}
     >
       <Tab.Screen
@@ -23,20 +37,29 @@ export function Tabs() {
           tabBarStyle: ((route: any) => {
             const routeName = getFocusedRouteNameFromRoute(route);
 
-            if (routeName === 'Todo/View') {
+            if (
+              routeName === 'Todo/View' ||
+              routeName === 'Todo/Search' ||
+              routeName === 'Todo/ListTodo'
+            ) {
               return { display: 'none', backgroundColor: 'white' };
             }
 
             return;
           })(route),
+          tabBarIcon: ({ focused, color }) => (
+            <TabBarIcon route={route.name} color={color} />
+          ),
         })}
       />
       <Tab.Screen
         name="Todo/Add"
         component={TodoScreen}
-        options={{
-          tabBarStyle: { display: 'none' },
-        }}
+        options={({ route }) => ({
+          tabBarIcon: ({ focused, color }) => (
+            <TabBarIcon route={route.name} color={color} />
+          ),
+        })}
         listeners={{
           tabPress: (e) => {
             e.preventDefault();
