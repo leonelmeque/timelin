@@ -6,7 +6,9 @@ import { StyledSearchHeader } from './styles';
 type SearchHeaderProps = {
   title: string;
 } & Pick<PressableProps, 'onPress'>;
-
+/**
+ * @deprecated build a custom header 
+ */
 export const SearchHeader: FC<SearchHeaderProps> = ({ title, onPress }) => (
   <StyledSearchHeader>
     <Text size="large" weight="bold">
