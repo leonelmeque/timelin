@@ -19,6 +19,7 @@ export default function HomeScreen() {
 
   const renderRigthContent = () => (
     <Pressable
+      //@ts-ignore
       onPress={() => navigation.navigate<string>('Todo/Search', { todos })}
     >
       <SearchIcon></SearchIcon>
@@ -61,6 +62,7 @@ export default function HomeScreen() {
       }}
     >
       <AddTodoModalView
+        key={todos?.length}
         visibility={modalVisibility}
         onModalDismiss={onModalDismiss}
       />
