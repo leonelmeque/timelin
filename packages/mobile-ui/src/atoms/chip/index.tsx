@@ -8,8 +8,8 @@ interface ChipProps {
   isActive: boolean;
 }
 
-export const Chip: FC<ChipProps> = ({ label, isActive }) => (
-  <Container colour={isActive ? Palette.primary.P50 : 'transparent'}>
+export const Chip: FC<ChipProps> = ({ label, isActive, ...rest }) => (
+  <Container colour={isActive ? Palette.primary.P50 : 'transparent'} {...rest}>
     <Text size="body" weight="medium" colour={Palette.greys.G200}>
       {label}
     </Text>

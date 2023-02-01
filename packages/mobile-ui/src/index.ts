@@ -11,6 +11,7 @@ export { Chip } from './atoms/chip';
 
 // molecules
 export { FormInput } from './molecules/form-input';
+export { TimeStatus } from './molecules/time-status';
 
 // Organisms
 export { TodoCard } from './organisms/todo-card';
