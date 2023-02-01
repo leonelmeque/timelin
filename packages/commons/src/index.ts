@@ -18,6 +18,7 @@ export * from './shared-types';
 
 //helpers
 export { dateFormatter } from './utils/date-formatter';
+export { distanceBetweenDates } from './utils/distance-between-dates';
 
 //api
 export { api } from './api';
