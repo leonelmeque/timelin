@@ -1,7 +1,14 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import { api, hooks, TodoProps } from '@todo/commons';
-import { Chip, Header, Palette, Spacer, Text } from '@todo/mobile-ui';
-import { useEffect, useState } from 'react';
+import { api, dateFormatter, hooks, TodoProps } from '@todo/commons';
+import {
+  Chip,
+  Header,
+  Palette,
+  Spacer,
+  Text,
+  TimeStatus,
+} from '@todo/mobile-ui';
+import { useEffect, useRef, useState } from 'react';
 import {
   GestureResponderEvent,
   Pressable,
@@ -17,6 +24,11 @@ import TimelineIcon from '../../assets/icons/timeline.svg';
 import ArrowLeft from '../../assets/icons/arrow-left.svg';
 import ShareIcon from '../../assets/icons/share.svg';
 import DeleteIcon from '../../assets/icons/delete.svg';
+import {
+  CalendarModalView,
+  CalendarRefProps,
+} from '../components/calendar-modal-view';
+import styled from 'styled-components';
 
 type AddTodoScreenProps = {
   Params: {
@@ -24,10 +36,25 @@ type AddTodoScreenProps = {
   };
 };
 
+const DateChip = styled(Chip)<{ colour: string }>`
+  background-color: ${(props) => props.colour};
+`;
+
 const TodoScreen = () => {
   const navigation = useNavigation();
   const { params } = useRoute<RouteProp<AddTodoScreenProps>>();
+
   const [state, setState] = useState<TodoProps>(params.todo);
+
+  const calendarRef = useRef<CalendarRefProps>(null);
+
+  const dateStartLabel = !state.startDate
+    ? 'Has not started'
+    : dateFormatter(state.startDate);
+
+  const dateEndLabel = !state.endDate
+    ? 'Has not started'
+    : dateFormatter(state.endDate);
 
   const onFormChange = (value: string, inputName: string) => {
     setState({
@@ -36,9 +63,6 @@ const TodoScreen = () => {
     });
   };
 
-  useEffect(() => {
-    setState(params.todo);
-  }, [params.todo]);
   const onPressDeleteTodo = (id: string) => (e: GestureResponderEvent) => {
     api.todo
       .deleteTodo(id)
@@ -50,7 +74,22 @@ const TodoScreen = () => {
       });
   };
 
+  const onPressToggleModalVisibility = (name: string) => {
+    calendarRef.current?.toggleModal();
+    calendarRef.current?.setFormName(name);
+  };
+
+  const onPressSaveDate = () => {
+    const { date, name, toggleModal } = calendarRef.current || {};
+    onFormChange(String(date), name || '');
+    if (toggleModal) toggleModal();
+  };
+
   hooks.useUpdateTodo(state);
+
+  useEffect(() => {
+    setState(params.todo);
+  }, [params.todo]);
 
   const renderTodoActions = () => (
     <View
@@ -71,8 +110,11 @@ const TodoScreen = () => {
 
   return (
     <CustomSafeAreaView>
-      {/* <StatusBar auto /> */}
-
+      <CalendarModalView
+        ref={calendarRef}
+        onPressCancel={() => calendarRef.current?.toggleModal()}
+        onPressSave={onPressSaveDate}
+      />
       <Header
         renderLeftContent={() => (
           <Pressable onPress={() => navigation.goBack()}>
@@ -93,6 +135,9 @@ const TodoScreen = () => {
             paddingLeft: 56,
           }}
         >
+          {state.startDate && state.endDate && (
+            <TimeStatus endDate={state.endDate} status={state.status} />
+          )}
           <PlainTextInput
             size="large"
             weight="500"
@@ -132,7 +177,15 @@ const TodoScreen = () => {
         >
           <CalendarIcon />
           <Spacer size="8" />
-          <Chip label="Has not started" isActive />
+          <Pressable onPress={() => onPressToggleModalVisibility('startDate')}>
+            <DateChip
+              label={dateStartLabel}
+              isActive
+              colour={
+                !state.startDate ? Palette.primary.P50 : Palette.success.S50
+              }
+            />
+          </Pressable>
         </Box>
         <Spacer size="16" />
         <Box
@@ -158,7 +211,15 @@ const TodoScreen = () => {
         >
           <CalendarIcon />
           <Spacer size="8" />
-          <Chip label="No deadline" isActive />
+          <Pressable onPress={() => onPressToggleModalVisibility('endDate')}>
+            <DateChip
+              label={dateEndLabel}
+              isActive
+              colour={
+                !state.endDate ? Palette.primary.P50 : Palette.warning.W50
+              }
+            />
+          </Pressable>
         </Box>
         <Spacer size="8" />
       </ScrollView>

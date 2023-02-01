@@ -11,7 +11,9 @@
         "q3eiq",
         "ffaeeg",
         "vyn63"
-      ]
+      ],
+      "startDate": "Thu Feb 16 2023 08:47:00 GMT+0100 (Central European Standard Time)",
+      "endDate": "Sat Feb 25 2023 08:47:00 GMT+0100 (Central European Standard Time)"
     },
     {
       "id": "q3eiq",
@@ -19,7 +21,9 @@
       "description": "To have fun with friends and get some exercise and sun",
       "timestamp": "1674031253",
       "status": "completed",
-      "color": "pink"
+      "color": "pink",
+      "startDate": "Wed Feb 01 2023 09:02:25 GMT+0100 (Central European Standard Time)",
+      "endDate": "Wed May 31 2023 09:02:00 GMT+0200 (Central European Summer Time)"
     },
     {
       "id": "q1eiq",
@@ -27,7 +31,9 @@
       "description": "To not wait on a situation to take a particular action",
       "timestamp": "1674031253",
       "status": "ongoing",
-      "color": "blue"
+      "color": "blue",
+      "startDate": "Thu Feb 23 2023 09:13:00 GMT+0100 (Central European Standard Time)",
+      "endDate": "Mon Jul 31 2023 09:13:00 GMT+0200 (Central European Summer Time)"
     },
     {
       "todo": "Finish list Todos",
@@ -35,7 +41,9 @@
       "status": "completed",
       "timestamp": "1674031253",
       "id": "kvqev",
-      "color": "green"
+      "color": "green",
+      "startDate": "Wed Feb 08 2023 10:27:00 GMT+0100 (Central European Standard Time)",
+      "endDate": "Tue Feb 28 2023 10:27:00 GMT+0100 (Central European Standard Time)"
     },
     {
       "todo": "One more Todo",
@@ -54,20 +62,15 @@
       "color": "pink"
     },
     {
-      "todo": "New todo to test focus",
-      "description": "Adding description to see if its working fine",
+      "todo": "Building a new todo",
+      "description": "This todo has a new way of doing things",
       "status": "todo",
-      "id": "9xakp",
-      "timestamp": 1674721437922,
-      "assigned": []
-    },
-    {
-      "todo": "New todo ",
-      "description": "",
-      "status": "todo",
-      "id": "srist",
-      "timestamp": 1674723959379,
-      "assigned": []
+      "id": "7wwgu",
+      "timestamp": 1675199949652,
+      "color": "yellow",
+      "assigned": [],
+      "startDate": "Wed Feb 01 2023 09:03:00 GMT+0100 (Central European Standard Time)",
+      "endDate": "Fri Jun 30 2023 09:03:00 GMT+0200 (Central European Summer Time)"
     }
   ],
   "users": [
