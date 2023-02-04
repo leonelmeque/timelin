@@ -18,17 +18,12 @@ import {
 import Box from '../components/atoms/Layout/Layout';
 import { PlainTextInput } from '../components/plain-input';
 import { CustomSafeAreaView } from '../components/safe-area-view';
-import DescriptionIcon from '../../assets/icons/description-text.svg';
-import CalendarIcon from '../../assets/icons/calendar.svg';
-import TimelineIcon from '../../assets/icons/timeline.svg';
-import ArrowLeft from '../../assets/icons/arrow-left.svg';
-import ShareIcon from '../../assets/icons/share.svg';
-import DeleteIcon from '../../assets/icons/delete.svg';
 import {
   CalendarModalView,
   CalendarRefProps,
 } from '../components/calendar-modal-view';
 import styled from 'styled-components';
+import { MaterialIcons } from '@expo/vector-icons';
 
 type AddTodoScreenProps = {
   Params: {
@@ -99,11 +94,11 @@ const TodoScreen = () => {
       }}
     >
       <Pressable>
-        <ShareIcon width={20} height={20} />
+        <MaterialIcons name="ios-share" size={24} />
       </Pressable>
       <Spacer size="8" />
       <Pressable onPress={onPressDeleteTodo(params.todo.id)}>
-        <DeleteIcon />
+        <MaterialIcons name="delete-outline" size={24} />
       </Pressable>
     </View>
   );
@@ -119,7 +114,7 @@ const TodoScreen = () => {
         renderLeftContent={() => (
           <Pressable onPress={() => navigation.goBack()}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <ArrowLeft />
+              <MaterialIcons name="arrow-back" size={24} />
               <Spacer size="4" />
               <Text size="body" weight="medium">
                 Back
@@ -153,7 +148,7 @@ const TodoScreen = () => {
             paddingRight: 16,
           }}
         >
-          <DescriptionIcon />
+          <MaterialIcons name="description" size={24} />
           <Spacer size="8" />
           <View>
             <PlainTextInput
@@ -175,7 +170,7 @@ const TodoScreen = () => {
             alignItems: 'center',
           }}
         >
-          <CalendarIcon />
+          <MaterialIcons name="calendar-today" size={24} />
           <Spacer size="8" />
           <Pressable onPress={() => onPressToggleModalVisibility('startDate')}>
             <DateChip
@@ -195,7 +190,7 @@ const TodoScreen = () => {
             alignItems: 'center',
           }}
         >
-          <TimelineIcon />
+          <MaterialIcons name="timeline" size={24} />
           <Spacer size="8" />
           <Text size="body" weight="medium" colour={Palette.primary.P300}>
             + Add new timeline update
@@ -209,7 +204,7 @@ const TodoScreen = () => {
             alignItems: 'center',
           }}
         >
-          <CalendarIcon />
+          <MaterialIcons name="calendar-today" size={24} />
           <Spacer size="8" />
           <Pressable onPress={() => onPressToggleModalVisibility('endDate')}>
             <DateChip

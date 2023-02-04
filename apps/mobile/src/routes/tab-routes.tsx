@@ -3,17 +3,17 @@ import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { useCustomModal } from '../context';
 import TodoScreen from '../screens/todo-screen';
 import TodoListStack from './todo-routes';
-import ClipBoardIcon from '../../assets/icons/clipboard.svg';
-import PlusCircleIcon from '../../assets/icons/plus-circle.svg';
-
+import { MaterialIcons } from '@expo/vector-icons';
 const Tab = createBottomTabNavigator();
 
 const TabBarIcon = ({ route, color }: { route: string; color: string }) => {
   switch (route) {
     case 'Todo/Home':
-      return <ClipBoardIcon stroke={color} />;
+      return <MaterialIcons name="bookmark-border" size={24} color={color} />;
     case 'Todo/Add':
-      return <PlusCircleIcon stroke={color} />;
+      return (
+        <MaterialIcons name="add-circle-outline" size={24} color={color} />
+      );
     default:
       return <>Unknow Route</>;
   }

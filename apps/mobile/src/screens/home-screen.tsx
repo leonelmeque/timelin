@@ -6,11 +6,10 @@ import { CustomSafeAreaView } from '../components/safe-area-view';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Keyboard, Pressable } from 'react-native';
 import { tokens } from '@todo/commons';
-import SearchIcon from '../../assets/icons/search.svg';
 import { AddTodoModalView } from '../components/add-todo-modal-view';
 import { useCustomModal } from '../context';
 import { useCallback, useState } from 'react';
-
+import { MaterialIcons } from '@expo/vector-icons';
 export default function HomeScreen() {
   const navigation = useNavigation();
   const [modalVisibility, setModalVisibility] = useCustomModal();
@@ -22,7 +21,7 @@ export default function HomeScreen() {
       //@ts-ignore
       onPress={() => navigation.navigate<string>('Todo/Search', { todos })}
     >
-      <SearchIcon></SearchIcon>
+      <MaterialIcons name="search" size={24} />
     </Pressable>
   );
 
