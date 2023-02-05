@@ -1,6 +1,13 @@
-export const dateFormatter = (timestamp: string | number) =>
-  new Intl.DateTimeFormat('en-US', {
-    month: 'long',
-    day: '2-digit',
-    year: 'numeric',
-  }).format(new Date(timestamp));
+const defaultOptions: Intl.DateTimeFormatOptions = {
+  month: 'long',
+  day: '2-digit',
+  year: 'numeric',
+};
+
+export const dateFormatter = (
+  timestamp: string | number,
+  options?: Intl.DateTimeFormatOptions
+) =>
+  new Intl.DateTimeFormat('en-US', options || defaultOptions).format(
+    new Date(timestamp)
+  );
