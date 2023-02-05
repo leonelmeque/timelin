@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { TodoProps } from '@todo/commons';
-import { Button, Palette, Spacer } from '@todo/mobile-ui';
+import { Box, Button, Palette, PlainTextInput, Spacer } from '@todo/mobile-ui';
 import { FC, useState } from 'react';
 import {
   Modal,
@@ -11,8 +11,6 @@ import {
 } from 'react-native';
 import { todosAPI } from '../../utils/backend';
 import { generateId } from '../../utils/uiUtils';
-import Box from '../atoms/Layout/Layout';
-import { PlainTextInput } from '../plain-input';
 import { CustomSafeAreaView } from '../safe-area-view';
 
 type AddTodoModalViewProps = {
@@ -55,6 +53,10 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
         onChangeText('');
         onModalDismiss(e);
         setTimeout(() => {
+          /**
+           * TODO: fix this TS error
+           */
+          //@ts-ignore
           navigation.navigate<string>('Todo/Add', {
             todo,
             autofocusDescription: true,
@@ -75,6 +77,10 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
         onModalDismiss(e);
         onChangeText('');
         setTimeout(() => {
+          /**
+           * TODO: fix this TS error
+           */
+          //@ts-ignore
           navigation.navigate<string>('Todo/Add', {
             todo,
             autofocusDescription: false,
