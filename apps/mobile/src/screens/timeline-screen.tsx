@@ -1,28 +1,17 @@
-import { CustomSafeAreaView } from '../components/safe-area-view';
-import { TodoProps } from '@todo/commons';
 import { Header, Spacer, Text } from '@todo/mobile-ui';
-import { FC } from 'react';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import { SearchView } from '../components/search-view';
 import { Pressable } from 'react-native';
+import { CustomSafeAreaView } from '../components/safe-area-view';
 import styled from 'styled-components/native';
+import { useNavigation } from '@react-navigation/native';
+import { TimelineView } from '../components/timeline-view';
 import { MaterialIcons } from '@expo/vector-icons';
-
-type SearchScreenProps = {
-  Params: {
-    todos: TodoProps[] | null;
-  };
-};
 
 const BackButton = styled.View`
   align-items: center;
   flex-direction: row;
 `;
 
-export const SearchScreen: FC = () => {
-  const {
-    params: { todos },
-  } = useRoute<RouteProp<SearchScreenProps>>();
+export const TimelineScreen = () => {
   const navigation = useNavigation();
 
   return (
@@ -37,10 +26,10 @@ export const SearchScreen: FC = () => {
             </BackButton>
           </Pressable>
         )}
-        renderRigthContent={() => <Text size="body">Search</Text>}
+        renderRigthContent={() => <Text size="body">Timeline</Text>}
       />
       <Spacer size="8" />
-      <SearchView data={todos} />
+      <TimelineView />
     </CustomSafeAreaView>
   );
 };
