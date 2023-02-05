@@ -8,6 +8,8 @@ export { Badge } from './atoms/badge';
 export { Caption } from './atoms/caption';
 export { Avatar } from './atoms/avatar';
 export { Chip } from './atoms/chip';
+export { PlainTextInput } from './atoms/plain-input';
+export { Box } from './atoms/box';
 
 // molecules
 export { FormInput } from './molecules/form-input';
