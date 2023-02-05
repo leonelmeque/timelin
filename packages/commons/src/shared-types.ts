@@ -17,7 +17,12 @@ export type TodoProps = {
   assigned?: string[];
   startDate: string;
   endDate: string;
-  timeline: TimelineEventProps[];
+};
+
+export type TimelineProps = {
+  id: string;
+  todo: string;
+  events: TimelineEventProps[];
 };
 
 export type UserProps = {
