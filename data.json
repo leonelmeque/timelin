@@ -89,5 +89,76 @@
       "username": "lunamoon",
       "avatar": "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=922&q=80"
     }
+  ],
+  "timeline": [
+    {
+      "id": "qweiq",
+      "todo": "Learn react native",
+      "events": [
+        {
+          "id": "7wwgu",
+          "title": "Kick Off",
+          "description": "We started adding new ideas to the app",
+          "timestamp": "1674031253",
+          "assigned": []
+        },
+        {
+          "id": "73wgu",
+          "title": "Research",
+          "description": "Started doing customer research",
+          "timestamp": "1534031253",
+          "assigned": []
+        },
+        {
+          "id": "73wgu",
+          "title": "Research",
+          "description": "Started doing customer research",
+          "timestamp": "1534031253",
+          "assigned": []
+        },
+        {
+          "id": "73wgu",
+          "title": "Research",
+          "description": "Started doing customer research",
+          "timestamp": "1534031253",
+          "assigned": []
+        },
+        {
+          "id": "73wgu",
+          "title": "Research",
+          "description": "Started doing customer research",
+          "timestamp": "1534031253",
+          "assigned": []
+        },
+        {
+          "id": "73wgu",
+          "title": "Research",
+          "description": "Started doing customer research",
+          "timestamp": "1534031253",
+          "assigned": []
+        },
+        {
+          "id": "73wgu",
+          "title": "Research",
+          "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi.",
+          "timestamp": "1674031253",
+          "assigned": []
+        },
+        {
+          "id": "73wgu",
+          "title": "Research",
+          "description": "Started doing customer research",
+          "timestamp": "1634031253",
+          "assigned": []
+        },
+        {
+          "id": "73wgu",
+          "title": "Research",
+          "description": "Started doing customer research",
+          "timestamp": "1634031253",
+          "assigned": []
+        }
+      ]
+    }
   ]
 }
