@@ -1,6 +1,5 @@
-import { Button, Spacer } from '@todo/mobile-ui';
+import { Box, Button, Spacer } from '@todo/mobile-ui';
 import { Modal, GestureResponderEvent, Dimensions } from 'react-native';
-import Box from '../atoms/Layout/Layout';
 import RNDateTimePicker, {
   DateTimePickerEvent,
 } from '@react-native-community/datetimepicker';

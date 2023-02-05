@@ -31,3 +31,11 @@ export const deleteTodo = async (id: string) => {
 
   return data;
 };
+
+export const getTodos = async () => {
+  const resp = await fetch(todosURL);
+  const data = await resp.json();
+
+  return data;
+};
+

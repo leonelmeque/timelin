@@ -1,9 +1,11 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { api, dateFormatter, hooks, TodoProps } from '@todo/commons';
 import {
+  Box,
   Chip,
   Header,
   Palette,
+  PlainTextInput,
   Spacer,
   Text,
   TimeStatus,
@@ -15,8 +17,6 @@ import {
   ScrollView,
   View,
 } from 'react-native';
-import Box from '../components/atoms/Layout/Layout';
-import { PlainTextInput } from '../components/plain-input';
 import { CustomSafeAreaView } from '../components/safe-area-view';
 import {
   CalendarModalView,

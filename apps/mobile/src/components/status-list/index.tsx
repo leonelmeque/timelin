@@ -1,6 +1,6 @@
 import { Chip } from '@todo/mobile-ui';
 import { FC } from 'react';
-import { GestureResponderEvent, Pressable, PressableProps } from 'react-native';
+import { GestureResponderEvent, Pressable } from 'react-native';
 import styled from 'styled-components/native';
 
 interface StatusListProps {

@@ -1,9 +1,8 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { hooks } from '@todo/commons';
-import { Palette, Text } from '@todo/mobile-ui';
+import { Box, Palette, Text } from '@todo/mobile-ui';
 import { FC } from 'react';
 import { View } from 'react-native';
-import Box from '../atoms/Layout/Layout';
 import { TimelineDefaultView } from './default-view';
 
 type Route = {
