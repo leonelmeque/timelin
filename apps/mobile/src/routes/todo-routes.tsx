@@ -6,6 +6,8 @@ import TodoScreen from '../screens/todo-screen';
 import HomeScreen from '../screens/home-screen';
 import { ListTodoScreen } from '../screens/list-todo-screen';
 import { SearchScreen } from '../screens/search-screen';
+import { TimelineView } from '../components/timeline-view';
+import { TimelineScreen } from '../screens/timeline-screen';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +31,11 @@ const TodoListStack = () => (
     <Stack.Screen
       component={TodoScreen}
       name="Todo/View"
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      component={TimelineScreen}
+      name="Todo/Timeline"
       options={{ headerShown: false }}
     />
   </Stack.Navigator>

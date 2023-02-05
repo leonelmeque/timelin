@@ -24,6 +24,7 @@ import {
 } from '../components/calendar-modal-view';
 import styled from 'styled-components';
 import { MaterialIcons } from '@expo/vector-icons';
+import { TimelineCompactView } from '../components/timeline-view/compact-view';
 
 type AddTodoScreenProps = {
   Params: {
@@ -138,6 +139,7 @@ const TodoScreen = () => {
             weight="500"
             value={state.todo}
             onChangeText={(value) => onFormChange(value, 'todo')}
+            scrollEnabled={false}
           />
         </Box>
         <Spacer size="4" />
@@ -158,6 +160,7 @@ const TodoScreen = () => {
               textAlignVertical="top"
               placeholder="Add a description"
               value={state.description}
+              scrollEnabled={false}
               onChangeText={(value) => onFormChange(value, 'description')}
             />
           </View>
@@ -192,9 +195,27 @@ const TodoScreen = () => {
         >
           <MaterialIcons name="timeline" size={24} />
           <Spacer size="8" />
-          <Text size="body" weight="medium" colour={Palette.primary.P300}>
-            + Add new timeline update
-          </Text>
+          <View>
+            <Pressable
+              onPress={() => {
+                //@ts-ignore
+                navigation.navigate<any>('Todo/Timeline', { id: state.id });
+              }}
+            >
+              <TimelineCompactView id={state.id} />
+            </Pressable>
+
+            <Pressable
+              onPress={() => {
+                //@ts-ignore
+                navigation.navigate<any>('Todo/Timeline', { id: state.id });
+              }}
+            >
+              <Text size="body" weight="medium" colour={Palette.primary.P300}>
+                + Add new timeline update
+              </Text>
+            </Pressable>
+          </View>
         </Box>
         <Spacer size="16" />
         <Box

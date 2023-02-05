@@ -40,7 +40,8 @@ export function Tabs() {
             if (
               routeName === 'Todo/View' ||
               routeName === 'Todo/Search' ||
-              routeName === 'Todo/ListTodo'
+              routeName === 'Todo/ListTodo' ||
+              routeName === 'Todo/Timeline'
             ) {
               return { display: 'none', backgroundColor: 'white' };
             }
