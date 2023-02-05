@@ -19,6 +19,6 @@ export * from './shared-types';
 //helpers
 export { dateFormatter } from './utils/date-formatter';
 export { distanceBetweenDates } from './utils/distance-between-dates';
-
+export { normalizeTimeline } from './utils/normalize-timeline';
 //api
 export { api } from './api';
