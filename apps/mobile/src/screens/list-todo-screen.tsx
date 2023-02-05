@@ -6,8 +6,8 @@ import { Pressable } from 'react-native';
 import { CustomSafeAreaView } from '../components/safe-area-view';
 import { StatusList } from '../components/status-list';
 import { TodoListView } from '../components/todo-list-view';
-import ArrowLeft from '../../assets/icons/arrow-left.svg';
 import styled from 'styled-components/native';
+import { MaterialIcons } from '@expo/vector-icons';
 
 type ListTodoScreenProps = {
   Params: {
@@ -35,7 +35,7 @@ export const ListTodoScreen: FC = () => {
         renderLeftContent={() => (
           <Pressable onPress={() => navigation.goBack()}>
             <BackButton>
-              <ArrowLeft />
+              <MaterialIcons name="arrow-back" size={24} />
               <Spacer size="4" />
               <Text size="body">Back</Text>
             </BackButton>
