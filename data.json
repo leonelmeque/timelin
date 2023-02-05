@@ -44,33 +44,6 @@
       "color": "green",
       "startDate": "Wed Feb 08 2023 10:27:00 GMT+0100 (Central European Standard Time)",
       "endDate": "Tue Feb 28 2023 10:27:00 GMT+0100 (Central European Standard Time)"
-    },
-    {
-      "todo": "One more Todo",
-      "description": "Hey didn’t I just updated this is nice",
-      "status": "on_hold",
-      "timestamp": "1674031253",
-      "id": "ffaeeg",
-      "color": "orange"
-    },
-    {
-      "todo": "Todo",
-      "description": "Name of todo",
-      "status": "todo",
-      "timestamp": "1674031253",
-      "id": "vyn63",
-      "color": "pink"
-    },
-    {
-      "todo": "Building a new todo",
-      "description": "This todo has a new way of doing things",
-      "status": "todo",
-      "id": "7wwgu",
-      "timestamp": 1675199949652,
-      "color": "yellow",
-      "assigned": [],
-      "startDate": "Wed Feb 01 2023 09:03:00 GMT+0100 (Central European Standard Time)",
-      "endDate": "Fri Jun 30 2023 09:03:00 GMT+0200 (Central European Summer Time)"
     }
   ],
   "users": [

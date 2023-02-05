@@ -5,6 +5,7 @@ import { useFetchAvatar } from './use-fetch-avatar';
 import { useFilterByStatus } from './use-filter-by-status';
 import { useUpdateTodo } from './use-update-todo';
 import { useFetchTimeline } from './use-fetch-timeline';
+import { useFetchTodos } from './use-fetch-todos';
 
 export const hooks = {
   useGreetings,
@@ -14,4 +15,5 @@ export const hooks = {
   useFilterByStatus,
   useUpdateTodo,
   useFetchTimeline,
+  useFetchTodos,
 };

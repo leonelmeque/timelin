@@ -1,9 +1,8 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { hooks, TodoProps } from '@todo/commons';
-import { Header, Spacer, Text } from '@todo/mobile-ui';
+import { Box, Header, Spacer, Text } from '@todo/mobile-ui';
 import { FC, useState } from 'react';
 import { Pressable } from 'react-native';
-import Box from '../components/atoms/Layout/Layout';
 import { CustomSafeAreaView } from '../components/safe-area-view';
 import { StatusList } from '../components/status-list';
 import { TodoListView } from '../components/todo-list-view';
