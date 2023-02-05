@@ -1,6 +1,6 @@
+import { Box } from '@todo/mobile-ui';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
-import Box from '../atoms/Layout/Layout';
 
 export const SearchViewDefault = styled(Box)`
   height: ${Dimensions.get('screen').height / 2}px;

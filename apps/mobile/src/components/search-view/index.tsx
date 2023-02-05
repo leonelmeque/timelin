@@ -1,7 +1,6 @@
 import { hooks, TodoProps } from '@todo/commons';
-import { Input, Palette, Spacer, Text } from '@todo/mobile-ui';
+import { Box, Input, Palette, Spacer, Text } from '@todo/mobile-ui';
 import { Pressable } from 'react-native';
-import Box from '../atoms/Layout/Layout';
 import { TodoListView } from '../todo-list-view';
 import { SearchViewDefault, SearchViewResultsView } from './styles';
 
