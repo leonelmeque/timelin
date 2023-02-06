@@ -1,18 +1,12 @@
 import { CustomSafeAreaView } from '../components/safe-area-view';
-import { TodoProps } from '@todo/commons';
+import { hooks } from '@todo/commons';
 import { Header, Spacer, Text } from '@todo/mobile-ui';
 import { FC } from 'react';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { SearchView } from '../components/search-view';
 import { Pressable } from 'react-native';
 import styled from 'styled-components/native';
 import { MaterialIcons } from '@expo/vector-icons';
-
-type SearchScreenProps = {
-  Params: {
-    todos: TodoProps[] | null;
-  };
-};
 
 const BackButton = styled.View`
   align-items: center;
@@ -20,9 +14,7 @@ const BackButton = styled.View`
 `;
 
 export const SearchScreen: FC = () => {
-  const {
-    params: { todos },
-  } = useRoute<RouteProp<SearchScreenProps>>();
+  const todos = hooks.useFetchTodos(false);
   const navigation = useNavigation();
 
   return (
