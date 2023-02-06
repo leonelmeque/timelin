@@ -10,7 +10,9 @@ export const TimelineCompactView = ({ id }: { id: string }) => {
 
   useEffect(() => {
     if (state) return;
+
     const arr: any[] = [];
+
     if (timeline) {
       const timelineKeys = Object.keys(timeline).slice(
         Object.keys(timeline).length - 4,

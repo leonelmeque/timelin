@@ -38,6 +38,7 @@ const DateChip = styled(Chip)<{ colour: string }>`
 
 const TodoScreen = () => {
   const navigation = useNavigation();
+
   const { params } = useRoute<RouteProp<AddTodoScreenProps>>();
 
   const [state, setState] = useState<TodoProps>(params.todo);
