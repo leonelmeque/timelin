@@ -8,13 +8,18 @@ export const useFetchTimeline = (id: string) => {
 
   useEffect(() => {
     if (!data) {
-      api.timeline.getTimeline(id).then((result) => {
-        const timeline = normalizeTimeline(result);
-        setTodo(result.todo);
-        setData(timeline);
-      });
+      api.timeline
+        .getTimeline(id)
+        .then((result) => {
+          const timeline = normalizeTimeline(result);
+          setTodo(result.todo);
+          setData(timeline);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     }
-  });
+  }, [id]);
 
   return [data as ReturnType<typeof normalizeTimeline>, todo] as const;
 };
