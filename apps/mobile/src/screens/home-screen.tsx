@@ -1,4 +1,3 @@
-import useFetchTodos from '../hooks/use-fetch-todos';
 import { Spacer, Header, Text, Avatar, Palette, Box } from '@todo/mobile-ui';
 import { TodoListView } from '../components/todo-list-view';
 import { CustomSafeAreaView } from '../components/safe-area-view';
@@ -13,7 +12,7 @@ export default function HomeScreen() {
   const navigation = useNavigation();
   const [modalVisibility, setModalVisibility] = useCustomModal();
   const [shouldRefresh, setShouldRefresh] = useState(false);
-  const todos = useFetchTodos(shouldRefresh);
+  const todos = hooks.useFetchTodos(shouldRefresh);
 
   const renderRigthContent = () => (
     <Pressable
