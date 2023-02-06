@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import { Avatar as Av } from '../../atoms/avatar';
 
 export const Container = styled(Pressable)`
-  padding: ${(props) => props.theme.sizes.extraLarge}px 16px;
+  padding: 4px ${(props) => props.theme.sizes.extraLarge}px 16px 16px;
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
