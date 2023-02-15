@@ -35,7 +35,7 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
     return {
       todo: todoName,
       description: '',
-      status: 'todo',
+      status: 'TODO',
       id,
       //@ts-ignore
       timestamp: Date.now(),
