@@ -5,7 +5,7 @@
       "todo": "Learn react native",
       "description": "Learn react native to get better jobs in the future, this will make me wealthier. I am going to start writing an app to build this feature",
       "timestamp": "1674031253",
-      "status": "ongoing",
+      "status": "ON_HOLD",
       "color": "yellow",
       "assigned": [
         "q3eiq",
@@ -20,7 +20,7 @@
       "todo": "Go to the beach",
       "description": "To have fun with friends and get some exercise and sun",
       "timestamp": "1674031253",
-      "status": "completed",
+      "status": "COMPLETED",
       "color": "pink",
       "startDate": "Wed Feb 01 2023 09:02:25 GMT+0100 (Central European Standard Time)",
       "endDate": "Wed May 31 2023 09:02:00 GMT+0200 (Central European Summer Time)"
@@ -30,7 +30,7 @@
       "todo": "Be proactive",
       "description": "To not wait on a situation to take a particular action",
       "timestamp": "1674031253",
-      "status": "ongoing",
+      "status": "COMPLETED",
       "color": "blue",
       "startDate": "Thu Feb 23 2023 09:13:00 GMT+0100 (Central European Standard Time)",
       "endDate": "Mon Jul 31 2023 09:13:00 GMT+0200 (Central European Summer Time)"
@@ -38,7 +38,7 @@
     {
       "todo": "Finish list Todos",
       "description": "Okay I will finish",
-      "status": "completed",
+      "status": "ON_HOLD",
       "timestamp": "1674031253",
       "id": "kvqev",
       "color": "green",
