@@ -1,7 +1,9 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { api, dateFormatter, hooks, TodoProps } from '@todo/commons';
 import {
+  Badge,
   Box,
+  Button,
   Chip,
   Header,
   Palette,
@@ -25,6 +27,10 @@ import {
 import styled from 'styled-components';
 import { MaterialIcons } from '@expo/vector-icons';
 import { TimelineCompactView } from '../components/timeline-view/compact-view';
+import {
+  UpdateStatusModalRefProps,
+  UpdateStatusModalView,
+} from '../components/update-status-modal-view';
 
 type AddTodoScreenProps = {
   Params: {
@@ -44,6 +50,8 @@ const TodoScreen = () => {
   const [state, setState] = useState<TodoProps>(params.todo);
 
   const calendarRef = useRef<CalendarRefProps>(null);
+
+  const todoStatusRef = useRef<UpdateStatusModalRefProps>(null);
 
   const dateStartLabel = !state.startDate
     ? 'Has not started'
@@ -69,6 +77,10 @@ const TodoScreen = () => {
       .catch((error) => {
         alert(error);
       });
+  };
+
+  const handleUpdateStatus = (value: string) => {
+    onFormChange(value, 'status');
   };
 
   const onPressToggleModalVisibility = (name: string) => {
@@ -111,6 +123,11 @@ const TodoScreen = () => {
         ref={calendarRef}
         onPressCancel={() => calendarRef.current?.toggleModal()}
         onPressSave={onPressSaveDate}
+      />
+      <UpdateStatusModalView
+       onSelect={handleUpdateStatus}
+        ref={todoStatusRef}
+        initialSelection={state.status}
       />
       <Header
         renderLeftContent={() => (
@@ -239,7 +256,30 @@ const TodoScreen = () => {
           </Pressable>
         </Box>
         <Spacer size="8" />
+        <Box
+          style={{
+            flexDirection: 'row',
+            paddingLeft: 56,
+          }}
+        >
+          <Badge type="colored" status={state.status} />
+        </Box>
       </ScrollView>
+      <Box
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+        }}
+      >
+        <Button
+          onPress={() => {
+            todoStatusRef.current?.toggleModalVisibility();
+          }}
+          label="Update Progress"
+          variant="tertiary"
+          size="md"
+        />
+      </Box>
     </CustomSafeAreaView>
   );
 };
