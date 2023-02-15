@@ -15,9 +15,9 @@ const StatusListContainer = styled.View`
 
 export const StatusList: FC<StatusListProps> = ({
   onPress,
-  activeStatus = 'todo',
+  activeStatus = 'TODO',
 }) => {
-  const status = ['todo', 'ongoing', 'on_hold', 'completed'];
+  const status = ['TODO', 'ON_GOING', 'ON_HOLD', 'COMPLETED'];
 
   if (!onPress) {
     throw new Error('onPress prop is undefined, please add a function');
@@ -29,8 +29,8 @@ export const StatusList: FC<StatusListProps> = ({
         <Chip
           isActive={value === activeStatus}
           label={(
-            value.substring(0, 1).toUpperCase() +
-            value.substring(1, value.length)
+            value.substring(0, 1) +
+            value.substring(1, value.length).toLocaleLowerCase()
           ).replace(/_/g, ' ')}
         />
       </Pressable>

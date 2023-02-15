@@ -22,7 +22,7 @@ const BackButton = styled.View`
 
 export const ListTodoScreen: FC = () => {
   const navigation = useNavigation();
-  const [status, setStatus] = useState('ongoing');
+  const [status, setStatus] = useState('ON_GOING');
   const {
     params: { todos },
   } = useRoute<RouteProp<ListTodoScreenProps>>();
