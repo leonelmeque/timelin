@@ -17,6 +17,8 @@
   },
   "scripts": {
     "tsc": "tsc",
-    "start": "ts-node-dev ./src/dev.server.ts"
+    "dev": "ts-node-dev ./src/dev.server.ts",
+    "start": "vercel dev",
+    "deploy": "vercel deploy --prod"
   }
 }
