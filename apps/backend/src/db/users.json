@@ -1,0 +1,40 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "todobot",
+      "firstname": "",
+      "lastname": "",
+      "birthdate": "",
+      "avatar": "",
+      "todos": []
+    },
+    {
+      "id": "2",
+      "username": "mequedev",
+      "firstname": "Leonel",
+      "lastname": "Meque",
+      "birthdate": "11/03/1994",
+      "avatar": "https://pbs.twimg.com/profile_images/1599059835638661122/Umkx6vxY_400x400.jpg",
+      "todos": []
+    },
+    {
+      "id": "3",
+      "username": "edvigesegnes",
+      "firstname": "Edviges",
+      "lastname": "Meque",
+      "birthdate": "26/02/1995",
+      "avatar": "https://pbs.twimg.com/profile_images/1599059835638661122/Umkx6vxY_400x400.jpg",
+      "todos": []
+    },
+    {
+      "id": "4",
+      "username": "stormi",
+      "firstname": "Stormi",
+      "lastname": "Meque",
+      "birthdate": "11/03/2028",
+      "avatar": "https://pbs.twimg.com/profile_images/1599059835638661122/Umkx6vxY_400x400.jpg",
+      "todos": []
+    }
+  ]
+}
