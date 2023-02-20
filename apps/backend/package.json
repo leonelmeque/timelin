@@ -16,7 +16,11 @@
     "typescript": "^4.9.5"
   },
   "scripts": {
-    "tsc": "tsc",
-    "start": "ts-node-dev ./src/dev.server.ts"
+    "build": "tsc",
+    "dev": "ts-node-dev ./src/dev.server.ts",
+    "start": "node ./dist/dev.server.js"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }
