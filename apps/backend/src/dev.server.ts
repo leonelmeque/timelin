@@ -8,7 +8,7 @@ const app = express();
 
 app.use(express.json());
 
-const PORT = 3002;
+const PORT = 5000;
 
 app.use(logger);
 app.use('/api/todos', todosRouter);
@@ -17,3 +17,5 @@ app.use('/api/timeline', timelineRouter);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+export default app;
