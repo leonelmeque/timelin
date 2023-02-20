@@ -8,7 +8,7 @@ const app = express();
 
 app.use(express.json());
 
-const PORT = 5000;
+const PORT = 3002;
 
 app.use(logger);
 app.use('/api/todos', todosRouter);
