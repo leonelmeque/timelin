@@ -18,4 +18,5 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-export { app };
+export default app;
+
