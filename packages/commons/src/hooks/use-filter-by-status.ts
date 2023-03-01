@@ -5,7 +5,7 @@ export const useFilterByStatus = (status: string, data: any[]) => {
 
   const setFilterStatus = () => {
     if (!data) return;
-    console.log({ data });
+
     const filteredItems = data.filter((item: any) => item.status === status);
     setFilteredData(filteredItems || []);
   };
