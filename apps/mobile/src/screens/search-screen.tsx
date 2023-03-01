@@ -14,7 +14,7 @@ const BackButton = styled.View`
 `;
 
 export const SearchScreen: FC = () => {
-  const todos = hooks.useFetchTodos(false);
+  const todos = hooks.useFetchTodos(["qweiq", "9tbz7"]);
   const navigation = useNavigation();
 
   return (
