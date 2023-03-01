@@ -12,7 +12,7 @@ export default function HomeScreen() {
   const navigation = useNavigation();
   const [modalVisibility, setModalVisibility] = useCustomModal();
   const [shouldRefresh, setShouldRefresh] = useState(false);
-  const todos = hooks.useFetchTodos(shouldRefresh);
+  const todos = hooks.useFetchTodos(["qweiq", "9tbz7"]);
 
   const renderRigthContent = () => (
     <Pressable
