@@ -20,5 +20,7 @@ export * from './shared-types';
 export { dateFormatter } from './utils/date-formatter';
 export { distanceBetweenDates } from './utils/distance-between-dates';
 export { normalizeTimeline } from './utils/normalize-timeline';
+export * as formValidators from './utils/form-validation';
+
 //api
 export { api } from './api';
