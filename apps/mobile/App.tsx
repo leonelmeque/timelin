@@ -4,6 +4,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { hooks, theme } from '@todo/commons';
 import { Tabs } from './src/routes/tab-routes';
 import { CustomModalProvider } from './src/context';
+import AuthStack from './src/routes/auth.routes';
 
 export default function App() {
   const [activeTheme] = hooks.useThemeSwitcher();
@@ -14,7 +15,7 @@ export default function App() {
       <CustomModalProvider>
         <SafeAreaProvider>
           <NavigationContainer>
-            <Tabs />
+            <AuthStack />
           </NavigationContainer>
         </SafeAreaProvider>
       </CustomModalProvider>
