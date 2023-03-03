@@ -1,7 +1,5 @@
 import { TodoProps } from '../shared-types';
-
-const API_URL = import.meta.env.VITE_TODO_API;
-const todosURL = `${API_URL}/todos`;
+import { TODO_URL } from '../utils/constants';
 
 const headers = {
   'Content-Type': 'application/json',
@@ -20,14 +18,14 @@ export const updateTodo = async (
     signal,
   }
 
-  const resp = await fetch(`${todosURL}/${id}`, options);
+  const resp = await fetch(`${TODO_URL}/${id}`, options);
   const data = await resp.json();
 
   return data;
 };
 
 export const deleteTodo = async (id: string) => {
-  const resp = await fetch(`${todosURL}/${id}`, {
+  const resp = await fetch(`${TODO_URL}/${id}`, {
     method: 'DELETE',
     headers,
   });
@@ -41,7 +39,7 @@ export const getTodos = async (ids: string[]) => {
     ids: ids.toString(),
   }).toString();
 
-  const resp = await fetch(`${todosURL}/all?${params}`);
+  const resp = await fetch(`${TODO_URL}/all?${params}`);
   const data = await resp.json();
 
   return data;
