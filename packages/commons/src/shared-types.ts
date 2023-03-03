@@ -30,3 +30,19 @@ export type UserProps = {
   username: string;
   avatar: string;
 };
+
+interface Person {
+  firstname: string;
+  lastname: string;
+  birthdate: string;
+}
+
+export interface User<P = {}> extends Person {
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+  avatar: string;
+  preferences?: P;
+  todos: string[];
+}
