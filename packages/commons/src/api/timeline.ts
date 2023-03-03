@@ -1,27 +1,25 @@
-const API_URL = import.meta.env.VITE_TODO_API;
-
-const timelineURL = `${API_URL}/timeline`;
+import { TIMELINE_URL } from "../utils/constants";
 
 const headers = {
   'Content-Type': 'application/json',
 };
 
 export const getTimeline = async (id: string) => {
-  const resp = await fetch(`${timelineURL}/find/${id}`, { headers });
+  const resp = await fetch(`${TIMELINE_URL}/find/${id}`, { headers });
   const data = await resp.json();
 
   return data;
 };
 
 export const getTimelineEvent = async (id: string) => {
-  const resp = await fetch(`${timelineURL}/find/${id}/events`, { headers });
+  const resp = await fetch(`${TIMELINE_URL}/find/${id}/events`, { headers });
   const data = await resp.json();
 
   return data;
 }
 
 export const addTimelineEvent = async (id: string, payload: any) => {
-  const resp = await fetch(`${timelineURL}/save/${id}/events`, {
+  const resp = await fetch(`${TIMELINE_URL}/save/${id}/events`, {
     method: 'POST',
     body: JSON.stringify(payload),
     headers,
