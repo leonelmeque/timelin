@@ -5,14 +5,16 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Keyboard, Pressable } from 'react-native';
 import { hooks, tokens } from '@todo/commons';
 import { AddTodoModalView } from '../components/add-todo-modal-view';
-import { useCustomModal } from '../context';
+import { useCustomModal, useUserContext } from '../context';
 import { useCallback, useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
+
 export default function HomeScreen() {
   const navigation = useNavigation();
   const [modalVisibility, setModalVisibility] = useCustomModal();
-  const [shouldRefresh, setShouldRefresh] = useState(false);
-  const todos = hooks.useFetchTodos(["qweiq", "9tbz7"]);
+  const [user] = useUserContext();
+  // const [shouldRefresh, setShouldRefresh] = useState(false);
+  const todos = hooks.useFetchTodos(user?.todos as string[]);
 
   const renderRigthContent = () => (
     <Pressable
@@ -42,14 +44,14 @@ export default function HomeScreen() {
     setModalVisibility(!modalVisibility);
   };
 
-  useFocusEffect(
-    useCallback(() => {
-      setShouldRefresh(true);
-      return () => {
-        setShouldRefresh(false);
-      };
-    }, [])
-  );
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     setShouldRefresh(true);
+  //     return () => {
+  //       setShouldRefresh(false);
+  //     };
+  //   }, [])
+  // );
 
   return (
     <CustomSafeAreaView
