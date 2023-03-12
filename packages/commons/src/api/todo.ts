@@ -18,14 +18,14 @@ export const updateTodo = async (
     signal,
   }
 
-  const resp = await fetch(`${TODO_URL}/${id}`, options);
+  const resp = await fetch(`${TODO_URL}/update/${id}`, options);
   const data = await resp.json();
 
   return data;
 };
 
 export const deleteTodo = async (id: string) => {
-  const resp = await fetch(`${TODO_URL}/${id}`, {
+  const resp = await fetch(`${TODO_URL}/remove/${id}`, {
     method: 'DELETE',
     headers,
   });
