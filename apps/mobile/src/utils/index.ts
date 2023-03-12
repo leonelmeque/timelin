@@ -1,0 +1,1 @@
+export { cachedAssetAsync } from "./cachedAssetAsync"
