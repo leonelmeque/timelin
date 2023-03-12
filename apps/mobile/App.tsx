@@ -9,11 +9,14 @@ import {
   useUserContext,
 } from './src/context';
 import AuthStack from './src/routes/auth.routes';
-import { useGetSessionStorage } from './src/hooks/useGetSessionToken';
 import { FC } from 'react';
+import './src/utils/firebase';
+import { useInitApplication } from './src/hooks/useInitApplication';
+import * as SplashScreen from 'expo-splash-screen';
+
+SplashScreen.preventAutoHideAsync();
 
 const IsUserAuthenticated: FC<any> = () => {
-  useGetSessionStorage();
   const [user] = useUserContext();
 
   return user ? <Tabs /> : <AuthStack />;
@@ -22,16 +25,22 @@ const IsUserAuthenticated: FC<any> = () => {
 export default function App() {
   const [activeTheme] = hooks.useThemeSwitcher();
 
+  const { appIsReady, onLayoutRootView } = useInitApplication();
+
+  if (!appIsReady) {
+    return null;
+  }
+
   return (
     <ThemeProvider theme={theme[activeTheme]}>
       <AuthenticatedUserProvider>
-        <CustomModalProvider>
-          <SafeAreaProvider>
+        <SafeAreaProvider onLayout={onLayoutRootView}>
+          <CustomModalProvider>
             <NavigationContainer>
               <IsUserAuthenticated />
             </NavigationContainer>
-          </SafeAreaProvider>
-        </CustomModalProvider>
+          </CustomModalProvider>
+        </SafeAreaProvider>
       </AuthenticatedUserProvider>
     </ThemeProvider>
   );

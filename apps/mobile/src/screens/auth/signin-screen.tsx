@@ -6,6 +6,8 @@ import styled from 'styled-components/native';
 import { CustomSafeAreaView } from '../../components/safe-area-view';
 import { SignInFormView } from '../../components/signin-form-view';
 import { useUserContext } from '../../context';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../utils/firebase';
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
@@ -26,7 +28,7 @@ const bg = require('../../../assets/bg-login.jpg');
 
 export const SigninScreen = () => {
   const navigation = useNavigation();
-  const [user, dispatch] = useUserContext();
+  const [_, dispatch] = useUserContext();
 
   const handleSignIn = async ({
     username,
@@ -36,17 +38,26 @@ export const SigninScreen = () => {
     password?: string;
   }) => {
     try {
-      const result = await api.users.userSignIn({ username, password });
+      const result = await signInWithEmailAndPassword(
+        auth,
+        username as string,
+        password as string
+      );
 
-      if (result) {
-        dispatch(result.result);
-        await AsyncStorage.setItem('sessionToken', result.result.username);
+      const userData = await api.users.getUserInformation(result.user.uid);
+      console.log(userData)
+      const token = await api.users.createCustomToken(result.user.uid);
+
+
+
+      if (userData.result && token.result.customToken) {
+        await AsyncStorage.setItem('sessionToken', token.result.customToken);
+        dispatch(userData.result);
       } else {
-        console.log('Login failed');
+        alert('Unable to login. Please try again.');
       }
     } catch (error) {
-      console.log(error);
-      console.log('Login failed');
+      console.error(error);
     }
   };
 
