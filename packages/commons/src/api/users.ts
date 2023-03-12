@@ -5,15 +5,37 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-// export const getUser = async (id: string) => {
-//   const resp = await fetch(`${USERS_URL}/${id}`, { headers });
-//   const data = await resp.json();
+export const getUserInformation = async (id: string) => {
+  const resp = await fetch(`${USERS_URL}/find/${id}`, { headers });
+  const data = await resp.json();
 
-//   return data;
-// }
+  return data;
+};
+
+export const createCustomToken = async (id: string) => {
+  const resp = await fetch(`${USERS_URL}/custom-token`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ id }),
+  });
+  const data = await resp.json();
+
+  return data;
+};
+
+export const revokeCustomToken = async (id: string) => {
+  const resp = await fetch(`${USERS_URL}/revoke-custom-token/${id}`, {
+    method: 'DELETE',
+    headers,
+  });
+
+  const data = await resp.json();
+
+  return data;
+};
 
 export const createUser = async (
-  payload: Pick<User, 'email' | 'username' | 'password'>
+  payload: Pick<User, 'email' | 'username' | 'id'>
 ) => {
   const resp = await fetch(`${USERS_URL}/create`, {
     method: 'POST',
@@ -32,7 +54,7 @@ type UserLogin = Pick<User, 'username' | 'password'>;
 export const userSignIn = async ({
   username,
   password,
-}: Partial<UserLogin>): Promise<{ message: string, user: User }> => {
+}: Partial<UserLogin>): Promise<{ message: string; user: User }> => {
   const resp = await fetch(`${USERS_URL}/auth`, {
     method: 'POST',
     body: JSON.stringify({
