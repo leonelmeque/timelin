@@ -6,6 +6,7 @@ import { TouchableWithoutFeedback } from 'react-native';
 interface SignInFormViewProps {
   onSignin: ({ username, password }: LoginProps) => void;
   goToSignup: () => void;
+  isLoggingIn?: boolean;
 }
 
 type LoginProps = {
@@ -16,6 +17,7 @@ type LoginProps = {
 export const SignInFormView: FC<SignInFormViewProps> = ({
   goToSignup,
   onSignin,
+  isLoggingIn,
 }) => {
   const [state, setState] = useState<LoginProps>({
     username: '',
@@ -54,7 +56,8 @@ export const SignInFormView: FC<SignInFormViewProps> = ({
         <Button
           label="Login"
           size="lg"
-          variant="primary"
+          variant={isLoggingIn ? 'disabled' : 'primary'}
+          disabled={isLoggingIn}
           onPress={() =>
             onSignin({ username: state.username, password: state.password })
           }

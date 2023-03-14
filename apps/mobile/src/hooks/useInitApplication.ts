@@ -33,15 +33,17 @@ export const useInitApplication = () => {
   const signInWithSessionToken = useCallback(async () => {
     try {
       const token = await getSessionToken();
-
+    
       if (token) {
         const userRecord = await signInWithCustomToken(auth, token);
-        const result = await api.users.getUserInformation(userRecord.user.uid);
+        const { _message, result } = await api.users.getUserInformation(
+          userRecord.user.uid
+        );
 
-        dispatch(result.result);
+        dispatch(result);
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }, [appIsReady]);
 
