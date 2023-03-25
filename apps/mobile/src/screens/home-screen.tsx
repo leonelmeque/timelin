@@ -3,11 +3,14 @@ import { TodoListView } from '../components/todo-list-view';
 import { CustomSafeAreaView } from '../components/safe-area-view';
 import { useNavigation } from '@react-navigation/native';
 import { Keyboard, Pressable } from 'react-native';
-import { hooks, tokens } from '@todo/commons';
+import { tokens } from '@todo/commons';
 import { AddTodoModalView } from '../components/add-todo-modal-view';
 import { useCustomModal, useUserContext } from '../context';
 import { MaterialIcons } from '@expo/vector-icons';
 import styled from 'styled-components/native';
+import { useFetchTodos } from '@todo/recoil-store';
+import { Suspense } from 'react';
+import { ProjectList } from '../components/project-list';
 
 const SafeArea = styled(CustomSafeAreaView)`
   flex: 1;
@@ -17,28 +20,21 @@ const SafeArea = styled(CustomSafeAreaView)`
 const SectionHeader = styled(Box)`
   flex-direction: row;
   justify-content: space-between;
-  padding: 0px;
 `;
 
 const SectionContent = styled.View`
-  padding: 0px;
+  flex: 1;
 `;
 
 const Section = styled(Box)`
   flex: 1;
+  padding: 0px;
 `;
 
+
 export default function HomeScreen() {
-  const [user] = useUserContext();
   const navigation = useNavigation();
   const [modalVisibility, setModalVisibility] = useCustomModal();
-  const { todos, isLoading } = hooks.useFetchTodos(
-    (user?.todos as string[]) || []
-  );
-
-  const nagivateToTodoList = () =>
-    //@ts-ignore
-    navigation.navigate<string>('Todo/ListTodo', { todos });
 
   const onModalDismiss = () => {
     Keyboard.dismiss();
@@ -47,8 +43,10 @@ export default function HomeScreen() {
 
   const renderRigthContent = () => (
     <Pressable
-      //@ts-ignore
-      onPress={() => navigation.navigate<string>('Todo/Search', { todos })}
+      onPress={() => {
+        //@ts-ignore
+        navigation.navigate<string>('Todo/Search');
+      }}
     >
       <MaterialIcons name="search" size={24} />
     </Pressable>
@@ -64,88 +62,62 @@ export default function HomeScreen() {
     />
   );
 
-  if (isLoading === 'FETCHING')
-    return (
-      <SafeArea>
-        <Box
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Text size="heading">Loading data</Text>
-        </Box>
-      </SafeArea>
-    );
+  const suspenseFallback = () => (
+    <Box
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <Text size="heading">Loading data</Text>
+    </Box>
+  );
+
 
   return (
     <SafeArea>
-      <AddTodoModalView
-        key={todos?.length}
-        visibility={modalVisibility}
-        onModalDismiss={onModalDismiss}
-      />
-      <Header
-        renderLeftContent={renderLeftContent}
-        renderRigthContent={renderRigthContent}
-      />
-      <Spacer size="8" />
-
-      <Section accessibilityLabel="Projects">
-        <SectionHeader>
-          <Text size="body" weight="medium">
-            Projects
-          </Text>
-          <Pressable onPress={nagivateToTodoList}>
-            <Text size="small" weight="medium" colour={Palette.primary.P300}>
-              More
+      <Suspense fallback={suspenseFallback()}>
+        <AddTodoModalView
+          visibility={modalVisibility}
+          onModalDismiss={onModalDismiss}
+        />
+        <Header
+          renderLeftContent={renderLeftContent}
+          renderRigthContent={renderRigthContent}
+        />
+        <Spacer size="8" />
+        <ProjectList />
+        <Spacer size="4" />
+        <Section accessibilityLabel="Pinned">
+          <SectionHeader>
+            <Text size="body" weight="medium">
+              Pinned
             </Text>
-          </Pressable>
-        </SectionHeader>
-        <Spacer size="4" />
-        <SectionContent>
-          <>
-            {!!todos && (
-              <Text size="small">Looks like you don't have any projects</Text>
-            )}
-            {todos && <TodoListView horizontal data={todos} />}
-          </>
-        </SectionContent>
-      </Section>
-      <Spacer size="4" />
-      <Section accessibilityLabel="Pinned">
-        <SectionHeader>
-          <Text size="body" weight="medium">
-            Pinned
-          </Text>
-        </SectionHeader>
-        <Spacer size="4" />
-        <SectionContent>
-          <>
-            {!!todos && (
+          </SectionHeader>
+          <Spacer size="4" />
+          <SectionContent>
+            <Box>
               <Text size="small">You can pin projects for easy access</Text>
-            )}
-          </>
-        </SectionContent>
-      </Section>
-      <Spacer size="4" />
-      <Section accessibilityLabel="Latest">
-        <SectionHeader>
-          <Text size="body" weight="medium">
-            Latest
-          </Text>
-        </SectionHeader>
+            </Box>
+          </SectionContent>
+        </Section>
         <Spacer size="4" />
-        <SectionContent>
-          <>
-            {!!todos && (
+        <Section accessibilityLabel="Latest">
+          <SectionHeader>
+            <Text size="body" weight="medium">
+              Latest
+            </Text>
+          </SectionHeader>
+          <Spacer size="4" />
+          <SectionContent>
+            <Box>
               <Text size="small">There are no recent projects created</Text>
-            )}
-          </>
-        </SectionContent>
-      </Section>
-      <Spacer size="4" />
+            </Box>
+          </SectionContent>
+        </Section>
+        <Spacer size="4" />
+      </Suspense>
     </SafeArea>
   );
 }
