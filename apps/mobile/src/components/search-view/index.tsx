@@ -1,12 +1,12 @@
-import { hooks, TodoProps } from '@todo/commons';
 import { Box, Input, Palette, Spacer, Text } from '@todo/mobile-ui';
+import { useSearchTodos } from '@todo/recoil-store';
 import { Pressable } from 'react-native';
 import { TodoListView } from '../todo-list-view';
 import { SearchViewDefault, SearchViewResultsView } from './styles';
 
-export const SearchView = ({ data }: { data: TodoProps[] | null }) => {
-  const { onSearch, query, onClearSearch, searchResults } =
-    hooks.useSearchTodos(data);
+export const SearchView = () => {
+  const { onSearch, query, onClearSearch, searchResults, numberOfResults } =
+    useSearchTodos();
   return (
     <>
       <Box>
@@ -34,11 +34,11 @@ export const SearchView = ({ data }: { data: TodoProps[] | null }) => {
             }}
           >
             <Text size="body" weight="medium" colour={Palette.greys.G100}>
-              {searchResults?.length === 0 && query && (
-                <>Found {searchResults?.length} results</>
+              {!numberOfResults && query && (
+                <>Found {numberOfResults} results</>
               )}
-              {searchResults?.length !== 0 && query && (
-                <>Showing {searchResults?.length} results</>
+              {numberOfResults && query && (
+                <>Showing {numberOfResults} results</>
               )}
             </Text>
             <Pressable onPress={onClearSearch}>
@@ -50,7 +50,7 @@ export const SearchView = ({ data }: { data: TodoProps[] | null }) => {
           <Spacer size="8" />
         </>
       )}
-      <TodoListView showDescription showStatus data={searchResults || []} />
+      <TodoListView showDescription showStatus data={searchResults} />
     </>
   );
 };
