@@ -1,5 +1,4 @@
 import { CustomSafeAreaView } from '../components/safe-area-view';
-import { hooks } from '@todo/commons';
 import { Header, Spacer, Text } from '@todo/mobile-ui';
 import { FC } from 'react';
 import { useNavigation } from '@react-navigation/native';
@@ -14,9 +13,7 @@ const BackButton = styled.View`
 `;
 
 export const SearchScreen: FC = () => {
-  const todos = hooks.useFetchTodos(["qweiq", "9tbz7"]);
   const navigation = useNavigation();
-
   return (
     <CustomSafeAreaView>
       <Header
@@ -32,7 +29,7 @@ export const SearchScreen: FC = () => {
         renderRigthContent={() => <Text size="body">Search</Text>}
       />
       <Spacer size="8" />
-      <SearchView data={todos} />
+      <SearchView />
     </CustomSafeAreaView>
   );
 };
