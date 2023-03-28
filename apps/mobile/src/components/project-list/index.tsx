@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { Palette, Spacer, Box, Text } from '@todo/mobile-ui';
-import { useFetchTodos } from '@todo/recoil-store';
+import { useFetchTodos } from '@todo/store';
 import { Pressable } from 'react-native';
 import { useUserContext } from '../../context';
 import { TodoListView } from '../todo-list-view';
@@ -9,14 +9,14 @@ import { Section, SectionHeader, SectionContent } from './style';
 export const ProjectList = () => {
   const [user] = useUserContext();
   const navigation = useNavigation();
-  const [{ contents: todos, state }] = useFetchTodos(user?.todos as string[]);
+  const [todos] = useFetchTodos(user?.todos as string[]);
 
   const nagivateToTodoList = () => {
     //@ts-ignore
     navigation.navigate<string>('Todo/ListTodo');
   };
 
-  if (state === 'loading') return <Text size="body">Loading Projects</Text>;
+  if (!todos) return <Text size="body">Loading Projects</Text>;
 
   return (
     <Section accessibilityLabel="Projects">

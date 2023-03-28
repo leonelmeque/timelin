@@ -14,6 +14,7 @@ const BackButton = styled.View`
 
 export const SearchScreen: FC = () => {
   const navigation = useNavigation();
+
   return (
     <CustomSafeAreaView>
       <Header
