@@ -7,8 +7,8 @@ import { StatusList } from '../components/status-list';
 import { TodoListView } from '../components/todo-list-view';
 import styled from 'styled-components/native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { filterTodosByStatus, todoFilterState } from '@todo/recoil-store';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { TodoProps } from '@todo/commons';
+import { useFilterTodosStatus } from '@todo/store';
 
 const BackButton = styled.View`
   align-items: center;
@@ -17,8 +17,7 @@ const BackButton = styled.View`
 
 export const ListTodoScreen: FC = () => {
   const navigation = useNavigation();
-  const [status, setStatus] = useRecoilState(todoFilterState);
-  const filteredData = useRecoilValue(filterTodosByStatus);
+  const { filteredData, status, setStatus } = useFilterTodosStatus();
 
   return (
     <CustomSafeAreaView>
@@ -47,7 +46,11 @@ export const ListTodoScreen: FC = () => {
         />
       </Box>
 
-      <TodoListView showDescription showStatus data={filteredData} />
+      <TodoListView
+        showDescription
+        showStatus
+        data={filteredData as TodoProps[]}
+      />
     </CustomSafeAreaView>
   );
 };
