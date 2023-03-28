@@ -1,7 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
-import { TodoProps } from '@todo/commons';
+import { api, TodoProps } from '@todo/commons';
 import { Box, Button, Palette, PlainTextInput, Spacer } from '@todo/mobile-ui';
-import { FC, useState } from 'react';
+import { useUpdateTodos } from '@todo/store';
+import { readWriteTodosAtom } from '@todo/store';
+import { useSetAtom } from 'jotai';
+import { FC, useRef, useState } from 'react';
 import {
   Modal,
   TouchableWithoutFeedback,
@@ -9,8 +12,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { todosAPI } from '../../utils/backend';
-import { generateId } from '../../utils/uiUtils';
+import { useUserContext } from '../../context';
 import { CustomSafeAreaView } from '../safe-area-view';
 
 type AddTodoModalViewProps = {
@@ -23,73 +25,61 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
   onModalDismiss,
 }) => {
   const [todoName, setTodoName] = useState('');
+  const withDescriptionRef = useRef(false);
+  const [user] = useUserContext();
   const navigation = useNavigation();
+  const { handleAddTodoAtom } = useUpdateTodos();
 
   const onChangeText = (value: string) => {
     setTodoName(value);
   };
 
-  const prepareData = (): TodoProps => {
+  const prepareData = (name: string, creator: string): TodoProps => {
     const randomPalette = parseInt((Math.random() * 5).toFixed(0));
-    const id = generateId();
+
     return {
-      todo: todoName,
+      todo: name,
       description: '',
       status: 'TODO',
-      id,
       //@ts-ignore
       timestamp: Date.now(),
       color: Object.keys(Palette.todoPalette).map((key) => key)[randomPalette],
-      assigned: [],
+      participants: [],
+      endDate: '',
+      startDate: '',
+
+      creator: creator,
     };
   };
 
-  const onPressAddDescription = (e: any) => {
-    const todo = prepareData();
+  const onPressSave = async (e: any) => {
+    const todo = prepareData(todoName, user?.id as string);
+    try {
+      const data = await api.todo.createTodo(todo);
+      await api.users.updateTodoList(user?.id as string, [
+        ...(user?.todos as string[]),
+        data.result.id,
+      ]);
 
-    todosAPI
-      .postTodos(todo)
-      .then(() => {
-        onChangeText('');
-        onModalDismiss(e);
-        setTimeout(() => {
-          /**
-           * TODO: fix this TS error
-           */
-          //@ts-ignore
-          navigation.navigate<string>('Todo/Add', {
-            todo,
-            autofocusDescription: true,
-          });
-        }, 1000);
-      })
-      .catch(() => {
-        //Notification Error
-      });
-  };
+      handleAddTodoAtom(data.result);
 
-  const onPressSave = (e: any) => {
-    const todo = prepareData();
-
-    todosAPI
-      .postTodos(todo)
-      .then(() => {
-        onModalDismiss(e);
-        onChangeText('');
-        setTimeout(() => {
-          /**
-           * TODO: fix this TS error
-           */
-          //@ts-ignore
-          navigation.navigate<string>('Todo/Add', {
-            todo,
-            autofocusDescription: false,
-          });
-        }, 1000);
-      })
-      .catch(() => {
-        //Notification with error
-      });
+      onModalDismiss(e);
+      onChangeText('');
+      setTimeout(() => {
+        /**
+         * TODO: fix this TS error
+         *
+         */
+        //  @ts-ignore
+        navigation.navigate('Todo/Add', {
+          todo: data.result,
+          autofocusDescription: withDescriptionRef.current,
+        });
+      }, 1000);
+    } catch (error) {
+      // Notification Error
+      console.error(error);
+    }
   };
 
   return (
@@ -138,12 +128,15 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
                 justifyContent: 'flex-end',
               }}
             >
-              {todoName && (
+              {!!todoName && (
                 <Button
                   label="Add description"
                   size="md"
                   variant="tertiary"
-                  onPress={onPressAddDescription}
+                  onPress={(e) => {
+                    withDescriptionRef.current = true;
+                    onPressSave(e);
+                  }}
                 />
               )}
               <Button
