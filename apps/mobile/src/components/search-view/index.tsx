@@ -1,5 +1,5 @@
 import { Box, Input, Palette, Spacer, Text } from '@todo/mobile-ui';
-import { useSearchTodos } from '@todo/recoil-store';
+import { useSearchTodos } from '@todo/store';
 import { Pressable } from 'react-native';
 import { TodoListView } from '../todo-list-view';
 import { SearchViewDefault, SearchViewResultsView } from './styles';
@@ -7,6 +7,7 @@ import { SearchViewDefault, SearchViewResultsView } from './styles';
 export const SearchView = () => {
   const { onSearch, query, onClearSearch, searchResults, numberOfResults } =
     useSearchTodos();
+
   return (
     <>
       <Box>
