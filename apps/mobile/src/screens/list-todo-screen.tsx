@@ -1,19 +1,14 @@
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import { hooks, TodoProps } from '@todo/commons';
+import { useNavigation } from '@react-navigation/native';
 import { Box, Header, Spacer, Text } from '@todo/mobile-ui';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { Pressable } from 'react-native';
 import { CustomSafeAreaView } from '../components/safe-area-view';
 import { StatusList } from '../components/status-list';
 import { TodoListView } from '../components/todo-list-view';
 import styled from 'styled-components/native';
 import { MaterialIcons } from '@expo/vector-icons';
-
-type ListTodoScreenProps = {
-  Params: {
-    todos: TodoProps[] | null;
-  };
-};
+import { TodoProps } from '@todo/commons';
+import { useFilterTodosStatus } from '@todo/store';
 
 const BackButton = styled.View`
   align-items: center;
@@ -22,12 +17,7 @@ const BackButton = styled.View`
 
 export const ListTodoScreen: FC = () => {
   const navigation = useNavigation();
-  const [status, setStatus] = useState('ON_GOING');
-  const {
-    params: { todos },
-  } = useRoute<RouteProp<ListTodoScreenProps>>();
-
-  const filteredData = hooks.useFilterByStatus(status, todos || []);
+  const { filteredData, status, setStatus } = useFilterTodosStatus();
 
   return (
     <CustomSafeAreaView>
@@ -49,14 +39,18 @@ export const ListTodoScreen: FC = () => {
       />
       <Box>
         <StatusList
-          activeStatus={status}
+          activeStatus={status as string}
           onPress={(e, name) => {
             setStatus(name);
           }}
         />
       </Box>
 
-      <TodoListView showDescription showStatus data={filteredData} />
+      <TodoListView
+        showDescription
+        showStatus
+        data={filteredData as TodoProps[]}
+      />
     </CustomSafeAreaView>
   );
 };

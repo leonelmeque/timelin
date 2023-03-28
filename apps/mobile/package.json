@@ -1,7 +1,7 @@
 {
   "name": "@todo/mobile",
   "version": "1.0.0",
-  "main": "index.ts",
+  "main": "index.tsx",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -22,6 +22,7 @@
     "@testing-library/react-native": "11.0.0",
     "@todo/commons": "*",
     "@todo/mobile-ui": "*",
+    "@todo/store": "*",
     "add": "^2.0.6",
     "dotenv": "^16.0.3",
     "expo": "^47.0.0",
@@ -29,6 +30,8 @@
     "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
     "firebase": "^9.17.2",
+    "jotai": "^2.0.3",
+    "jotai-devtools": "^0.3.1",
     "react": "~18.1.0",
     "react-dom": "~18.1.0",
     "react-native": "0.70.5",
