@@ -8,7 +8,6 @@ import { AddTodoModalView } from '../components/add-todo-modal-view';
 import { useCustomModal, useUserContext } from '../context';
 import { MaterialIcons } from '@expo/vector-icons';
 import styled from 'styled-components/native';
-import { useFetchTodos } from '@todo/recoil-store';
 import { Suspense } from 'react';
 import { ProjectList } from '../components/project-list';
 
