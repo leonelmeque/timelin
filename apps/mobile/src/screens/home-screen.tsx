@@ -1,25 +1,51 @@
 import { Spacer, Header, Text, Avatar, Palette, Box } from '@todo/mobile-ui';
 import { TodoListView } from '../components/todo-list-view';
 import { CustomSafeAreaView } from '../components/safe-area-view';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { Keyboard, Pressable } from 'react-native';
-import { hooks, tokens } from '@todo/commons';
+import { tokens } from '@todo/commons';
 import { AddTodoModalView } from '../components/add-todo-modal-view';
 import { useCustomModal, useUserContext } from '../context';
-import { useCallback, useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
+import styled from 'styled-components/native';
+import { Suspense } from 'react';
+import { ProjectList } from '../components/project-list';
+
+const SafeArea = styled(CustomSafeAreaView)`
+  flex: 1;
+  background-color: #fff;
+`;
+
+const SectionHeader = styled(Box)`
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const SectionContent = styled.View`
+  flex: 1;
+`;
+
+const Section = styled(Box)`
+  flex: 1;
+  padding: 0px;
+`;
+
 
 export default function HomeScreen() {
   const navigation = useNavigation();
   const [modalVisibility, setModalVisibility] = useCustomModal();
-  const [user] = useUserContext();
-  // const [shouldRefresh, setShouldRefresh] = useState(false);
-  const todos = hooks.useFetchTodos(user?.todos as string[]);
+
+  const onModalDismiss = () => {
+    Keyboard.dismiss();
+    setModalVisibility(!modalVisibility);
+  };
 
   const renderRigthContent = () => (
     <Pressable
-      //@ts-ignore
-      onPress={() => navigation.navigate<string>('Todo/Search', { todos })}
+      onPress={() => {
+        //@ts-ignore
+        navigation.navigate<string>('Todo/Search');
+      }}
     >
       <MaterialIcons name="search" size={24} />
     </Pressable>
@@ -35,71 +61,63 @@ export default function HomeScreen() {
     />
   );
 
-  const nagivateToTodoList = () =>
-    //@ts-ignore
-    navigation.navigate<string>('Todo/ListTodo', { todos });
-
-  const onModalDismiss = () => {
-    Keyboard.dismiss();
-    setModalVisibility(!modalVisibility);
-  };
-
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     setShouldRefresh(true);
-  //     return () => {
-  //       setShouldRefresh(false);
-  //     };
-  //   }, [])
-  // );
-
-  return (
-    <CustomSafeAreaView
+  const suspenseFallback = () => (
+    <Box
       style={{
         flex: 1,
-        backgroundColor: '#FFF',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
     >
-      <AddTodoModalView
-        key={todos?.length}
-        visibility={modalVisibility}
-        onModalDismiss={onModalDismiss}
-      />
-      <Header
-        renderLeftContent={renderLeftContent}
-        renderRigthContent={renderRigthContent}
-      />
-      <Spacer size="8" />
-      <Box
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <Text size="body" weight="medium">
-          Projects
-        </Text>
-        <Pressable onPress={nagivateToTodoList}>
-          <Text size="small" weight="medium" colour={Palette.primary.P300}>
-            More
-          </Text>
-        </Pressable>
-      </Box>
-      <Spacer size="4" />
-      {!todos && (
-        <Box
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Text size="body">Looks like you don't have any projects</Text>
-        </Box>
-      )}
-      {todos && <TodoListView horizontal data={todos} />}
-    </CustomSafeAreaView>
+      <Text size="heading">Loading data</Text>
+    </Box>
+  );
+
+
+  return (
+    <SafeArea>
+      <Suspense fallback={suspenseFallback()}>
+        <AddTodoModalView
+          visibility={modalVisibility}
+          onModalDismiss={onModalDismiss}
+        />
+        <Header
+          renderLeftContent={renderLeftContent}
+          renderRigthContent={renderRigthContent}
+        />
+        <Spacer size="8" />
+        <ProjectList />
+        <Spacer size="4" />
+        <Section accessibilityLabel="Pinned">
+          <SectionHeader>
+            <Text size="body" weight="medium">
+              Pinned
+            </Text>
+          </SectionHeader>
+          <Spacer size="4" />
+          <SectionContent>
+            <Box>
+              <Text size="small">You can pin projects for easy access</Text>
+            </Box>
+          </SectionContent>
+        </Section>
+        <Spacer size="4" />
+        <Section accessibilityLabel="Latest">
+          <SectionHeader>
+            <Text size="body" weight="medium">
+              Latest
+            </Text>
+          </SectionHeader>
+          <Spacer size="4" />
+          <SectionContent>
+            <Box>
+              <Text size="small">There are no recent projects created</Text>
+            </Box>
+          </SectionContent>
+        </Section>
+        <Spacer size="4" />
+      </Suspense>
+    </SafeArea>
   );
 }
 

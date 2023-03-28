@@ -1,5 +1,5 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { dateFormatter, hooks, TodoProps } from '@todo/commons';
+import { api, dateFormatter, TodoProps } from '@todo/commons';
 import {
   Badge,
   Box,
@@ -11,6 +11,7 @@ import {
   Text,
   TimeStatus,
 } from '@todo/mobile-ui';
+import { useUpdateTodos } from '@todo/store';
 import { useRef, useState } from 'react';
 import { ScrollView, View, Pressable } from 'react-native';
 import styled from 'styled-components/native';
@@ -25,29 +26,39 @@ const DateChip = styled(Chip) <{ colour: string }>`
   background-color: ${(props) => props.colour};
 `;
 
-export const TodoView = ({ todo }: any) => {
-  const [state, setState] = useState<TodoProps>(todo);
-  const calendarRef = useRef<CalendarRefProps>(null);
+export const TodoView = ({ todo }: { todo: TodoProps }) => {
+  const clearTimeoutRef = useRef<null | any>(null);
 
+  const [state, setState] = useState<TodoProps | null>(todo);
+  const { handleSyncTodoAtom } = useUpdateTodos();
+
+  const calendarRef = useRef<CalendarRefProps>(null);
   const todoStatusRef = useRef<UpdateStatusModalRefProps>(null);
 
-  const dateStartLabel = !state.startDate
+  const dateStartLabel = !state?.startDate
     ? 'Has not started'
     : dateFormatter(state.startDate);
 
-  const dateEndLabel = !state.endDate
+  const dateEndLabel = !state?.endDate
     ? 'Has not started'
     : dateFormatter(state.endDate);
 
   const onFormChange = (value: string, inputName: string) => {
-    setState({
-      ...state,
-      [inputName]: value,
-    });
-  };
+    if (!state) return;
 
-  const handleUpdateStatus = (value: string) => {
-    onFormChange(value, 'status');
+    const newTodo = { ...state, [inputName]: value };
+    setState(newTodo);
+    handleSyncTodoAtom(newTodo.id, newTodo);
+    if (clearTimeoutRef.current) clearTimeout(clearTimeoutRef.current);
+
+    clearTimeoutRef.current = setTimeout(async () => {
+      try {
+        // @ts-ignore
+        await api.todo.updateTodo(state.id, newTodo, null);
+      } catch (err) {
+        console.error(err);
+      }
+    }, 350);
   };
 
   const onPressToggleModalVisibility = (name: string) => {
@@ -61,8 +72,6 @@ export const TodoView = ({ todo }: any) => {
     if (toggleModal) toggleModal();
   };
 
-  hooks.useUpdateTodo(state);
-
   return (
     <>
       <CalendarModalView
@@ -71,9 +80,9 @@ export const TodoView = ({ todo }: any) => {
         onPressSave={onPressSaveDate}
       />
       <UpdateStatusModalView
-        onSelect={handleUpdateStatus}
+        onSelect={(value) => onFormChange(value, 'status')}
         ref={todoStatusRef}
-        initialSelection={state.status}
+        initialSelection={state?.status ?? ''}
       />
       <ScrollView>
         <Spacer size="8" />
@@ -82,13 +91,13 @@ export const TodoView = ({ todo }: any) => {
             paddingLeft: 56,
           }}
         >
-          {state.startDate && state.endDate && (
+          {state?.startDate && state?.endDate && (
             <TimeStatus endDate={state.endDate} status={state.status} />
           )}
           <PlainTextInput
             size="large"
             weight="500"
-            value={state.todo}
+            value={state?.todo}
             onChangeText={(value) => onFormChange(value, 'todo')}
             scrollEnabled={false}
           />
@@ -110,7 +119,7 @@ export const TodoView = ({ todo }: any) => {
               multiline
               textAlignVertical="top"
               placeholder="Add a description"
-              value={state.description}
+              value={state?.description}
               scrollEnabled={false}
               onChangeText={(value) => onFormChange(value, 'description')}
             />
@@ -131,7 +140,7 @@ export const TodoView = ({ todo }: any) => {
               label={dateStartLabel}
               isActive
               colour={
-                !state.startDate ? Palette.primary.P50 : Palette.success.S50
+                !state?.startDate ? Palette.primary.P50 : Palette.success.S50
               }
             />
           </Pressable>
@@ -153,7 +162,7 @@ export const TodoView = ({ todo }: any) => {
                 navigation.navigate<any>('Todo/Timeline', { id: state.id });
               }}
             >
-              <TimelineCompactView id={state.id} />
+              {/* <TimelineCompactView id={state?.id || ''} /> */}
             </Pressable>
 
             <Pressable
@@ -183,7 +192,7 @@ export const TodoView = ({ todo }: any) => {
               label={dateEndLabel}
               isActive
               colour={
-                !state.endDate ? Palette.primary.P50 : Palette.warning.W50
+                !state?.endDate ? Palette.primary.P50 : Palette.warning.W50
               }
             />
           </Pressable>
@@ -195,7 +204,7 @@ export const TodoView = ({ todo }: any) => {
             paddingLeft: 56,
           }}
         >
-          <Badge type="colored" status={state.status} />
+          <Badge type="colored" status={state?.status || 'ON_HOLD'} />
         </Box>
       </ScrollView>
       <Box

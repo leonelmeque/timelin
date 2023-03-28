@@ -46,3 +46,12 @@ export interface User<P = {}> extends Person {
   preferences?: P;
   todos: string[];
 }
+
+export type IsLoading = 'FETCHING' | 'ERROR' | 'SUCCESS' | 'IDLE';
+
+export enum TodoStatus {
+  ON_GOING = 'ON_GOING',
+  COMPLETED = 'COMPLETED',
+  ON_HOLD = 'ON_HOLD',
+  TODO = 'TODO',
+}

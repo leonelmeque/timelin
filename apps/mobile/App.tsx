@@ -18,7 +18,6 @@ SplashScreen.preventAutoHideAsync();
 
 const IsUserAuthenticated: FC<any> = () => {
   const [user] = useUserContext();
-
   return user ? <Tabs /> : <AuthStack />;
 };
 
@@ -33,15 +32,13 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme[activeTheme]}>
-      <AuthenticatedUserProvider>
         <SafeAreaProvider onLayout={onLayoutRootView}>
           <CustomModalProvider>
             <NavigationContainer>
               <IsUserAuthenticated />
             </NavigationContainer>
           </CustomModalProvider>
-        </SafeAreaProvider>
-      </AuthenticatedUserProvider>
+      </SafeAreaProvider>
     </ThemeProvider>
   );
 }

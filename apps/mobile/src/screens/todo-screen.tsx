@@ -5,6 +5,7 @@ import { GestureResponderEvent, Pressable, View } from 'react-native';
 import { CustomSafeAreaView } from '../components/safe-area-view';
 import { MaterialIcons } from '@expo/vector-icons';
 import { TodoView } from '../components/todo-view';
+import { useFetchTodo, useUpdateTodos } from '@todo/store';
 
 type AddTodoScreenProps = {
   Params: {
@@ -14,19 +15,24 @@ type AddTodoScreenProps = {
 
 const TodoScreen = () => {
   const navigation = useNavigation();
-
+  const { handleDeleteTodoAtom } = useUpdateTodos()
   const { params } = useRoute<RouteProp<AddTodoScreenProps>>();
 
-  const onPressDeleteTodo = (id: string) => (e: GestureResponderEvent) => {
-    api.todo
-      .deleteTodo(id)
-      .then(() => {
+  const {
+    value: [state],
+    resetCacheData,
+  } = useFetchTodo(params.todo.id);
+
+  const onPressDeleteTodo =
+    (id: string) => async (e: GestureResponderEvent) => {
+      try {
+        await api.todo.deleteTodo(id);
+        handleDeleteTodoAtom(id);
         navigation.goBack();
-      })
-      .catch((error) => {
-        alert(error);
-      });
-  };
+      } catch (error) {
+        alert((error as Error).message);
+      }
+    };
 
   const renderTodoActions = () => (
     <View
@@ -49,7 +55,12 @@ const TodoScreen = () => {
     <CustomSafeAreaView>
       <Header
         renderLeftContent={() => (
-          <Pressable onPress={() => navigation.goBack()}>
+          <Pressable
+            onPress={() => {
+              resetCacheData();
+              navigation.goBack();
+            }}
+          >
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <MaterialIcons name="arrow-back" size={24} />
               <Spacer size="4" />
@@ -61,10 +72,13 @@ const TodoScreen = () => {
         )}
         renderRigthContent={renderTodoActions}
       />
-      {params.todo ? (
-        <TodoView todo={params.todo} />
+
+      {state.state === 'loading' ? (
+        <Text size="body">Loading....</Text>
       ) : (
-        <Text size="small">Todo not found</Text>
+          <TodoView
+            todo={(state as typeof state & { data: any })?.data.result.todo}
+          />
       )}
     </CustomSafeAreaView>
   );
