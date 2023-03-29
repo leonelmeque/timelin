@@ -12,7 +12,7 @@ export type TodoProps = {
   description: string;
   timestamp: string;
   creator?: string;
-  status: string;
+  status: TodoStatus;
   color: string;
   assigned?: string[];
   startDate: string;
