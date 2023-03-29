@@ -5,7 +5,6 @@ import { Badge } from '../../atoms/badge';
 import { Palette } from '../../atoms/palette';
 import { Spacer } from '../../atoms/spacer';
 import { Text } from '../../atoms/typography';
-import { BadgeBGColor } from '../../shared-types';
 import {
   AvatarsContainer,
   BadgeContainer,
@@ -18,6 +17,7 @@ interface TodoCardProps extends Omit<TodoProps, 'assigned'> {
   assigned?: string[];
   showStatus?: boolean;
   showDescription?: boolean;
+  badgeType?: 'colored' | 'simple';
 }
 
 export const TodoCard: FC<TodoCardProps> = ({
@@ -29,6 +29,7 @@ export const TodoCard: FC<TodoCardProps> = ({
   showStatus,
   showDescription,
   assigned,
+  badgeType = 'simple',
 }) => {
   const assignedAvatars = hooks.useFetchAvatar<typeof assigned>(assigned);
 
@@ -62,7 +63,7 @@ export const TodoCard: FC<TodoCardProps> = ({
         </Text>
         {showStatus && (
           <BadgeContainer>
-            <Badge status={status as keyof typeof BadgeBGColor} />
+            <Badge status={status} type={badgeType} />
           </BadgeContainer>
         )}
       </TodoCardHeader>
