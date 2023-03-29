@@ -29,6 +29,7 @@
     "expo-constants": "14.0.2",
     "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
+    "expo-updates": "~0.15.6",
     "firebase": "^9.17.2",
     "jotai": "^2.0.3",
     "jotai-devtools": "^0.3.1",

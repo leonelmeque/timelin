@@ -21,7 +21,7 @@ export const useInitApplication = () => {
     try {
       await cachedAssetAsync({
         images: [
-          require('../../assets/splash-screen.jpg'),
+          require('../../assets/splash-screen.png'),
           require('../../assets/bg-login.jpg'),
         ],
       });
