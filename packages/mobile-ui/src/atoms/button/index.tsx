@@ -4,7 +4,7 @@ import { PressableProps, Pressable, View, ViewProps } from 'react-native';
 import { Label, _sizes, _variants } from './styles';
 
 export interface ButtonProps extends ViewProps {
-  label: string;
+  label?: string;
   variant: keyof ReturnType<typeof _variants>;
   size: keyof typeof _sizes;
   pressed?: boolean;
@@ -43,14 +43,9 @@ export const Button = ({
   </Pressable>
 );
 
-const StyledButton = styled.View<Omit<ButtonProps, 'label'>>`
+const StyledButton = styled.View<ButtonProps>`
   all: unset;
   ${(props) => _variants(props.pressed || false)[props.variant]};
   ${(props) => _sizes[props.size]};
   cursor: pointer;
-  &:hover {
-    background: #ba7da2dd;
-  }
 `;
-
-
