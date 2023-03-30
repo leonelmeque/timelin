@@ -1,5 +1,5 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { api, dateFormatter, TodoProps } from '@todo/commons';
+import { api, dateFormatter, TodoProps, TodoStatus } from '@todo/commons';
 import {
   Badge,
   Box,
@@ -97,6 +97,7 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
           <PlainTextInput
             size="large"
             weight="500"
+            multiline
             value={state?.todo}
             onChangeText={(value) => onFormChange(value, 'todo')}
             scrollEnabled={false}
@@ -107,12 +108,11 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            paddingRight: 16,
+
           }}
         >
           <MaterialIcons name="description" size={24} />
-          <Spacer size="8" />
-          <View>
+          <Box>
             <PlainTextInput
               size="body"
               weight="500"
@@ -123,7 +123,7 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
               scrollEnabled={false}
               onChangeText={(value) => onFormChange(value, 'description')}
             />
-          </View>
+          </Box>
         </Box>
         <Spacer size="16" />
         <Box
@@ -204,7 +204,7 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
             paddingLeft: 56,
           }}
         >
-          <Badge type="colored" status={state?.status || 'ON_HOLD'} />
+          <Badge type="colored" status={state?.status || TodoStatus.ON_HOLD} />
         </Box>
       </ScrollView>
       <Box
