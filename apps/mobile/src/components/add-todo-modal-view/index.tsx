@@ -1,19 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
-import { api, TodoProps } from '@todo/commons';
+import { api, TodoProps, TodoStatus } from '@todo/commons';
 import { Box, Button, Palette, PlainTextInput, Spacer } from '@todo/mobile-ui';
 import { useUpdateTodos } from '@todo/store';
-import { readWriteTodosAtom } from '@todo/store';
-import { useSetAtom } from 'jotai';
 import { FC, useRef, useState } from 'react';
 import {
   Modal,
   TouchableWithoutFeedback,
-  Dimensions,
-  KeyboardAvoidingView,
   Platform,
 } from 'react-native';
 import { useUserContext } from '../../context';
 import { CustomSafeAreaView } from '../safe-area-view';
+import { ModalOverLay, StyledKeyboardAvoidingView } from './styles';
 
 type AddTodoModalViewProps = {
   visibility: boolean;
@@ -40,7 +37,7 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
     return {
       todo: name,
       description: '',
-      status: 'TODO',
+      status: TodoStatus.TODO,
       //@ts-ignore
       timestamp: Date.now(),
       color: Object.keys(Palette.todoPalette).map((key) => key)[randomPalette],
@@ -86,26 +83,10 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
     <Modal visible={visibility} transparent>
       <CustomSafeAreaView style={{ backgroundColor: 'transparent' }}>
         <TouchableWithoutFeedback onPress={onModalDismiss}>
-          <Box
-            style={{
-              backgroundColor: Palette.greys.G300,
-              opacity: 0.2,
-              position: 'absolute',
-              height: Dimensions.get('screen').height,
-              width: Dimensions.get('screen').width,
-            }}
-          />
+          <ModalOverLay />
         </TouchableWithoutFeedback>
-        <KeyboardAvoidingView
+        <StyledKeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={{
-            backgroundColor: Palette.neutrals.white,
-            justifyContent: 'flex-end',
-            marginTop: 'auto',
-
-            borderTopLeftRadius: 24,
-            borderTopRightRadius: 24,
-          }}
         >
           <Box
             style={{
@@ -148,7 +129,7 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
               />
             </Box>
           </Box>
-        </KeyboardAvoidingView>
+        </StyledKeyboardAvoidingView>
       </CustomSafeAreaView>
     </Modal>
   );

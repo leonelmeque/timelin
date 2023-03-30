@@ -1,10 +1,11 @@
+import { TodoStatus } from '@todo/commons';
 import { FC } from 'react';
 import { BadgeBGColor, BadgeTextColor } from '../../shared-types';
 import { Text } from '../typography';
 import { StyledBadge } from './styles';
 
 type BadgeProps = {
-  status: keyof typeof BadgeBGColor;
+  status: TodoStatus;
   type: 'colored' | 'simple';
 };
 
