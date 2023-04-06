@@ -55,3 +55,5 @@ export enum TodoStatus {
   ON_HOLD = 'ON_HOLD',
   TODO = 'TODO',
 }
+
+export type UserLogin = Pick<User, 'username' | 'password'>;
