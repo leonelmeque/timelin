@@ -6,10 +6,6 @@ import { Dimensions, Image, Pressable } from 'react-native';
 import styled from 'styled-components/native';
 import { CustomSafeAreaView } from '../../components/safe-area-view';
 import { SignupFormView } from '../../components/signup-form-view';
-import {
-  createUserWithEmailAndPassword,
-} from 'firebase/auth';
-import { auth } from '../../utils/firebase';
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
@@ -38,24 +34,10 @@ export const SignupScreen = () => {
   const [theme] = hooks.useThemeSwitcher();
 
   async function handleSignup<T>(data: Partial<User & { [key: string]: any }>) {
-    const { email, username, password } = data;
-
     try {
-      const result = await createUserWithEmailAndPassword(
-        auth,
-        email as string,
-        password as string
-      );
-
-      const user = await api.users.createUser({
-        username: username as string,
-        email: email as string,
-        id: result.user.uid
-      })
-
-      console.log(user);
+      await api.users.userSignUp(data);
     } catch (err) {
-      console.log(err);
+      alert(err);
     }
   }
 

@@ -18,7 +18,7 @@ const TodoScreen = () => {
   const { handleDeleteTodoAtom } = useUpdateTodos()
   const { params } = useRoute<RouteProp<AddTodoScreenProps>>();
 
-  const {
+  const { 
     value: [state],
     resetCacheData,
   } = useFetchTodo(params.todo.id);
@@ -77,7 +77,7 @@ const TodoScreen = () => {
         <Text size="body">Loading....</Text>
       ) : (
           <TodoView
-            todo={(state as typeof state & { data: any })?.data.result.todo}
+            todo={(state as typeof state & { data: any })?.data}
           />
       )}
     </CustomSafeAreaView>

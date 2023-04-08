@@ -1,11 +1,10 @@
-import { Spacer, Header, Text, Avatar, Palette, Box } from '@todo/mobile-ui';
-import { TodoListView } from '../components/todo-list-view';
+import { Spacer, Header, Text, Avatar, Box } from '@todo/mobile-ui';
 import { CustomSafeAreaView } from '../components/safe-area-view';
 import { useNavigation } from '@react-navigation/native';
 import { Keyboard, Pressable } from 'react-native';
 import { tokens } from '@todo/commons';
 import { AddTodoModalView } from '../components/add-todo-modal-view';
-import { useCustomModal, useUserContext } from '../context';
+import { useCustomModal } from '../context';
 import { MaterialIcons } from '@expo/vector-icons';
 import styled from 'styled-components/native';
 import { Suspense } from 'react';
