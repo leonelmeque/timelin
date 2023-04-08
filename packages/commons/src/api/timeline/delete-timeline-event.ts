@@ -1,12 +1,11 @@
-import { TIMELINE_URL, headers } from "../../utils/constants";
+import firebase from 'firebase';
 
-export const deleteTimelineEvent = async (id: string, eventId: string[]) => {
-  const resp = await fetch(`${TIMELINE_URL}/remove/${id}`, {
-    method: 'DELETE',
-    headers,
-    body: JSON.stringify(eventId),
-  });
-  const data = await resp.json();
-
-  return data;
+export const deleteTimelineEvent = async (eventId: string) => {
+  return await firebase
+    .firestore()
+    .collection('timeline')
+    .doc(firebase.auth()?.currentUser?.uid)
+    .collection('events')
+    .doc(eventId)
+    .delete();
 };

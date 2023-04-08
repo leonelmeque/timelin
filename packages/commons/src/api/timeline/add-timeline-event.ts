@@ -1,12 +1,20 @@
-import { TIMELINE_URL, headers } from "../../utils/constants";
+import firebase from 'firebase';
 
 export const addTimelineEvent = async (id: string, payload: Event[]) => {
-  const resp = await fetch(`${TIMELINE_URL}/save/${id}`, {
-    method: 'POST',
-    body: JSON.stringify(payload),
-    headers,
-  });
-  const data = await resp.json();
+  const ref = firebase
+    .firestore()
+    .collection('users')
+    .doc(firebase.auth().currentUser?.uid)
+    .collection('events')
+    .doc();
 
-  return data;
+  await ref.set({
+    ...payload,
+    id: ref.id,
+  });
+
+  return {
+    ...payload,
+    id: ref.id,
+  };
 };
