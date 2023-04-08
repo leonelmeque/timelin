@@ -1,18 +1,21 @@
-import { TodoProps } from "../../shared-types";
-import { TODO_URL, headers } from "../../utils/constants";
+import { TodoProps } from '../../shared-types';
+import firebase from 'firebase';
 
 export const createTodo = async (todo: TodoProps) => {
-  const payload = {
-    todo,
-  };
+  const ref = firebase
+    .firestore()
+    .collection('todos')
+    .doc(firebase.auth().currentUser?.uid)
+    .collection('list')
+    .doc();
 
-  const resp = await fetch(`${TODO_URL}/save`, {
-    method: 'POST',
-    body: JSON.stringify(payload),
-    headers,
+  await ref.set({
+    ...todo,
+    id: ref.id,
   });
 
-  const data = await resp.json();
-
-  return data;
+  return {
+    ...todo,
+    id: ref.id,
+  };
 };
