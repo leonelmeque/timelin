@@ -1,10 +1,10 @@
 import firebase from 'firebase';
 
-export const deleteTimelineEvent = async (eventId: string) => {
+export const deleteTimelineEvent = async (uid: string, eventId: string) => {
   return await firebase
     .firestore()
-    .collection('timeline')
-    .doc(firebase.auth()?.currentUser?.uid)
+    .collection('timelines')
+    .doc(uid)
     .collection('events')
     .doc(eventId)
     .delete();
