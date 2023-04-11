@@ -4,6 +4,7 @@ import { useCustomModal } from '../context';
 import TodoScreen from '../screens/todo-screen';
 import TodoListStack from './todo-routes';
 import { MaterialIcons } from '@expo/vector-icons';
+import { HideTabBarNavigation } from './constants';
 
 const Tab = createBottomTabNavigator();
 
@@ -41,10 +42,9 @@ export function Tabs() {
             const routeName = getFocusedRouteNameFromRoute(route);
 
             if (
-              routeName === 'Todo/View' ||
-              routeName === 'Todo/Search' ||
-              routeName === 'Todo/ListTodo' ||
-              routeName === 'Todo/Timeline'
+              HideTabBarNavigation[
+              routeName as keyof typeof HideTabBarNavigation
+              ]
             ) {
               return { display: 'none', backgroundColor: 'white' };
             }
