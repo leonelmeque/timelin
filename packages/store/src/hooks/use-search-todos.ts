@@ -1,5 +1,5 @@
 import { useAtomValue } from 'jotai';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { filterTodosByQuery, todosState } from '../todos/todos.store';
 
 export const useSearchTodos = () => {
