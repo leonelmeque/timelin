@@ -11,6 +11,7 @@ export const userSignIn = async ({
     .signInWithEmailAndPassword(username as string, password as string);
 
   const userData = await getUserInformation(ref?.user?.uid || '');
+  const sessionToken = await ref.user?.refreshToken;
 
-  return userData;
+  return { userData, sessionToken };
 };
