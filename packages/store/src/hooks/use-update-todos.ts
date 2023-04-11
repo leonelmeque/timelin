@@ -3,7 +3,7 @@ import { useAtom } from 'jotai';
 import { todosState } from '../todos/todos.store';
 
 export const useUpdateTodos = () => {
-  const [_, setTodos] = useAtom(todosState);
+  const [todos, setTodos] = useAtom(todosState);
 
   const handleAddTodoAtom = (todo: TodoProps) => {
     setTodos((prev) => prev.concat(todo));
@@ -23,6 +23,7 @@ export const useUpdateTodos = () => {
   };
 
   return {
+    todos,
     handleAddTodoAtom,
     handleSyncTodoAtom,
     handleDeleteTodoAtom,
