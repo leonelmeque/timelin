@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { TodoProps } from '@todo/commons';
 import { Spacer, TodoCard } from '@todo/mobile-ui';
 import { FC, useCallback } from 'react';
-import { GestureResponderEvent, Pressable, View } from 'react-native';
+import { GestureResponderEvent, Pressable } from 'react-native';
 import { TodoList } from './styles';
 
 type TodoListViewProps = {

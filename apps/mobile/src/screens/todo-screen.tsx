@@ -6,6 +6,7 @@ import { CustomSafeAreaView } from '../components/safe-area-view';
 import { MaterialIcons } from '@expo/vector-icons';
 import { TodoView } from '../components/todo-view';
 import { useFetchTodo, useUpdateTodos } from '@todo/store';
+import { HeaderActions } from '../components/header-actions';
 
 type AddTodoScreenProps = {
   Params: {
@@ -15,10 +16,10 @@ type AddTodoScreenProps = {
 
 const TodoScreen = () => {
   const navigation = useNavigation();
-  const { handleDeleteTodoAtom } = useUpdateTodos()
+  const { handleDeleteTodoAtom } = useUpdateTodos();
   const { params } = useRoute<RouteProp<AddTodoScreenProps>>();
 
-  const { 
+  const {
     value: [state],
     resetCacheData,
   } = useFetchTodo(params.todo.id);
@@ -34,22 +35,6 @@ const TodoScreen = () => {
       }
     };
 
-  const renderTodoActions = () => (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-      }}
-    >
-      <Pressable>
-        <MaterialIcons name="ios-share" size={24} />
-      </Pressable>
-      <Spacer size="8" />
-      <Pressable onPress={onPressDeleteTodo(params.todo.id)}>
-        <MaterialIcons name="delete-outline" size={24} />
-      </Pressable>
-    </View>
-  );
 
   return (
     <CustomSafeAreaView>
@@ -70,15 +55,15 @@ const TodoScreen = () => {
             </View>
           </Pressable>
         )}
-        renderRigthContent={renderTodoActions}
+        renderRigthContent={() => (
+          <HeaderActions onPressDelete={onPressDeleteTodo(params.todo.id)} />
+        )}
       />
 
       {state.state === 'loading' ? (
         <Text size="body">Loading....</Text>
       ) : (
-          <TodoView
-            todo={(state as typeof state & { data: any })?.data}
-          />
+          <TodoView todo={(state as typeof state & { data: any })?.data} />
       )}
     </CustomSafeAreaView>
   );

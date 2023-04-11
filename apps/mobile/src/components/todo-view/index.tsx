@@ -8,7 +8,6 @@ import {
   Palette,
   PlainTextInput,
   Spacer,
-  Text,
   TimeStatus,
 } from '@todo/mobile-ui';
 import { useUpdateTodos } from '@todo/store';
@@ -108,7 +107,6 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-
           }}
         >
           <MaterialIcons name="description" size={24} />
@@ -156,25 +154,7 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
           <MaterialIcons name="timeline" size={24} />
           <Spacer size="8" />
           <View>
-            <Pressable
-              onPress={() => {
-                //@ts-ignore
-                navigation.navigate<any>('Todo/Timeline', { id: state.id });
-              }}
-            >
-              {/* <TimelineCompactView id={state?.id || ''} /> */}
-            </Pressable>
-
-            <Pressable
-              onPress={() => {
-                //@ts-ignore
-                navigation.navigate<any>('Todo/Timeline', { id: state.id });
-              }}
-            >
-              <Text size="body" weight="medium" colour={Palette.primary.P300}>
-                + Add new timeline update
-              </Text>
-            </Pressable>
+            <TimelineCompactView id={state?.id || ''} />
           </View>
         </Box>
         <Spacer size="16" />
