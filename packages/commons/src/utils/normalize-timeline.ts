@@ -1,11 +1,14 @@
-import { TimelineEventProps, TimelineProps } from '../shared-types';
+import { TimelineEventProps } from '../shared-types';
+import { eventsDateSorter } from './events-date-sorter';
 
-export const normalizeTimeline = (timeline: TimelineProps) => {
-  if (!timeline) return [];
+export const normalizeTimeline = (timeline: TimelineEventProps[]) => {
+  if (!timeline.length) return {} as { [key in string]: TimelineEventProps[] };
 
   const normalizedData: { [key in string]: TimelineEventProps[] } = {};
 
-  Object.entries(timeline.events).forEach(
+  const orderedTimeline = eventsDateSorter(timeline);
+
+  Object.entries(orderedTimeline).forEach(
     ([key, { timestamp, ...rest }], index) => {
       const dateKey = new Date(Number(timestamp)).toLocaleDateString('en-US');
 
