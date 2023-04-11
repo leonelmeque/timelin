@@ -5,7 +5,7 @@ const defaultOptions: Intl.DateTimeFormatOptions = {
 };
 
 export const dateFormatter = (
-  timestamp: string | number,
+  timestamp: string | number | Date,
   options?: Intl.DateTimeFormatOptions
 ) =>
   new Intl.DateTimeFormat('en-US', options || defaultOptions).format(
