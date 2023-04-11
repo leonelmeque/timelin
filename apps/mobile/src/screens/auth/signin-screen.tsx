@@ -39,10 +39,11 @@ export const SignInScreen = () => {
   }) => {
     try {
       setIsLoggingIn(true);
-      const userData = await api.users.userSignIn({ username, password });
-
+      const { userData } = await api.users.userSignIn({
+        username,
+        password,
+      });
       if (userData) {
-        // await AsyncStorage.setItem('sessionToken', token.result.customToken);
         dispatch(userData);
       } else {
         alert('Unable to login. Please try again.');

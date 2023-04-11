@@ -1,7 +1,6 @@
-import { api } from '@todo/commons';
+import { User, api } from '@todo/commons';
 import { useCallback, useEffect, useState } from 'react';
 import { useUserContext } from '../context';
-import { getSessionToken } from '../utils/storage';
 import * as SplashScreen from 'expo-splash-screen';
 import { cachedAssetAsync } from '../utils';
 
@@ -28,18 +27,14 @@ export const useInitApplication = () => {
     }
   }, [appIsReady]);
 
-  const signInWithSessionToken = useCallback(async () => {
+  const signInWithSessionToken = useCallback(() => {
     try {
-      const token = await getSessionToken();
-    
-      if (token) {
-        // const userRecord = await signInWithCustomToken(auth, token);
-        // const { _message, result } = await api.users.getUserInformation(
-        //   userRecord.user.uid
-        // );
-
-        // dispatch(result);
-      }
+      api.users.userSignInWithPersistence((userData: User) => {
+        if (userData) {
+          dispatch(userData);
+        }
+        setAppIsReady(true);
+      });
     } catch (err) {
       console.error(err);
     }
@@ -49,11 +44,9 @@ export const useInitApplication = () => {
     const prepare = async () => {
       try {
         await loadAssetsAync();
-        if (!user) await signInWithSessionToken();
+        if (!user) signInWithSessionToken();
       } catch (error) {
         console.log(error);
-      } finally {
-        setAppIsReady(true);
       }
     };
 
