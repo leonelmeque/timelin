@@ -4,6 +4,7 @@ import { revokeCustomToken } from './revoke-custom-token';
 import { userSignIn } from './user-signin';
 import { userSignUp } from './user-signup';
 import { userSignOut } from './user-signout';
+import { userSignInWithPersistence } from './user-signin-with-persistence';
 
 export const users = {
   createCustomToken,
@@ -12,4 +13,5 @@ export const users = {
   userSignIn,
   userSignUp,
   userSignOut,
+  userSignInWithPersistence,
 };
