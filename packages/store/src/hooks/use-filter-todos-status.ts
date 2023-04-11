@@ -1,9 +1,7 @@
 import { useAtom, useAtomValue } from 'jotai';
-import { useEffect } from 'react';
 import {
   filterTodosByStatus,
   todoFilterState,
-  todosState,
 } from '../todos/todos.store';
 
 export const useFilterTodosStatus = () => {

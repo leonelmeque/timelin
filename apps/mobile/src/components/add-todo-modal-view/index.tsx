@@ -44,7 +44,6 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
       participants: [],
       endDate: '',
       startDate: '',
-
       creator: creator,
     };
   };
@@ -53,12 +52,8 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
     const todo = prepareData(todoName, user?.id as string);
     try {
       const data = await api.todo.createTodo(todo);
-      await api.users.updateTodoList(user?.id as string, [
-        ...(user?.todos as string[]),
-        data.result.id,
-      ]);
 
-      handleAddTodoAtom(data.result);
+      handleAddTodoAtom(data);
 
       onModalDismiss(e);
       onChangeText('');
@@ -69,7 +64,7 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
          */
         //  @ts-ignore
         navigation.navigate('Todo/Add', {
-          todo: data.result,
+          todo: data,
           autofocusDescription: withDescriptionRef.current,
         });
       }, 1000);

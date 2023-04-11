@@ -1,8 +1,12 @@
-import { TIMELINE_URL, headers } from "../../utils/constants";
+import firebase from 'firebase';
 
-export const getTimeline = async (id: string) => {
-  const resp = await fetch(`${TIMELINE_URL}/find/${id}`, { headers });
-  const data = await resp.json();
+export const getTimeline = async (uid: string) => {
+  const res = await firebase
+    .firestore()
+    .collection('timelines')
+    .doc(uid)
+    .collection('events')
+    .get();
 
-  return data;
+  return res.docs.map((doc) => doc.data());
 };

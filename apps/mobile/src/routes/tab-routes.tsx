@@ -1,12 +1,10 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
-import { useCustomModal, useUserContext } from '../context';
+import { useCustomModal } from '../context';
 import TodoScreen from '../screens/todo-screen';
 import TodoListStack from './todo-routes';
 import { MaterialIcons } from '@expo/vector-icons';
-import { getAuth } from 'firebase/auth';
-import { api } from '@todo/commons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { HideTabBarNavigation } from './constants';
 
 const Tab = createBottomTabNavigator();
 
@@ -27,7 +25,6 @@ const DummyComponent = () => <></>;
 
 export function Tabs() {
   const [, dispatch] = useCustomModal();
-  const [user, removeUser] = useUserContext();
 
   return (
     <Tab.Navigator
@@ -45,10 +42,9 @@ export function Tabs() {
             const routeName = getFocusedRouteNameFromRoute(route);
 
             if (
-              routeName === 'Todo/View' ||
-              routeName === 'Todo/Search' ||
-              routeName === 'Todo/ListTodo' ||
-              routeName === 'Todo/Timeline'
+              HideTabBarNavigation[
+              routeName as keyof typeof HideTabBarNavigation
+              ]
             ) {
               return { display: 'none', backgroundColor: 'white' };
             }
@@ -86,14 +82,6 @@ export function Tabs() {
         listeners={{
           tabPress: async (e) => {
             e.preventDefault();
-            try {
-              await getAuth().signOut();
-              await api.users.revokeCustomToken(user?.id as string);
-              await AsyncStorage.removeItem('sessionToken');
-              removeUser(null);
-            } catch (err) {
-              console.log(err);
-            }
           },
         }}
       />

@@ -1,14 +1,12 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { api } from '@todo/commons';
 import { Dimensions, Image } from 'react-native';
 import styled from 'styled-components/native';
 import { CustomSafeAreaView } from '../../components/safe-area-view';
 import { SignInFormView } from '../../components/signin-form-view';
 import { useUserContext } from '../../context';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../utils/firebase';
 import { useState } from 'react';
+import { api } from '@todo/commons';
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
@@ -41,25 +39,19 @@ export const SignInScreen = () => {
   }) => {
     try {
       setIsLoggingIn(true);
-      const ref = await signInWithEmailAndPassword(
-        auth,
-        username as string,
-        password as string
-      );
-
-      const userData = await api.users.getUserInformation(ref.user.uid);
-      const token = await api.users.createCustomToken(ref.user.uid);
-
-      if (userData.result && token.result.customToken) {
-        await AsyncStorage.setItem('sessionToken', token.result.customToken);
-        dispatch(userData.result);
+      const { userData } = await api.users.userSignIn({
+        username,
+        password,
+      });
+      if (userData) {
+        dispatch(userData);
       } else {
-        setIsLoggingIn(false);
         alert('Unable to login. Please try again.');
       }
     } catch (error) {
-      setIsLoggingIn(false);
       console.error(error);
+    } finally {
+      setIsLoggingIn(false);
     }
   };
 
@@ -69,13 +61,11 @@ export const SignInScreen = () => {
         source={bg}
         style={{ width: WIDTH, height: HEIGHT, position: 'absolute' }}
       />
-
       <Container>
         <SignInFormView
           isLoggingIn={isLoggingIn}
           onSignin={(data) => handleSignIn(data)}
           //@ts-ignore
-
           goToSignup={() => navigation.navigate('Todo/Signup')}
         />
       </Container>

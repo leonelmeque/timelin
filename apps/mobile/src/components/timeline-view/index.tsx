@@ -1,20 +1,34 @@
-import { RouteProp, useRoute } from '@react-navigation/native';
-import { hooks } from '@todo/commons';
-import { Box, Palette, Text } from '@todo/mobile-ui';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { Box, Button, Text } from '@todo/mobile-ui';
 import { FC } from 'react';
 import { View } from 'react-native';
 import { TimelineDefaultView } from './default-view';
+import { normalizeTimeline } from '@todo/commons';
+import { useTimeline, useUpdateTodos } from '@todo/store';
 
-type Route = {
-  Params: {
-    id: string;
-  };
+type TimelineViewProps = {
+
+  loadingState?: 'hasData' | 'loading' | 'hasError';
 };
 
-export const TimelineView: FC = () => {
-  const { params } = useRoute<RouteProp<Route>>();
-  const [timeline, todo] = hooks.useFetchTimeline(params.id);
-  const timelineData = Object.entries(timeline || []);
+export const TimelineView: FC<TimelineViewProps> = () => {
+  const navigation = useNavigation();
+  const {
+    params: { todoUID },
+  } = useRoute<RouteProp<{ params: { todoUID: string } }>>();
+
+  const { timeline } = useTimeline()
+  const { todos } = useUpdateTodos()
+
+  const todoName = todos.find(todo => todo.id === todoUID)?.todo
+
+  const addNewEvent = () => {
+    //@ts-ignore
+    navigation.navigate<any>('Timeline/AddEvent', {
+      event: null,
+      todoUID,
+    });
+  };
 
   return (
     <Box
@@ -24,12 +38,12 @@ export const TimelineView: FC = () => {
     >
       <View
         style={{
-          marginLeft: 84,
+          marginLeft: 110,
           paddingBottom: 16,
         }}
       >
         <Text size="large" weight="medium" numberOfLines={3}>
-          {todo}
+          {todoName}
         </Text>
       </View>
       <View
@@ -45,7 +59,7 @@ export const TimelineView: FC = () => {
         </Text>
         <View
           style={{
-            paddingRight: 26,
+            paddingRight: 50,
           }}
         />
         <Text size="small" weight="medium">
@@ -58,12 +72,19 @@ export const TimelineView: FC = () => {
           flex: 1,
         }}
       >
-        {timeline && <TimelineDefaultView data={timelineData} />}
+        <TimelineDefaultView data={normalizeTimeline(timeline)} />
       </View>
-      <View>
-        <Text size="body" weight="medium" colour={Palette.primary.P300}>
-          Update Progress
-        </Text>
+      <View
+        style={{
+          alignItems: 'flex-end'
+        }}
+      >
+        <Button
+          variant="tertiary"
+          size="md"
+          label="+ add new event"
+          onPress={addNewEvent}
+        />
       </View>
     </Box>
   );

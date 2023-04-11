@@ -1,8 +1,9 @@
-import { USERS_URL, headers } from "../../utils/constants";
+import firebase from 'firebase';
+import { User } from '../../shared-types';
 
 export const getUserInformation = async (id: string) => {
-  const resp = await fetch(`${USERS_URL}/find/${id}`, { headers });
-  const data = await resp.json();
+  const ref = firebase.firestore().collection('users').doc(id);
+  const res = await ref.get();
 
-  return data;
+  return res.data() as User;
 };

@@ -1,25 +1,33 @@
-import { TimelineEventProps } from '@todo/commons';
+import { TimelineEventProps, eventsDateSorter } from '@todo/commons';
 import { Spacer } from '@todo/mobile-ui';
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 import { FlatList } from 'react-native';
 import { RenderTimelineEvent } from './render-timeline-event';
 
 type TimelineDefaultViewProps = {
-  data: [string, TimelineEventProps[]][];
+  data: { [x: string]: TimelineEventProps[] };
 };
 
 export const TimelineDefaultView: FC<TimelineDefaultViewProps> = ({ data }) => {
-  const renderItem = ({ item, index }: any) => (
-    <RenderTimelineEvent
-      showVerticalLine={index !== data.length - 1}
-      date={item[0]}
-      events={item[1]}
-    />
+  const memoizedTimeline = Object.entries(data).map(([key, arr]) => [
+    key,
+    eventsDateSorter(arr),
+  ]);
+
+  const renderItem = useCallback(
+    ({ item, index }: any) => (
+      <RenderTimelineEvent
+        showVerticalLine={index !== memoizedTimeline.length - 1}
+        date={item[0]}
+        events={item[1]}
+      />
+    ),
+    [data, memoizedTimeline]
   );
 
   return (
     <FlatList
-      data={data}
+      data={memoizedTimeline}
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
       ItemSeparatorComponent={() => <Spacer size="8" />}
