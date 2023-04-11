@@ -1,24 +1,18 @@
 import firebase from 'firebase';
 import { TimelineEventProps } from '../../shared-types';
 
-export const addTimelineEvent = async (
+export const updateTimelineEvent = async (
   uid: string,
+  eventID: string,
   payload: TimelineEventProps
 ) => {
-  const ref = firebase
+  return await firebase
     .firestore()
     .collection('timelines')
     .doc(uid)
     .collection('events')
-    .doc();
-
-  await ref.set({
-    ...payload,
-    id: ref.id,
-  });
-
-  return {
-    ...payload,
-    id: ref.id,
-  };
+    .doc(eventID)
+    .update({
+      ...payload,
+    });
 };

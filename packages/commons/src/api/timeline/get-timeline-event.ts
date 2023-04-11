@@ -1,10 +1,10 @@
 import firebase from 'firebase';
 
-export const getTimelineEvent = async (id: string) => {
+export const getTimelineEvent = async (uid: string, id: string) => {
   return await firebase
     .firestore()
-    .collection('timeline')
-    .doc(firebase.auth()?.currentUser?.uid)
+    .collection('timelines')
+    .doc(uid)
     .collection('events')
     .doc(id)
     .get();

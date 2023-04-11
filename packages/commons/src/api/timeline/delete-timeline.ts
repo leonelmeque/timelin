@@ -1,9 +1,9 @@
 import firebase from 'firebase';
 
-export const deleteTimeline = async (id: string) => {
+export const deleteTimeline = async (uid: string) => {
   return await firebase
     .firestore()
-    .collection('timeline')
-    .doc(firebase.auth()?.currentUser?.uid)
+    .collection('timelines')
+    .doc(uid)
     .delete();
 };
