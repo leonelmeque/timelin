@@ -1,12 +1,11 @@
-import { TODO_URL, headers } from "../../utils/constants";
+import firebase from 'firebase';
 
 export const deleteTodo = async (id: string) => {
-  const resp = await fetch(`${TODO_URL}/remove/${id}`, {
-    method: 'DELETE',
-    headers,
-  });
-
-  const data = await resp.json();
-
-  return data;
+  await firebase
+    .firestore()
+    .collection('todos')
+    .doc(firebase.auth().currentUser?.uid)
+    .collection('list')
+    .doc(id)
+    .delete();
 };

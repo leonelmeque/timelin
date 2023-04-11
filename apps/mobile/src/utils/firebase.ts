@@ -1,6 +1,6 @@
-import { FirebaseOptions, initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import firebase from 'firebase';
 import Constants from 'expo-constants';
+import { FirebaseOptions } from 'expo-firebase-core';
 
 export const config: FirebaseOptions = {
   projectId: Constants.expoConfig?.extra?.projectId,
@@ -13,15 +13,9 @@ export const config: FirebaseOptions = {
   measurementId: Constants.expoConfig?.extra?.measurementId,
 };
 
-let app: any;
-let auth: any;
 
-try {
-  app = initializeApp(config);
-  auth = getAuth(app);
-} catch (error) {
-  console.error(error);
-}
 
-export { auth };
-export default app;
+const app = firebase.initializeApp(config);
+export const database = firebase.database();
+
+export default app

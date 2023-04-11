@@ -1,11 +1,9 @@
-import { TIMELINE_URL, headers } from "../../utils/constants";
+import firebase from 'firebase';
 
-export const deleteTimeline = async (id: string) => {
-  const resp = await fetch(`${TIMELINE_URL}/remove/all/${id}`, {
-    method: 'DELETE',
-    headers,
-  });
-  const data = await resp.json();
-
-  return data;
+export const deleteTimeline = async (uid: string) => {
+  return await firebase
+    .firestore()
+    .collection('timelines')
+    .doc(uid)
+    .delete();
 };

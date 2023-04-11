@@ -1,21 +1,17 @@
-import { User, UserLogin } from "../../shared-types";
-import { USERS_URL, headers } from "../../utils/constants";
+import { UserLogin } from '../../shared-types';
+import { getUserInformation } from './get-user-information';
+import firebase from 'firebase';
 
 export const userSignIn = async ({
   username,
   password,
-}: Partial<UserLogin>): Promise<{ message: string; user: User }> => {
-  const resp = await fetch(`${USERS_URL}/auth`, {
-    method: 'POST',
-    body: JSON.stringify({
-      user: {
-        username,
-        password,
-      },
-    }),
-    headers,
-  });
-  const data = await resp.json();
+}: Partial<UserLogin>) => {
+  const ref = await firebase
+    .auth()
+    .signInWithEmailAndPassword(username as string, password as string);
 
-  return data;
+  const userData = await getUserInformation(ref?.user?.uid || '');
+  const sessionToken = await ref.user?.refreshToken;
+
+  return { userData, sessionToken };
 };

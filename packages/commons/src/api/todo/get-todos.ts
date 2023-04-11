@@ -1,19 +1,13 @@
-import { TODO_URL, headers } from "../../utils/constants";
+import firebase from 'firebase';
+import { TodoProps } from '../../shared-types';
 
-export const getTodos = async (uid: string[]) => {
+export const getTodos = async () => {
+  const ref = firebase
+    .firestore()
+    .collection('todos')
+    .doc(firebase.auth().currentUser?.uid)
+    .collection('list');
+  const res = await ref.get();
 
-  const resp = await fetch(`${TODO_URL}/find-multiple`, {
-    method: 'POST',
-    body: JSON.stringify({ uid }),
-    headers,
-  });
-
-  const data = await resp.json();
-
-  if (resp.status === 404) {
-    throw new Error(data.message);
-  }
-
-  return data;
+  return res.docs.map((doc) => doc.data()) as TodoProps[];
 };
-

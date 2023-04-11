@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
 import { TimelineView } from '../components/timeline-view';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useCallback } from 'react';
 
 const BackButton = styled.View`
   align-items: center;
@@ -14,11 +15,15 @@ const BackButton = styled.View`
 export const TimelineScreen = () => {
   const navigation = useNavigation();
 
+  const handleBackButton = useCallback(() => {
+    navigation.goBack();
+  }, []);
+
   return (
     <CustomSafeAreaView>
       <Header
         renderLeftContent={() => (
-          <Pressable onPress={() => navigation.goBack()}>
+          <Pressable onPress={handleBackButton}>
             <BackButton>
               <MaterialIcons name="arrow-back" size={24} />
               <Spacer size="4" />

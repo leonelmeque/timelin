@@ -1,12 +1,15 @@
-import { TODO_URL } from "../../utils/constants";
+import firebase from 'firebase';
+import { TodoProps } from '../../shared-types';
 
 export const getTodo = async (id: string) => {
-  const resp = await fetch(`${TODO_URL}/find/${id}`);
-  const data = await resp.json();
+  const ref = firebase
+    .firestore()
+    .collection('todos')
+    .doc(firebase.auth().currentUser?.uid)
+    .collection('list')
+    .doc(id);
 
-  if (resp.status === 404) {
-    throw new Error(data.message);
-  }
+  const snapshot = await ref.get();
 
-  return data;
+  return snapshot.data() as TodoProps;
 };

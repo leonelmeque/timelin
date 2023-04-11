@@ -4,17 +4,17 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { hooks, theme } from '@todo/commons';
 import { Tabs } from './src/routes/tab-routes';
 import {
-  AuthenticatedUserProvider,
   CustomModalProvider,
   useUserContext,
 } from './src/context';
 import AuthStack from './src/routes/auth.routes';
 import { FC } from 'react';
-import './src/utils/firebase';
 import { useInitApplication } from './src/hooks/useInitApplication';
 import * as SplashScreen from 'expo-splash-screen';
+import "./src/utils/firebase";
 
 SplashScreen.preventAutoHideAsync();
+
 
 const IsUserAuthenticated: FC<any> = () => {
   const [user] = useUserContext();

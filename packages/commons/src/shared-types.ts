@@ -1,9 +1,10 @@
 export type TimelineEventProps = {
-  id: string;
+  id?: string;
   title: string;
   description: string;
-  timestamp: string;
-  assigned?: string[];
+  timestamp: string | number;
+  participants?: string[];
+  creator: string;
 };
 
 export type TodoProps = {

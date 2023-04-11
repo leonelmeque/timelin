@@ -21,6 +21,10 @@ export { dateFormatter } from './utils/date-formatter';
 export { distanceBetweenDates } from './utils/distance-between-dates';
 export { normalizeTimeline } from './utils/normalize-timeline';
 export * as formValidators from './utils/form-validation';
+export { eventsDateSorter } from './utils/events-date-sorter';
+
+import "./utils/firebase"
 
 //api
 export { api } from './api';
+

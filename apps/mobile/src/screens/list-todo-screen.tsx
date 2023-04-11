@@ -7,7 +7,6 @@ import { StatusList } from '../components/status-list';
 import { TodoListView } from '../components/todo-list-view';
 import styled from 'styled-components/native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { TodoProps } from '@todo/commons';
 import { useFilterTodosStatus } from '@todo/store';
 
 const BackButton = styled.View`
@@ -49,7 +48,7 @@ export const ListTodoScreen: FC = () => {
       <TodoListView
         showDescription
         showStatus
-        data={filteredData as TodoProps[]}
+        data={filteredData}
       />
     </CustomSafeAreaView>
   );

@@ -25,3 +25,4 @@ dist
 *.bin
 node_modules
 apps/mobile/.env
+packages/commons/.env

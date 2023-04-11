@@ -2,14 +2,12 @@ import { useNavigation } from '@react-navigation/native';
 import { Palette, Spacer, Box, Text } from '@todo/mobile-ui';
 import { useFetchTodos } from '@todo/store';
 import { Pressable } from 'react-native';
-import { useUserContext } from '../../context';
 import { TodoListView } from '../todo-list-view';
 import { Section, SectionHeader, SectionContent } from './style';
 
 export const ProjectList = () => {
-  const [user] = useUserContext();
   const navigation = useNavigation();
-  const [todos] = useFetchTodos(user?.todos as string[]);
+  const [todos] = useFetchTodos();
 
   const nagivateToTodoList = () => {
     //@ts-ignore
@@ -33,7 +31,7 @@ export const ProjectList = () => {
       <Spacer size="4" />
       <SectionContent>
         <Box>
-          {!todos && (
+          {!todos.length && (
             <Text size="small">Looks like you don't have any projects</Text>
           )}
         </Box>
