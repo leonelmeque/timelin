@@ -5,6 +5,7 @@ import TodoScreen from '../screens/todo-screen';
 import TodoListStack from './todo-routes';
 import { MaterialIcons } from '@expo/vector-icons';
 import { HideTabBarNavigation } from './constants';
+import { api } from '@todo/commons';
 
 const Tab = createBottomTabNavigator();
 
@@ -81,7 +82,7 @@ export function Tabs() {
         })}
         listeners={{
           tabPress: async (e) => {
-            e.preventDefault();
+            api.users.userSignOut();
           },
         }}
       />
