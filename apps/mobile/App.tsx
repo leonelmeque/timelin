@@ -11,7 +11,7 @@ import AuthStack from './src/routes/auth.routes';
 import { FC } from 'react';
 import { useInitApplication } from './src/hooks/useInitApplication';
 import * as SplashScreen from 'expo-splash-screen';
-import "./src/utils/firebase";
+
 
 SplashScreen.preventAutoHideAsync();
 
