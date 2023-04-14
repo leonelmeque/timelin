@@ -3,6 +3,9 @@ import { createStore, Provider as JotaiProvider } from 'jotai';
 // import { DevTools } from 'jotai-devtools';
 import App from './App';
 import { AuthenticatedUserProvider } from './src/context';
+import { initializeFirebaseApplication } from '@todo/commons';
+
+initializeFirebaseApplication()
 
 const store = createStore();
 
