@@ -18,8 +18,8 @@ const Context = createContext<UserContextProps>({
   dispatch: (args) => { },
 });
 
-const Provider: FC<PropsWithChildren> = ({ children }) => {
-  const [state, setState] = useState<User | null>(null);
+const Provider: FC<PropsWithChildren & { initUser: User<{}> | null }> = ({ children, initUser }) => {
+  const [state, setState] = useState<User | null>(initUser);
 
   const value: UserContextProps = useMemo(
     () => ({ user: state, dispatch: setState }),
