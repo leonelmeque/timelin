@@ -20,6 +20,8 @@ export const SignupFormView: FC<SignupFormViewProps> = ({
 }) => {
   const [state, setState] = useState<Partial<UserFormProps>>({});
   const [errors, setErrors] = useState<Partial<UserFormProps>>({});
+  const [isLoading, setIsLoading] = useState(false);
+
   const timerRef = useRef<any>(null);
 
   const handleChange = (key: keyof Partial<UserFormProps>, value: string) => {
@@ -40,14 +42,16 @@ export const SignupFormView: FC<SignupFormViewProps> = ({
         if (!formValidators.validateEmail(state.email as string)) {
           setErrors({ ...errors, email: 'Email is not valid' });
         } else {
-          setErrors({ ...errors, email: undefined });
+          const { email, ...rest } = errors
+          setErrors({ ...rest });
         }
       }
       case 'username': {
         if (!formValidators.validateUsername(state.username as string)) {
           setErrors({ ...errors, username: 'Username is not valid' });
         } else {
-          setErrors({ ...errors, username: undefined });
+          const { username, ...rest } = errors
+          setErrors({ ...rest });
         }
       }
 
@@ -55,20 +59,22 @@ export const SignupFormView: FC<SignupFormViewProps> = ({
         if (!formValidators.validateCommonPassword(state.password as string)) {
           setErrors({ ...errors, password: 'Password is not valid' });
         } else {
-          setErrors({ ...errors, password: undefined });
+          const { password, ...rest } = errors
+          setErrors({ ...rest });
         }
       }
 
       case 'confirmPassword': {
         if (
-          !formValidators.validatePassword(
+          formValidators.validatePassword(
             state.password as string,
             state.confirmPassword as string
           )
         ) {
           setErrors({ ...errors, confirmPassword: 'Password is not valid' });
         } else {
-          setErrors({ ...errors, confirmPassword: undefined });
+          const { confirmPassword, ...rest } = errors
+          setErrors({ ...rest });
         }
       }
       default: {
@@ -105,7 +111,7 @@ export const SignupFormView: FC<SignupFormViewProps> = ({
     }
 
     if (
-      !formValidators.validatePassword(
+      formValidators.validatePassword(
         state.password as string,
         state.confirmPassword as string
       )
@@ -119,7 +125,11 @@ export const SignupFormView: FC<SignupFormViewProps> = ({
   };
 
   const handleSubmitAfterValidation = () => {
-    if (validateForm()) onSubmit(state as UserFormProps);
+    if (validateForm()) {
+      setIsLoading(true);
+      onSubmit(state as UserFormProps);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -176,7 +186,8 @@ export const SignupFormView: FC<SignupFormViewProps> = ({
       <Button
         label="Create account"
         size="lg"
-        variant="primary"
+        variant={!!Object.keys(errors).length && !isLoading ? 'disabled' : 'primary'}
+        disabled={!!Object.keys(errors).length && !isLoading}
         onPress={handleSubmitAfterValidation}
       />
       <Spacer size="8" />
