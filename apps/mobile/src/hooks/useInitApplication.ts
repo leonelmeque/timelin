@@ -6,8 +6,7 @@ import { cachedAssetAsync } from '../utils';
 
 export const useInitApplication = () => {
   const [appIsReady, setAppIsReady] = useState(false);
-  const [user, dispatch] = useUserContext();
-
+  const [currentUser, setCurrentUser] = useState<User<{}> | null>(null);
   const onLayoutRootView = useCallback(async () => {
     if (appIsReady) {
       await SplashScreen.hideAsync();
@@ -27,24 +26,29 @@ export const useInitApplication = () => {
     }
   }, [appIsReady]);
 
-  const signInWithSessionToken = useCallback(() => {
+  const signInWithSessionToken = useCallback(async () => {
     try {
-      api.users.userSignInWithPersistence((userData: User) => {
-        if (userData) {
-          dispatch(userData);
-        }
-        setAppIsReady(true);
+      api.users.userSignInWithPersistence().then((user) => {
+        setCurrentUser(user as User<{}>);
+        Promise.resolve();
       });
     } catch (err) {
       console.error(err);
+      setAppIsReady(true);
     }
   }, [appIsReady]);
 
   useEffect(() => {
+    console.log('Preparing application');
     const prepare = async () => {
       try {
+        console.log('Loading assets');
         await loadAssetsAync();
-        if (!user) signInWithSessionToken();
+        console.log('Loading assets done');
+        console.log('Signing in with session token');
+        await signInWithSessionToken();
+        setAppIsReady(true);
+        console.log('Signing in with session token done');
       } catch (error) {
         console.log(error);
       }
@@ -53,5 +57,5 @@ export const useInitApplication = () => {
     prepare();
   }, []);
 
-  return { appIsReady, onLayoutRootView } as const;
+  return { appIsReady, onLayoutRootView, currentUser } as const;
 };

@@ -11,9 +11,9 @@ export const useFetchTimeline = (id: string) => {
       api.timeline
         .getTimeline(id)
         .then((result) => {
-          const timeline = normalizeTimeline(result);
-          setTodo(result.todo);
-          setData(timeline);
+          // const timeline = normalizeTimeline(result);
+          // setTodo(result.todo);
+          // setData(timeline);
         })
         .catch((err) => {
           console.error(err);
