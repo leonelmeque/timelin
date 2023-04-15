@@ -7,6 +7,6 @@ export const generateUserData = async (
   await firebase.firestore().collection('users').doc(payload.id).set(payload);
 
   return {
-    ...payload,
+    ...payload as User,
   };
 };
