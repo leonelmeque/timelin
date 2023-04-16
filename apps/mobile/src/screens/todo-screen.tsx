@@ -7,6 +7,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { TodoView } from '../components/todo-view';
 import { useFetchTodo, useUpdateTodos } from '@todo/store';
 import { HeaderActions } from '../components/header-actions';
+import { useConfirmation } from '../hooks/use-confirmation';
 
 type AddTodoScreenProps = {
   Params: {
@@ -18,6 +19,22 @@ const TodoScreen = () => {
   const navigation = useNavigation();
   const { handleDeleteTodoAtom } = useUpdateTodos();
   const { params } = useRoute<RouteProp<AddTodoScreenProps>>();
+  const { ConfirmationDialog, handleConfirm } = useConfirmation({
+    title: 'Delete Project',
+    message: 'Are you sure you want to delete this project?',
+    confirmText: 'Yes, Delete',
+    cancelText: 'Cancel',
+    onConfirm: async () => {
+      try {
+        await api.todo.deleteTodo(params.todo.id);
+        handleDeleteTodoAtom(params.todo.id);
+        navigation.goBack();
+      } catch (error) {
+        alert((error as Error).message);
+      }
+    },
+    onCancel: () => { },
+  });
 
   const {
     value: [state],
@@ -26,46 +43,42 @@ const TodoScreen = () => {
 
   const onPressDeleteTodo =
     (id: string) => async (e: GestureResponderEvent) => {
-      try {
-        await api.todo.deleteTodo(id);
-        handleDeleteTodoAtom(id);
-        navigation.goBack();
-      } catch (error) {
-        alert((error as Error).message);
-      }
+      handleConfirm();
     };
 
-
   return (
-    <CustomSafeAreaView>
-      <Header
-        renderLeftContent={() => (
-          <Pressable
-            onPress={() => {
-              resetCacheData();
-              navigation.goBack();
-            }}
-          >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <MaterialIcons name="arrow-back" size={24} />
-              <Spacer size="4" />
-              <Text size="body" weight="medium">
-                Back
-              </Text>
-            </View>
-          </Pressable>
-        )}
-        renderRigthContent={() => (
-          <HeaderActions onPressDelete={onPressDeleteTodo(params.todo.id)} />
-        )}
-      />
+    <>
+      <CustomSafeAreaView>
+        <Header
+          renderLeftContent={() => (
+            <Pressable
+              onPress={() => {
+                resetCacheData();
+                navigation.goBack();
+              }}
+            >
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <MaterialIcons name="arrow-back" size={24} />
+                <Spacer size="4" />
+                <Text size="body" weight="medium">
+                  Back
+                </Text>
+              </View>
+            </Pressable>
+          )}
+          renderRigthContent={() => (
+            <HeaderActions onPressDelete={onPressDeleteTodo(params.todo.id)} />
+          )}
+        />
 
-      {state.state === 'loading' ? (
-        <Text size="body">Loading....</Text>
-      ) : (
+        {state.state === 'loading' ? (
+          <Text size="body">Loading....</Text>
+        ) : (
           <TodoView todo={(state as typeof state & { data: any })?.data} />
-      )}
-    </CustomSafeAreaView>
+        )}
+      </CustomSafeAreaView>
+      <ConfirmationDialog />
+    </>
   );
 };
 
