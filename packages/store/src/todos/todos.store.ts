@@ -4,6 +4,7 @@ import { atomFamily } from 'jotai/utils';
 
 export const todosState = atom<TodoProps[]>([]);
 export const currentTodoIdAtom = atom<string>('');
+export const pinnedTodo = atom<string | null>(null);
 export const todoFilterState = atom<TodoStatus>(TodoStatus.ON_GOING);
 
 export const readWriteTodosAtom = atom(
@@ -69,3 +70,12 @@ export const filterTodosByQuery = (param: string) =>
         item.description.toLowerCase().indexOf(param.toLowerCase()) > -1
     );
   });
+
+export const readWritePinnedTodo = atom(
+  (get) => {
+    return get(pinnedTodo);
+  },
+  (get, set, update: string) => {
+    set(pinnedTodo, update);
+  }
+);
