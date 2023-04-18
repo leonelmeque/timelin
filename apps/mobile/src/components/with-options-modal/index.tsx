@@ -13,6 +13,7 @@ import {
 import styled from 'styled-components/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components';
+import { onShare } from '../../utils/utils';
 
 export const PressableTodoCard = styled(Pressable)`
   flex: 1;
@@ -71,7 +72,8 @@ export const withOptionsModal =
         setVisible(false);
       };
 
-      const handleShare = () => {
+      const handleShare = async () => {
+        await onShare(props.todo)
         setVisible(false);
       };
 

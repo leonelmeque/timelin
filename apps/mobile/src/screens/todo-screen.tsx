@@ -8,6 +8,7 @@ import { TodoView } from '../components/todo-view';
 import { useFetchTodo, useUpdateTodos } from '@todo/store';
 import { HeaderActions } from '../components/header-actions';
 import { useConfirmation } from '../hooks/use-confirmation';
+import { onShare } from '../utils/utils';
 
 type AddTodoScreenProps = {
   Params: {
@@ -67,7 +68,14 @@ const TodoScreen = () => {
             </Pressable>
           )}
           renderRigthContent={() => (
-            <HeaderActions onPressDelete={onPressDeleteTodo(params.todo.id)} />
+            <HeaderActions
+              onPressDelete={onPressDeleteTodo(params.todo.id)}
+              onPressShare={async () =>
+                await onShare(
+                  (state as typeof state & { data: any })?.data.todo as string
+                )
+              }
+            />
           )}
         />
 
