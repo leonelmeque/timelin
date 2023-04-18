@@ -9,6 +9,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import styled from 'styled-components/native';
 import { Suspense } from 'react';
 import { ProjectList } from '../components/project-list';
+import { PinnedTodo } from '../components/pinned-todo';
 
 const SafeArea = styled(CustomSafeAreaView)`
   flex: 1;
@@ -87,19 +88,7 @@ export default function HomeScreen() {
         <Spacer size="8" />
         <ProjectList />
         <Spacer size="4" />
-        <Section accessibilityLabel="Pinned">
-          <SectionHeader>
-            <Text size="body" weight="medium">
-              Pinned
-            </Text>
-          </SectionHeader>
-          <Spacer size="4" />
-          <SectionContent>
-            <Box>
-              <Text size="small">You can pin projects for easy access</Text>
-            </Box>
-          </SectionContent>
-        </Section>
+        <PinnedTodo />
         <Spacer size="4" />
         <Section accessibilityLabel="Latest">
           <SectionHeader>
