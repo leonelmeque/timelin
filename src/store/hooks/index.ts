@@ -6,3 +6,4 @@ export { useUpdateTodos } from './use-update-todos';
 export { useFetchTimeline } from './use-fetch-timeline';
 export { useTimeline } from './use-timeline';
 export { usePinnedTodo } from './use-pinned-todo';
+export { useLatest } from './use-latest';

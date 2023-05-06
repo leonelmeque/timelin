@@ -7,6 +7,14 @@ export const todosState = atom<TodoProps[]>([]);
 export const currentTodoIdAtom = atom<string>('');
 export const pinnedTodo = atom<string | null>(null);
 export const todoFilterState = atom<TodoStatus>(TodoStatus.ON_GOING);
+export const latestChanged = atom<string | null>(null);
+
+export const readWriteCurrentTodoIdAtom = atom(
+  (get) => get(currentTodoIdAtom),
+  (get, set, id: string) => {
+    set(currentTodoIdAtom, id);
+  }
+);
 
 export const readWriteTodosAtom = atom(
   (get) => get(todosState),
@@ -78,5 +86,14 @@ export const readWritePinnedTodo = atom(
   },
   (get, set, update: string) => {
     set(pinnedTodo, update);
+  }
+);
+
+export const readWriteLatestChanged = atom(
+  (get) => {
+    return get(latestChanged);
+  },
+  (_, set, update: string) => {
+    set(latestChanged, update);
   }
 );
