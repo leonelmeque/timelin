@@ -6,6 +6,8 @@ import { updateTodo } from './update-todo';
 import { addPinnedTodo } from './add-pinned-todo';
 import { removePinnedTodo } from './remove-pinned-todo';
 import { getPinnedTodo } from './get-pinned-todo';
+import { getLastestChanged } from './get-latest-changed';
+import { addLatestChanged } from './add-latest-changed';
 
 export const todo = {
   createTodo,
@@ -15,5 +17,7 @@ export const todo = {
   updateTodo,
   addPinnedTodo,
   removePinnedTodo,
-  getPinnedTodo
+  getPinnedTodo,
+  getLastestChanged,
+  addLatestChanged,
 };

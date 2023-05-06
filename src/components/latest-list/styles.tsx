@@ -7,7 +7,7 @@ export const SectionHeader = styled(Box)`
 `;
 
 export const SectionContent = styled(Box)`
-  flex: 1;
+flex: 1;
 `;
 
 export const Section = styled(Box)`

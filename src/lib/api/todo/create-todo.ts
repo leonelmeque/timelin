@@ -1,5 +1,6 @@
-
 import firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/auth';
 import { TodoProps } from '../../shared-types';
 
 export const createTodo = async (todo: TodoProps) => {

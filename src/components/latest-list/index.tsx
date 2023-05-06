@@ -1,31 +1,32 @@
-import React from "react"
+import React from 'react'
 import { Section, SectionContent, SectionHeader } from './styles';
 import { withOptionsModal } from '../with-options-modal';
-import { usePinnedTodo, useUpdateTodos } from '../../store';
+import { useLatest, useUpdateTodos } from '../../store';
 import { Spacer, Text } from '../../ui/atoms';
 import { TodoCard } from '../../ui/organisms';
 
+
 const TodoCardEnhanced = withOptionsModal(TodoCard);
 
-export const PinnedTodo = () => {
-  const { pinnedTodo } = usePinnedTodo();
+export const LatestList = () => {
+  const { latestChanged } = useLatest();
   const { todos } = useUpdateTodos();
 
-  const pinned = todos.find((todo) => todo.id === pinnedTodo);
+  const pinned = todos.find((todo) => todo.id === latestChanged);
 
   return (
-    <Section accessibilityLabel="Pinned">
+    <Section accessibilityLabel="Latest">
       <SectionHeader>
         <Text size="body" weight="medium">
-          Pinned
+          Latetst
         </Text>
       </SectionHeader>
       <Spacer size="4" />
       <SectionContent>
         {!pinned ? (
-          <Text size="small">You can pin projects for easy access</Text>
+          <Text size="small">There's no recent updated todo's</Text>
         ) : (
-            <TodoCardEnhanced {...pinned} badgeType="colored" />
+          <TodoCardEnhanced {...pinned} badgeType="colored" />
         )}
       </SectionContent>
     </Section>

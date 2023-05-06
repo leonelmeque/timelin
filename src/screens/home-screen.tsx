@@ -1,17 +1,17 @@
+import React, { Suspense } from 'react';
 import { CustomSafeAreaView } from '../components/safe-area-view';
 import { useNavigation } from '@react-navigation/native';
-import { Keyboard, Pressable } from 'react-native';
-
+import { Keyboard, Pressable, ScrollView } from 'react-native';
 import { AddTodoModalView } from '../components/add-todo-modal-view';
 import { useCustomModal } from '../context';
 import { MaterialIcons } from '@expo/vector-icons';
 import styled from 'styled-components/native';
-import { Suspense } from 'react';
 import { ProjectList } from '../components/project-list';
 import { PinnedTodo } from '../components/pinned-todo';
 import { tokens } from '../lib';
 import { Box, Avatar, Spacer, Text } from '../ui/atoms';
 import { Header } from '../ui/organisms';
+import { LatestList } from '../components/latest-list';
 
 const SafeArea = styled(CustomSafeAreaView)`
   flex: 1;
@@ -31,7 +31,6 @@ const Section = styled(Box)`
   flex: 1;
   padding: 0px;
 `;
-
 
 export default function HomeScreen() {
   const navigation = useNavigation();
@@ -75,7 +74,6 @@ export default function HomeScreen() {
     </Box>
   );
 
-
   return (
     <SafeArea>
       <Suspense fallback={suspenseFallback()}>
@@ -87,25 +85,20 @@ export default function HomeScreen() {
           renderLeftContent={renderLeftContent}
           renderRigthContent={renderRigthContent}
         />
-        <Spacer size="8" />
-        <ProjectList />
-        <Spacer size="4" />
-        <PinnedTodo />
-        <Spacer size="4" />
-        <Section accessibilityLabel="Latest">
-          <SectionHeader>
-            <Text size="body" weight="medium">
-              Latest
-            </Text>
-          </SectionHeader>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            marginBottom: 74,
+          }}
+        >
+          <Spacer size="8" />
+          <ProjectList />
           <Spacer size="4" />
-          <SectionContent>
-            <Box>
-              <Text size="small">There are no recent projects created</Text>
-            </Box>
-          </SectionContent>
-        </Section>
-        <Spacer size="4" />
+          <PinnedTodo />
+          <Spacer size="8" />
+          <LatestList />
+          <Spacer size="8" />
+        </ScrollView>
       </Suspense>
     </SafeArea>
   );
