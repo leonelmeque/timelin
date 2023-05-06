@@ -1,9 +1,9 @@
+import React from "react"
 import { Section, SectionContent, SectionHeader } from './styles';
 import { withOptionsModal } from '../with-options-modal';
 import { usePinnedTodo, useUpdateTodos } from '../../store';
 import { Spacer, Text } from '../../ui/atoms';
 import { TodoCard } from '../../ui/organisms';
-
 
 const TodoCardEnhanced = withOptionsModal(TodoCard);
 
@@ -25,7 +25,7 @@ export const PinnedTodo = () => {
         {!pinned ? (
           <Text size="small">You can pin projects for easy access</Text>
         ) : (
-          <TodoCardEnhanced {...pinned} showDescription badgeType="colored" />
+            <TodoCardEnhanced {...pinned} badgeType="colored" />
         )}
       </SectionContent>
     </Section>

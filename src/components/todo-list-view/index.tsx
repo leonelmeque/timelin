@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { FC, useCallback } from 'react';
+import React, { FC, useCallback } from 'react';
 import { GestureResponderEvent } from 'react-native';
 import { TodoList } from './styles';
 import { withOptionsModal } from '../with-options-modal';

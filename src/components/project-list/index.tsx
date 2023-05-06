@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
-import { Pressable } from 'react-native';
+import React, { Pressable } from 'react-native';
 import { TodoListView } from '../todo-list-view';
-import { Section, SectionHeader, SectionContent } from './style';
+import { Section, SectionHeader, SectionContent } from './styles';
 import { useFetchTodos } from '../../store';
 import { Palette, Spacer, Box, Text } from '../../ui/atoms';
 
