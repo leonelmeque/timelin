@@ -1,5 +1,5 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ScrollView, View, Pressable } from 'react-native';
 import styled from 'styled-components/native';
 import { CalendarModalView, CalendarRefProps } from '../calendar-modal-view';
@@ -18,7 +18,7 @@ import {
   Button,
 } from '../../ui/atoms';
 import { TodoProps, TodoStatus, api } from '../../lib';
-import { useUpdateTodos } from '../../store';
+import { useLatest, useUpdateTodos } from '../../store';
 import { dateFormatter } from '../../lib/utils';
 import { TimeStatus } from '../../ui/molecules';
 
@@ -31,6 +31,7 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
 
   const [state, setState] = useState<TodoProps | null>(todo);
   const { handleSyncTodoAtom } = useUpdateTodos();
+  const { updateLatestChanged } = useLatest();
 
   const calendarRef = useRef<CalendarRefProps>(null);
   const todoStatusRef = useRef<UpdateStatusModalRefProps>(null);
@@ -48,12 +49,16 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
 
     const newTodo = { ...state, [inputName]: value };
     setState(newTodo);
-    handleSyncTodoAtom(newTodo.id, newTodo);
+
     if (clearTimeoutRef.current) clearTimeout(clearTimeoutRef.current);
 
     clearTimeoutRef.current = setTimeout(async () => {
       try {
         await api.todo.updateTodo(state.id, newTodo);
+        await api.todo.addLatestChanged(state.id)
+        handleSyncTodoAtom(newTodo.id, newTodo);
+        updateLatestChanged(state.id)
+
       } catch (err) {
         console.error(err);
       }
