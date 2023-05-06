@@ -1,11 +1,11 @@
 import firebase from 'firebase/app';
-import "firebase/firestore"
-import "firebase/auth"
+import 'firebase/firestore';
+import 'firebase/auth';
 
-export const getPinnedTodo = async () => {
+export const getLastestChanged = async () => {
   const ref = await firebase
     .firestore()
-    .collection(`todos`)
+    .collection('todos')
     .doc(firebase.auth().currentUser?.uid)
     .get();
 

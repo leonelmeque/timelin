@@ -7,9 +7,9 @@ import { SignupFormView } from '../../components/signup-form-view';
 import { useState } from 'react';
 import { SignupSuccessView } from '../../components/signup-success-view';
 import { useUserContext } from '../../context';
-import { Header } from 'react-native/Libraries/NewAppScreen';
 import { hooks, User, api, tokens } from '../../lib';
 import { Spacer, Text } from '../../ui/atoms';
+import { Header } from '../../ui/organisms';
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;

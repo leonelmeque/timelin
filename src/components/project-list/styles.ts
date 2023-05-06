@@ -1,5 +1,5 @@
-import styled from "styled-components/native";
-import { Box } from "../../ui/atoms";
+import styled from 'styled-components/native';
+import { Box } from '../../ui/atoms';
 
 export const SectionHeader = styled(Box)`
   flex-direction: row;
@@ -13,4 +13,5 @@ export const SectionContent = styled.View`
 export const Section = styled(Box)`
   flex: 1;
   padding: 0px;
+  height: 150px;
 `;
