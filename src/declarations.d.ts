@@ -1,4 +1,5 @@
-import { DefaultTheme as Theme } from 'ui/theme';
+import 'styled-components/native'
+import { DefaultTheme as Theme } from './ui/theme';
 import { SvgProps } from 'react-native-svg';
 
 declare module '*.svg' {
