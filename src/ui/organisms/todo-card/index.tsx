@@ -12,7 +12,8 @@ import {
   TodoCardHeader,
 } from './styles';
 import { TodoProps, hooks, tokens } from '../../../lib';
-import { dateFormatter } from 'lib/utils';
+import { dateFormatter } from '../../../lib/utils';
+
 
 interface TodoCardProps extends Omit<TodoProps, 'assigned'> {
   assigned?: string[];
