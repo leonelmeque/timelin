@@ -5,7 +5,7 @@ import TodoScreen from '../screens/todo-screen';
 import TodoListStack from './todo-routes';
 import { MaterialIcons } from '@expo/vector-icons';
 import { HideTabBarNavigation } from './constants';
-import { api } from '../lib';
+import SettingsStack from './settings.routes';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,6 +17,7 @@ const TabBarIcon = ({ route, color }: { route: string; color: string }) => {
       return (
         <MaterialIcons name="add-circle-outline" size={24} color={color} />
       );
+    case 'Todo/Settings': return <MaterialIcons name="settings" size={24} color={color} />;
     default:
       return <MaterialIcons name="logout" />;
   }
@@ -29,7 +30,7 @@ export function Tabs() {
 
   return (
     <Tab.Navigator
-      initialRouteName="Todo/Home"
+      initialRouteName="Todo/Settings"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
@@ -52,7 +53,7 @@ export function Tabs() {
 
             return;
           })(route),
-          tabBarIcon: ({ focused, color }) => (
+          tabBarIcon: ({ color }) => (
             <TabBarIcon route={route.name} color={color} />
           ),
         })}
@@ -61,7 +62,7 @@ export function Tabs() {
         name="Todo/Add"
         component={TodoScreen}
         options={({ route }) => ({
-          tabBarIcon: ({ focused, color }) => (
+          tabBarIcon: ({ color }) => (
             <TabBarIcon route={route.name} color={color} />
           ),
         })}
@@ -74,17 +75,12 @@ export function Tabs() {
       />
       <Tab.Screen
         name="Todo/Settings"
-        component={DummyComponent}
+        component={SettingsStack}
         options={({ route }) => ({
-          tabBarIcon: ({ focused, color }) => (
+          tabBarIcon: ({ color }) => (
             <TabBarIcon route={route.name} color={color} />
           ),
         })}
-        listeners={{
-          tabPress: async (e) => {
-            api.users.userSignOut();
-          },
-        }}
       />
     </Tab.Navigator>
   );
