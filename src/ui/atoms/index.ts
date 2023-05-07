@@ -10,3 +10,4 @@ export { Avatar } from './avatar';
 export { Chip } from './chip';
 export { PlainTextInput } from './plain-input';
 export { Box } from './box';
+export { Toggle } from './toggle'
