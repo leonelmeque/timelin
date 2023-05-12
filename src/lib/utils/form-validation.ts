@@ -17,7 +17,9 @@ export const validatePassword = (password: string, confirmPassword: string) => {
 };
 
 export const validateEmail = (email: string) => {
-  return email?.includes('@');
+  const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+  return email?.match(emailRegex) !== null;
 };
 
 export const validateUsername = (username: string) => {
