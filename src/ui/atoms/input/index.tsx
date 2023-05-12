@@ -1,4 +1,4 @@
-import React, { useState, FC, useEffect, useRef } from 'react';
+import { FC } from 'react';
 import {
   NativeSyntheticEvent,
   TextInputChangeEventData,
@@ -20,43 +20,44 @@ export const Input: FC<TextInputProps & InputProps> = ({
   success,
   ...rest
 }) => {
-  const [state, setState] = useState<InputVariant>(InputVariant.DEFAULT);
+  let variant;
 
   const onChange = (e: NativeSyntheticEvent<TextInputChangeEventData>) => {
-    if (!hasError) setState(InputVariant.FOCUS);
+    if (!hasError) {
+      variant = InputVariant.FOCUS;
+    }
   };
 
   const onFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
     if (rest.onFocus) rest?.onFocus(e);
-    setState(InputVariant.FOCUS);
+    variant = InputVariant.FOCUS;
   };
 
   const onBlur = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
     if (rest.onBlur) rest.onBlur(e);
-    setState(InputVariant.DEFAULT);
+    variant = InputVariant.DEFAULT;
   };
 
-  useEffect(() => {
+  const setInputVariant = () => {
     if (hasError) {
-      setState(InputVariant.ERROR);
-      return;
+      return InputVariant.ERROR;
+    } else if (disabled) {
+      return InputVariant.DISABLED;
+    } else if (success) {
+      return InputVariant.SUCCESS;
     }
+    return InputVariant.DEFAULT;
+  };
 
-    if (disabled) {
-      setState(InputVariant.DISABLED);
-      return;
-    }
-
-    if (success) setState(InputVariant.SUCCESS);
-  });
+  variant = setInputVariant();
 
   return (
     <StyledInput
       {...rest}
-      variant={state}
+      variant={variant}
       onFocus={onFocus}
       onBlur={onBlur}
-      editable={!disabled || !rest.editable}
+      editable={!disabled}
       onChange={onChange}
       placeholderTextColor={Palette.greys.G75}
     />
