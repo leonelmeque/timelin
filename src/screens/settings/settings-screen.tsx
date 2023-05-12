@@ -1,10 +1,10 @@
 import React from 'react';
-import { CustomSafeAreaView } from '../components/safe-area-view';
-import { Header } from '../ui/organisms';
-import { Box, Spacer, Text, Toggle } from '../ui/atoms';
-import { SettingsButton } from '../ui/organisms/settings-button';
+import { CustomSafeAreaView } from '../../components/safe-area-view';
+import { Header } from '../../ui/organisms';
+import { Box, Spacer, Text, Toggle } from '../../ui/atoms';
+import { SettingsButton } from '../../ui/organisms/settings-button';
 import { Pressable, ScrollView } from 'react-native';
-import { AvatarWithText } from '../components/avatar-with-text';
+import { AvatarWithText } from '../../components/avatar-with-text';
 
 export const SettingsScreen = () => {
   const headerLeftContent = () => (

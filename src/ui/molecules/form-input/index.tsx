@@ -10,6 +10,7 @@ interface FormInputProps extends TextInputProps {
   captionText?: string;
   errorText?: string;
   successText?: string;
+  disabled?: boolean;
   variant?: 'error' | 'success' | 'caption';
 }
 

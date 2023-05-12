@@ -23,6 +23,7 @@ const hasError = css`
 const isDisabled = css`
   border-color: ${(props) => props.theme.colours.greys.G50};
   background: ${(props) => props.theme.colours.greys.G50};
+  
 `;
 
 const success = css`
