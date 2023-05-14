@@ -3,6 +3,8 @@ import { userSignIn } from './user-signin';
 import { userSignUp } from './user-signup';
 import { userSignOut } from './user-signout';
 import { userSignInWithPersistence } from './user-signin-with-persistence';
+import { getUserProfile } from './get-user-profile';
+import { useUpdateProfile } from './use-update-profile';
 
 export const users = {
   getUserInformation,
@@ -10,4 +12,6 @@ export const users = {
   userSignUp,
   userSignOut,
   userSignInWithPersistence,
+  getUserProfile,
+  useUpdateProfile,
 };
