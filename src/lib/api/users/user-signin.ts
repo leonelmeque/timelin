@@ -1,7 +1,7 @@
-import { UserLogin } from 'lib/shared-types';
 import { getUserInformation } from './get-user-information';
 import firebase from 'firebase/app';
-import "firebase/auth"
+import 'firebase/auth';
+import { UserLogin } from '../../shared-types';
 
 export const userSignIn = async ({
   username,

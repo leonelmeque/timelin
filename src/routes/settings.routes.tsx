@@ -9,7 +9,7 @@ const options: NativeStackNavigationOptions = {
 };
 
 const SettingsStack = () => (
-  <Stack.Navigator screenOptions={options} initialRouteName='Settings/Profile'>
+  <Stack.Navigator screenOptions={options} initialRouteName='Settings/Default'>
     <Stack.Group
       screenOptions={{
         headerShown: false,
