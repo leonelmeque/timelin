@@ -3,7 +3,7 @@ import { CustomSafeAreaView } from '../components/safe-area-view';
 import { useNavigation } from '@react-navigation/native';
 import { Keyboard, Pressable, ScrollView } from 'react-native';
 import { AddTodoModalView } from '../components/add-todo-modal-view';
-import { useCustomModal } from '../context';
+import { useCustomModal, useUserContext } from '../context';
 import { MaterialIcons } from '@expo/vector-icons';
 import styled from 'styled-components/native';
 import { ProjectList } from '../components/project-list';
@@ -18,23 +18,10 @@ const SafeArea = styled(CustomSafeAreaView)`
   background-color: #fff;
 `;
 
-const SectionHeader = styled(Box)`
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-const SectionContent = styled.View`
-  flex: 1;
-`;
-
-const Section = styled(Box)`
-  flex: 1;
-  padding: 0px;
-`;
-
 export default function HomeScreen() {
   const navigation = useNavigation();
   const [modalVisibility, setModalVisibility] = useCustomModal();
+  const [user] = useUserContext();
 
   const onModalDismiss = () => {
     Keyboard.dismiss();
@@ -57,7 +44,8 @@ export default function HomeScreen() {
       size={tokens.spacing.size48}
       radius={tokens.spacing.size8}
       source={{
-        uri: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1364&q=80',
+        uri: user?.avatar,
+        cache: 'force-cache',
       }}
     />
   );

@@ -5,7 +5,7 @@ import { CustomSafeAreaView } from '../../components/safe-area-view';
 import { SignInFormView } from '../../components/signin-form-view';
 import { useUserContext } from '../../context';
 import { useState } from 'react';
-import { api } from '../../lib';
+import { User, api } from '../../lib';
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
@@ -42,8 +42,15 @@ export const SignInScreen = () => {
         username,
         password,
       });
+
+      const { displayName, photoURL } = api.users.getUserProfile();
+
       if (userData) {
-        dispatch(userData);
+        dispatch({
+          ...userData,
+          avatar: photoURL,
+          fullname: displayName,
+        } as User);
       } else {
         alert('Unable to login. Please try again.');
       }
