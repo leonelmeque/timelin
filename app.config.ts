@@ -1,6 +1,6 @@
 import { ExpoConfig, ConfigContext } from '@expo/config';
-import * as dotenv from 'dotenv'
-dotenv.config()
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
@@ -31,6 +31,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   web: {
     favicon: './assets/favicon.png',
   },
+  plugins: [
+    [
+      'expo-image-picker',
+      {
+        photosPermission:
+          'The app accesses your photos to let you share them with your friends.',
+      },
+    ],
+  ],
   extra: {
     projectId: process.env.FIREBASE_PROJECT_ID,
     apiKey: process.env.FIREBASE_PRIVATE_KEY,
@@ -44,4 +53,4 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
 });
 
-console.log(process.env.FIREBASE_PROJECT_ID)
+console.log(process.env.FIREBASE_PROJECT_ID);

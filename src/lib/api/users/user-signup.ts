@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import { generateUserData } from './generate-user-data';
-import { User } from 'lib/shared-types';
+import { User } from '../../shared-types';
 
 export async function userSignUp<T>(
   data: Partial<User & { [key: string]: any }>
@@ -15,6 +15,12 @@ export async function userSignUp<T>(
     username: username as string,
     email: email as string,
     id: result.user?.uid as string,
+    birthdate: '',
+    preferences: {},
+    phonenumber: {
+      countryCode: '',
+      number: '',
+    },
   });
 
   return user;

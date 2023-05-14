@@ -2,7 +2,7 @@ import { User } from '../../shared-types';
 import firebase from 'firebase/app';
 
 export const generateUserData = async (
-  payload: Pick<User, 'email' | 'username' | 'id'>
+  payload: Partial<User>
 ) => {
   await firebase.firestore().collection('users').doc(payload.id).set(payload);
 

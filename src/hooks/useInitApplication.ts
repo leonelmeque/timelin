@@ -29,7 +29,14 @@ export const useInitApplication = () => {
     try {
       const user = await api.users.userSignInWithPersistence();
       if (user) {
-        setCurrentUser(user as User<{}>);
+        const { displayName, email, photoURL } = api.users.getUserProfile();
+
+        setCurrentUser({
+          ...user,
+          avatar: photoURL,
+          email,
+          fullname: displayName,
+        } as User<{}>);
       }
 
       await Promise.resolve();

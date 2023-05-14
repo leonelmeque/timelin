@@ -38,7 +38,7 @@ export const AvatarWithText: FC<AvatarWithTextProps> = ({
         <Avatar
           size={48}
           radius={4}
-          source={{ uri: profilePicture }}
+          source={{ uri: profilePicture, cache: 'force-cache' }}
         />
       </View>
       <Spacer size="8" />

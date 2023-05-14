@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 
 type UsernameForm = {
   username: string;
+  onSubmit: (values: string) => void;
 };
 
 type UsernameFormProps = {
@@ -18,7 +19,7 @@ type UsernameFormProps = {
   newUsername: string;
 };
 
-export const UsernameForm: FC<UsernameForm> = ({ username }) => {
+export const UsernameForm: FC<UsernameForm> = ({ username, onSubmit }) => {
   const validation: ValidationFunction<UsernameFormProps> = (values) => {
     const newErrors: ValidationErrors<UsernameFormProps> = {};
     const { currentUsername, newUsername } = values;
@@ -81,7 +82,9 @@ export const UsernameForm: FC<UsernameForm> = ({ username }) => {
         label="Update username"
         variant="primary"
         size="lg"
-        onPress={handleUpdateInformation}
+        onPress={() => {
+          onSubmit(newUsername);
+        }}
       />
     </>
   );
