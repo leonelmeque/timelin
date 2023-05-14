@@ -5,8 +5,25 @@ import { Box, Spacer, Text, Toggle } from '../../ui/atoms';
 import { SettingsButton } from '../../ui/organisms/settings-button';
 import { Pressable, ScrollView } from 'react-native';
 import { AvatarWithText } from '../../components/avatar-with-text';
+import { User, api } from '../../lib';
+import { useUserContext } from '../../context';
+import { useNavigation } from '@react-navigation/native';
 
 export const SettingsScreen = () => {
+  const [user, dispatch] = useUserContext();
+  const { avatar, fullname } = user as User;
+  const navigation = useNavigation();
+
+  const handleNavigation = (path: string) => {
+    switch (path) {
+      case 'profile':
+        //@ts-ignore
+        navigation.navigate('Settings/Profile');
+      default:
+        return null;
+    }
+  };
+
   const headerLeftContent = () => (
     <Text size="heading" weight="bold">
       Settings
@@ -14,7 +31,12 @@ export const SettingsScreen = () => {
   );
 
   const handleToggleNotifications = async () => {
-    return Promise.resolve()
+    return Promise.resolve();
+  };
+
+  const handleSignOut = async () => {
+    await api.users.userSignOut();
+    dispatch(null);
   };
 
   return (
@@ -23,9 +45,13 @@ export const SettingsScreen = () => {
       <ScrollView>
         <Box>
           <Spacer size="8" />
-          <AvatarWithText name="Jhon Doe" role="Senior Product Designer" />
+          <AvatarWithText
+            name={fullname as string}
+            role="Senior Product Designer"
+            profilePicture={avatar}
+          />
           <Spacer size="16" />
-          <Pressable>
+          <Pressable onPress={() => handleNavigation('profile')}>
             <SettingsButton
               iconName="person-outline"
               settingName="Profile"
@@ -64,7 +90,7 @@ export const SettingsScreen = () => {
             <SettingsButton iconName="info-outline" settingName="About us" />
           </Pressable>
           <Spacer size="16" />
-          <Pressable>
+          <Pressable onPress={handleSignOut}>
             <SettingsButton iconName="logout" settingName="Log out" />
           </Pressable>
           <Spacer size="16" />
