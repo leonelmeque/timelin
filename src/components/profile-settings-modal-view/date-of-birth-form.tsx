@@ -7,21 +7,20 @@ import RNDateTimePicker, {
 } from '@react-native-community/datetimepicker';
 import { dateFormatter } from '../../lib/utils';
 
-export const DateOfBirthForm: FC<{ dateOfBirth: string }> = ({
-  dateOfBirth,
-}) => {
+export const DateOfBirthForm: FC<{
+  dateOfBirth: string;
+  onSubmit: (values: number) => void;
+}> = ({ dateOfBirth, onSubmit }) => {
+
   const {
     values,
     errors,
     handleChange: onFormChange,
-  } = useForm({ dateOfBirth: new Date(dateOfBirth) });
+  } = useForm({
+    dateOfBirth: !dateOfBirth ? new Date().getTime() : Number(dateOfBirth),
+  });
 
-  const navigation = useNavigation();
-
-  const handleUpdateFormField = () => {
-    console.log({ values });
-    navigation.goBack();
-  };
+  //TODO: validate date of birth correctly
 
   const onChangeDate = (event: DateTimePickerEvent, date?: Date) => {
     if (!date) return;
@@ -40,13 +39,13 @@ export const DateOfBirthForm: FC<{ dateOfBirth: string }> = ({
         value={new Date(values.dateOfBirth)}
         display="inline"
       />
-      <Caption variant='caption' caption='The day your were born' />
+      <Caption variant="caption" caption="The day your were born" />
       <Spacer size="64" />
       <Button
         label="Update birthday"
         variant="primary"
         size="lg"
-        onPress={handleUpdateFormField}
+        onPress={() => onSubmit(Number(values.dateOfBirth))}
       />
     </>
   );
