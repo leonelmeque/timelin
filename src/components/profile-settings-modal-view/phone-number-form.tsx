@@ -4,6 +4,7 @@ import {
   ValidationFunction,
   useForm,
 } from '../../hooks/use-form';
+import { PhoneInput } from '../../ui/molecules';
 
 type PhoneNumberFormProps = {
   countryCode: string;
@@ -39,5 +40,7 @@ export const PhoneNumberForm: FC<PhoneNumberFormProps> = (props) => {
 
   // create a phone input component to finalize this
 
-  return <></>;
+  return <>
+    <PhoneInput />
+  </>;
 };
