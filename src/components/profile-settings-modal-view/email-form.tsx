@@ -14,7 +14,10 @@ type EmailFormValues = {
   confirmEmail: string;
 };
 
-export const EmailForm: FC<{ email: string }> = (props) => {
+export const EmailForm: FC<{
+  email: string;
+  onSubmit?: (value: string) => void;
+}> = ({ onSubmit, email }) => {
   const validation: ValidationFunction<EmailFormValues> = (values) => {
     const newErrors: ValidationErrors<EmailFormValues> = {};
 
@@ -26,7 +29,7 @@ export const EmailForm: FC<{ email: string }> = (props) => {
       newErrors.newEmail = 'Cannot be the same as current email';
     }
 
-    if (values.confirmEmail) {
+    if (values.newEmail) {
       if (values.newEmail !== values.confirmEmail) {
         newErrors.confirmEmail = 'Emails do not match';
       }
@@ -40,13 +43,9 @@ export const EmailForm: FC<{ email: string }> = (props) => {
     handleChange: onFormChange,
     errors,
   } = useForm(
-    { currentEmail: props.email, newEmail: '', confirmEmail: '' },
+    { currentEmail: email, newEmail: '', confirmEmail: '' },
     validation
   );
-
-  const handleUpdateInformation = () => {
-    console.log('feature not implemented yet');
-  };
 
   return (
     <>
@@ -86,8 +85,8 @@ export const EmailForm: FC<{ email: string }> = (props) => {
           errors.newEmail || errors.confirmEmail ? 'disabled' : 'primary'
         }
         size="lg"
-        onPress={handleUpdateInformation}
-        disabled={!!errors.newEmail || !!errors.confirmEmail}
+        onPress={() => onSubmit && onSubmit(values.newEmail)}
+        disabled={!!errors.newEmail && !!errors.confirmEmail}
       />
     </>
   );
