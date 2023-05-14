@@ -29,6 +29,8 @@ const Provider: FC<PropsWithChildren & { initUser: User<{}> | null }> = ({ child
   return <Context.Provider value={value}>{children}</Context.Provider>;
 };
 
+Provider.displayName = "UserProvider"
+
 const useUserContext = () => {
   const { user, dispatch } = useContext<UserContextProps>(Context);
   return [user, dispatch] as const;

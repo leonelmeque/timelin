@@ -40,12 +40,17 @@ interface Person {
 
 export interface User<P = {}> extends Person {
   id: string;
+  fullname?: string;
   username: string;
   email: string;
   password: string;
   avatar: string;
   preferences?: P;
   todos: string[];
+  phonenumber?: {
+    countryCode: string;
+    number: string;
+  }
 }
 
 export type IsLoading = 'FETCHING' | 'ERROR' | 'SUCCESS' | 'IDLE';
