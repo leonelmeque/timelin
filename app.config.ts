@@ -21,6 +21,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   assetBundlePatterns: ['**/*'],
   ios: {
     supportsTablet: true,
+    bundleIdentifier: 'com.timelin.mobile',
   },
   android: {
     adaptiveIcon: {
@@ -50,7 +51,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     appId: process.env.FIREBASE_APP_ID,
     measurementId: process.env.FIREBASE_MEASUREMENT_ID,
     appName: 'timelin-mobile',
+    eas: {
+      projectId: 'd0d6955c-36c9-4246-8d5f-fc8446f4eaef',
+    },
   },
 });
-
-console.log(process.env.FIREBASE_PROJECT_ID);
