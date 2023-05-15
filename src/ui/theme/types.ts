@@ -34,6 +34,19 @@ export interface DefaultTheme {
       large: number;
       heading: number;
     };
+    weight: {
+      regular: string;
+      bold: string;
+      100: number;
+      200: number;
+      300: number;
+      400: number;
+      500: number;
+      600: number;
+      medium: number;
+      800: number;
+      900: number;
+    };
   };
   shadow: { [K in Shadow]: string };
 }
