@@ -3,7 +3,7 @@ import 'firebase/auth';
 import 'firebase/storage';
 
 export const useUpdateProfile = () => {
-  const currentUser = firebase.auth().currentUser;
+  const currentUser = firebase.auth().currentUser as firebase.User;
 
   const updateProfileName = async (name: string) => {
     return await currentUser?.updateProfile({
@@ -68,6 +68,17 @@ export const useUpdateProfile = () => {
     return await currentUser?.sendEmailVerification();
   };
 
+  /**
+   * @linkcode https://stackoverflow.com/questions/37811684/how-to-create-credential-object-needed-by-firebase-web-user-reauthenticatewith
+   */
+  const reauthenticatePassword = async (password: string) => {
+    const credential = firebase.auth.EmailAuthProvider.credential(
+      currentUser.email as string,
+      password
+    );
+    return currentUser.reauthenticateWithCredential(credential);
+  };
+
   const deleteUser = async () => {
     return await currentUser?.delete();
   };
@@ -83,5 +94,6 @@ export const useUpdateProfile = () => {
     sendEmailVerification,
     deleteUser,
     updateUsername,
+    reauthenticatePassword,
   } as const;
 };

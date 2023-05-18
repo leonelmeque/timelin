@@ -12,17 +12,18 @@ type SettingsButtonProps = {
   description?: string;
   withToggle?: boolean;
   rightContent?: React.ReactNode;
-};
+} & ComponentProps<typeof Container>;
 
 export const SettingsButton: FC<SettingsButtonProps> = ({
   iconName = "america",
   settingName,
   description,
-  rightContent
+  rightContent,
+  ...rest
 }) => {
   const theme = useTheme();
   return (
-    <Container>
+    <Container {...rest}>
       <MaterialIcons
         name={iconName as any}
         size={24}
