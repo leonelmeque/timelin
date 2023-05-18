@@ -12,6 +12,7 @@ import { tokens } from '../lib';
 import { Box, Avatar, Spacer, Text } from '../ui/atoms';
 import { Header } from '../ui/organisms';
 import { LatestList } from '../components/latest-list';
+import { HomeScreenTemplate } from '../ui/templates/home-screen-template';
 
 const SafeArea = styled(CustomSafeAreaView)`
   flex: 1;
@@ -50,17 +51,7 @@ export default function HomeScreen() {
     />
   );
 
-  const suspenseFallback = () => (
-    <Box
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <Text size="heading">Loading data</Text>
-    </Box>
-  );
+  const suspenseFallback = () => <HomeScreenTemplate />;
 
   return (
     <SafeArea>
