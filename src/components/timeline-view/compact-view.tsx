@@ -1,10 +1,11 @@
 import { useMemo, useRef } from 'react';
-import { FlatList, Pressable } from 'react-native';
+import { FlatList, Pressable, View } from 'react-native';
 import { RenderTimelineEvent } from './render-timeline-event';
 import { useNavigation } from '@react-navigation/native';
 import { eventsDateSorter } from '../../lib/utils';
 import { useFetchTimeline, useTimeline } from '../../store';
 import { Spacer, Palette, Text } from '../../ui/atoms';
+import { Skeleton } from '../../ui/molecules/skeleton';
 
 export const TimelineCompactView = ({ id }: { id: string }) => {
   const { value } = useFetchTimeline(id);
@@ -27,7 +28,32 @@ export const TimelineCompactView = ({ id }: { id: string }) => {
     return eventsDateSorter(arr);
   }, [value]);
 
-  if (value.state === 'loading') return <Text size="body">Loading data</Text>;
+  if (value.state === 'loading')
+    return (
+      <>
+        <View>
+          <Skeleton>
+            <Skeleton.Placeholder
+              width={'80%'}
+              height={15}
+              variant="rectangle"
+            />
+            <Spacer size="8" />
+            <Skeleton.Placeholder
+              width={'70%'}
+              height={15}
+              variant="rectangle"
+            />
+            <Spacer size="8" />
+            <Skeleton.Placeholder
+              width={'50%'}
+              height={15}
+              variant="rectangle"
+            />
+          </Skeleton>
+        </View>
+      </>
+    );
   if (value.state === 'hasError')
     return <Text size="body">Error loading data</Text>;
 
