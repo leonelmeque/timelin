@@ -10,6 +10,7 @@ import { TodoProps, api } from '../lib';
 import { useUpdateTodos, useFetchTodo } from '../store';
 import { Spacer, Text } from '../ui/atoms';
 import { Header } from '../ui/organisms';
+import { TodoScreenTemplate } from '../ui/templates/todo-screen.template';
 
 type AddTodoScreenProps = {
   Params: {
@@ -81,7 +82,7 @@ const TodoScreen = () => {
         />
 
         {state.state === 'loading' ? (
-          <Text size="body">Loading....</Text>
+          <TodoScreenTemplate />
         ) : (
           <TodoView todo={(state as typeof state & { data: any })?.data} />
         )}

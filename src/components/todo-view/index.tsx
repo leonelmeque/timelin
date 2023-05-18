@@ -158,7 +158,7 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
         >
           <MaterialIcons name="timeline" size={24} />
           <Spacer size="8" />
-          <View>
+          <View style={{ flex: 1 }}>
             <TimelineCompactView id={state?.id || ''} />
           </View>
         </Box>
