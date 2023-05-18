@@ -1,7 +1,7 @@
-import { View } from 'react-native';
+import { View, ViewProps } from 'react-native';
 import styled from 'styled-components/native';
 
-export const Box = styled(({ children, style, ...rest }) => (
+export const Box = styled(({ children, style, ...rest }: ViewProps) => (
   <View style={style} {...rest}>
     {children}
   </View>
