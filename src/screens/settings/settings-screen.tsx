@@ -18,7 +18,10 @@ export const SettingsScreen = () => {
     switch (path) {
       case 'profile':
         //@ts-ignore
-        navigation.navigate('Settings/Profile');
+        navigation.navigate('Settings/Profile'); break
+      case 'account':
+        //@ts-ignore
+        navigation.navigate('Settings/Account'); break
       default:
         return null;
     }
@@ -59,7 +62,7 @@ export const SettingsScreen = () => {
             />
           </Pressable>
           <Spacer size="16" />
-          <Pressable>
+          <Pressable onPress={() => handleNavigation('account')}>
             <SettingsButton
               iconName="add"
               settingName="Account"

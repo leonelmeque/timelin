@@ -9,7 +9,6 @@ import { TextLabelPresentation } from '../../ui/molecules/text-label-presentatio
 import { useUserContext } from '../../context';
 import { User } from '../../lib';
 import { useImagePicker } from '../../lib/hooks/use-image-picker';
-import { useUpdateProfile } from '../../lib/api/users/use-update-profile';
 import { useImageUpload } from '../../lib/hooks/use-image-upload';
 import { dateFormatter } from '../../lib/utils';
 
