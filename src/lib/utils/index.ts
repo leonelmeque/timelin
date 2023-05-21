@@ -11,3 +11,4 @@ export {
 } from './form-validation';
 export { eventsDateSorter } from './events-date-sorter';
 export { initializeFirebaseApplication } from './firebase';
+export { phoneNumber } from "./phone-number"

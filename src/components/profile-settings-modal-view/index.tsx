@@ -1,22 +1,23 @@
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { Box, Spacer, Text } from '../../ui/atoms';
-import { MaterialIcons } from '@expo/vector-icons';
-import { DateOfBirthForm } from './date-of-birth-form';
-import { EmailForm } from './email-form';
-import { PhoneNumberForm } from './phone-number-form';
-import { ProfileFullNameForm } from './profile-full-name-form';
-import { RoleForm } from './role-form';
-import { UsernameForm } from './username-form';
-import { useUserContext } from '../../context';
-import { User, api } from '../../lib';
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { Box, Spacer, Text } from "../../ui/atoms";
+import { MaterialIcons } from "@expo/vector-icons";
+import { DateOfBirthForm } from "./date-of-birth-form";
+import { EmailForm } from "./email-form";
+import { PhoneNumberForm } from "./phone-number-form";
+import { ProfileFullNameForm } from "./profile-full-name-form";
+import { RoleForm } from "./role-form";
+import { UsernameForm } from "./username-form";
+import { useUserContext } from "../../context";
+import { User, api } from "../../lib";
+import { Alert } from "react-native";
 
 const headingTitle = {
-  name: 'Edit full name',
-  username: 'Change username',
-  role: 'Change role',
-  dateOfBirth: 'Update date of birth',
-  email: 'Change email',
-  phonenumber: 'Update phone number',
+  name: "Edit full name",
+  username: "Change username",
+  role: "Change role",
+  dateOfBirth: "Update date of birth",
+  email: "Change email",
+  phonenumber: "Update phone number",
 };
 
 export const ProfileSettingsModalView = () => {
@@ -27,8 +28,14 @@ export const ProfileSettingsModalView = () => {
   const navigation = useNavigation();
   const [user, dispatch] = useUserContext();
   const { fullname, username, birthdate, email, phonenumber } = user as User;
-  const { updateProfileName, updateEmail, sendEmailVerification, updateBirthDate, updateUsername } =
-    api.users.useUpdateProfile();
+  const {
+    updateProfileName,
+    updateEmail,
+    sendEmailVerification,
+    updateBirthDate,
+    updateUsername,
+    updatePhoneNumber,
+  } = api.users.useUpdateProfile();
 
   const handleSubmitFullName = async <V extends string>(values: V) => {
     try {
@@ -43,20 +50,21 @@ export const ProfileSettingsModalView = () => {
 
   const handleSubmitUsername = async (values: string) => {
     try {
-      await updateUsername(values)
+      await updateUsername(values);
       dispatch({ ...user, username: values } as User);
-      navigation.goBack()
+      navigation.goBack();
     } catch (err) {
       //TODO: write an error api
       console.error(err);
+      Alert.alert("Username already taken");
     }
   };
 
   const handleSubmitBirthDate = async (values: number) => {
     try {
       dispatch({ ...user, birthdate: String(values) } as User);
-      updateBirthDate(String(values))
-      navigation.goBack()
+      updateBirthDate(String(values));
+      navigation.goBack();
     } catch (err) {
       //TODO: write an error api
       console.error(err);
@@ -75,35 +83,45 @@ export const ProfileSettingsModalView = () => {
     }
   };
 
+  const handlePhoneNumber = async (countryCode: string, number: string) => {
+    try {
+      debugger
+      await updatePhoneNumber(countryCode, number);
+      dispatch({ ...user, phonenumber: { countryCode, number } } as User);
+      navigation.goBack();
+    } catch (err) { }
+  };
+
   const RenderFormFields = () => {
     switch (value) {
-      case 'name':
+      case "name":
         return (
           <ProfileFullNameForm
             fullName={fullname as string}
             onSubmit={handleSubmitFullName}
           />
         );
-      case 'username':
+      case "username":
         return (
           <UsernameForm username={username} onSubmit={handleSubmitUsername} />
         );
-      case 'role':
+      case "role":
         return <RoleForm role="Senior Product Designer" />;
-      case 'dateOfBirth':
+      case "dateOfBirth":
         return (
           <DateOfBirthForm
             dateOfBirth={birthdate}
             onSubmit={handleSubmitBirthDate}
           />
         );
-      case 'email':
+      case "email":
         return <EmailForm email={email} onSubmit={handleSubmitEmail} />;
-      case 'phonenumber':
+      case "phonenumber":
         return (
           <PhoneNumberForm
             countryCode={phonenumber?.countryCode as string}
             number={phonenumber?.number as string}
+            onSubmit={handlePhoneNumber}
           />
         );
       default:

@@ -1,9 +1,8 @@
-import firebase from 'firebase/app';
-import "firebase/auth"
-import { getUserInformation } from './get-user-information';
+import firebase from "firebase/app";
+import "firebase/auth";
+import { getUserInformation } from "./get-user-information";
 
 export const userSignInWithPersistence = () => {
-  // firebase.auth()
   return new Promise((resolve, reject) => {
     const unsubscribe = firebase.auth().onAuthStateChanged(
       (user) => {
