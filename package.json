@@ -7,6 +7,7 @@
   "license": "MIT",
   "private": "true",
   "dependencies": {
+    "google-libphonenumber": "^3.2.32",
     "@expo/vector-icons": "^13.0.0",
     "@react-native-async-storage/async-storage": "^1.17.11",
     "@react-native-community/datetimepicker": "6.5.2",
@@ -47,6 +48,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
+    "@types/google-libphonenumber": "^7.4.23",
     "@types/inquirer": "^9.0.3",
     "@types/minimist": "^1.2.2",
     "@types/react": "~18.0.24",
