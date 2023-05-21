@@ -10,7 +10,7 @@ export const getUserProfile = () => {
 
   const { uid, email, emailVerified, displayName, phoneNumber, photoURL } =
     currentUser;
-  console.log({ displayName })
+
   return {
     uid,
     email,
