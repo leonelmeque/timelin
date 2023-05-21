@@ -1,14 +1,19 @@
-import { FC } from 'react';
+import { FC } from "react";
 import {
   ValidationErrors,
   ValidationFunction,
   useForm,
-} from '../../hooks/use-form';
-import { PhoneInput } from '../../ui/molecules';
+} from "../../hooks/use-form";
+import { PhoneInput } from "../../ui/molecules";
+import { normalizedCountries } from "../../lib/utils/normalized-countries";
+import { Button, Spacer } from "../../ui/atoms";
+import { KeyboardAvoidingView } from "react-native";
+import { utils } from "../../lib";
 
 type PhoneNumberFormProps = {
   countryCode: string;
   number: string;
+  onSubmit?: (countryCode: string, number: string) => void;
 };
 
 type PhoneNumberForm = {
@@ -16,16 +21,17 @@ type PhoneNumberForm = {
   number: string;
 };
 
-export const PhoneNumberForm: FC<PhoneNumberFormProps> = (props) => {
+export const PhoneNumberForm: FC<PhoneNumberFormProps> = ({
+  onSubmit = () => { },
+  ...props
+}) => {
+
   const validation: ValidationFunction<PhoneNumberForm> = (values) => {
     const newErrors: ValidationErrors<PhoneNumberForm> = {};
+    const { validatePhoneNumber } = utils.phoneNumber;
 
-    if (values.countryCode.length === 0) {
-      newErrors.countryCode = 'Country code is required';
-    }
-
-    if (values.number.length === 0) {
-      newErrors.number = 'Number is required';
+    if (!validatePhoneNumber(values.countryCode, values.number)) {
+      newErrors.number = "Phone number is invalid";
     }
 
     return newErrors;
@@ -35,12 +41,36 @@ export const PhoneNumberForm: FC<PhoneNumberFormProps> = (props) => {
     values: { countryCode, number },
     errors,
     handleChange: onFormChange,
-  } = useForm({ ...props }, validation);
+  } = useForm(props, validation);
 
+  const countries = normalizedCountries(countryCode);
 
-  // create a phone input component to finalize this
+  return (
+    <KeyboardAvoidingView>
+      <PhoneInput
+        dropdownList={countries}
+        dialcode={countries[0].dialcode}
+        code={countries[0].code}
+        number={number}
+        success={!errors.number && number.length > 3}
+        hasError={errors.number !== undefined}
+        onSelectCountryCode={onFormChange("countryCode")}
+        onNumberChange={onFormChange("number")}
+      />
+      <Spacer size="64" />
 
-  return <>
-    <PhoneInput />
-  </>;
+      <Button
+        label="Submit"
+        variant={!errors.number ? "primary" : "disabled"}
+        size="lg"
+        onPress={() => onSubmit(countryCode, number)}
+        disabled={errors.number !== undefined}
+      />
+    </KeyboardAvoidingView>
+  );
+};
+
+PhoneNumberForm.defaultProps = {
+  countryCode: "US",
+  number: "",
 };
