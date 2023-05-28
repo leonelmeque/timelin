@@ -28,6 +28,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       foregroundImage: './assets/adaptive-icon.png',
       backgroundColor: '#FFFFFF',
     },
+    package: 'com.timelin.mobile',
+
   },
   web: {
     favicon: './assets/favicon.png',

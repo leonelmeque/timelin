@@ -1,4 +1,4 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { Box, Spacer, Text } from "../../ui/atoms";
 import { MaterialIcons } from "@expo/vector-icons";
 import { DateOfBirthForm } from "./date-of-birth-form";
@@ -9,7 +9,13 @@ import { RoleForm } from "./role-form";
 import { UsernameForm } from "./username-form";
 import { useUserContext } from "../../context";
 import { User, api } from "../../lib";
-import { Alert } from "react-native";
+import {
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+} from "react-native";
+import { useCallback } from "react";
 
 const headingTitle = {
   name: "Edit full name",
@@ -20,10 +26,16 @@ const headingTitle = {
   phonenumber: "Update phone number",
 };
 
+type RoutParams = {
+  params: {
+    value: string;
+  };
+};
+
 export const ProfileSettingsModalView = () => {
   const {
     params: { value },
-  } = useRoute() as any;
+  } = useRoute<RouteProp<RoutParams>>();
 
   const navigation = useNavigation();
   const [user, dispatch] = useUserContext();
@@ -85,14 +97,14 @@ export const ProfileSettingsModalView = () => {
 
   const handlePhoneNumber = async (countryCode: string, number: string) => {
     try {
-      debugger
+      debugger;
       await updatePhoneNumber(countryCode, number);
       dispatch({ ...user, phonenumber: { countryCode, number } } as User);
       navigation.goBack();
     } catch (err) { }
   };
 
-  const RenderFormFields = () => {
+  const RenderFormFields = useCallback(() => {
     switch (value) {
       case "name":
         return (
@@ -127,7 +139,7 @@ export const ProfileSettingsModalView = () => {
       default:
         return null;
     }
-  };
+  }, []);
 
   return (
     <Box>
@@ -142,8 +154,14 @@ export const ProfileSettingsModalView = () => {
       <Text size="heading" weight="bold">
         {headingTitle[value as keyof typeof headingTitle]}
       </Text>
-      <Spacer size="8" />
-      <RenderFormFields />
+      <ScrollView bounces={false}>
+        <Spacer size="8" />
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <RenderFormFields />
+        </KeyboardAvoidingView>
+      </ScrollView>
     </Box>
   );
 };
