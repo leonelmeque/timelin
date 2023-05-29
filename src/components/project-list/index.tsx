@@ -4,8 +4,10 @@ import { TodoListView } from '../todo-list-view';
 import { Section, SectionHeader, SectionContent } from './styles';
 import { useFetchTodos } from '../../store';
 import { Palette, Spacer, Box, Text } from '../../ui/atoms';
+import { useTranslation } from 'react-i18next';
 
 export const ProjectList = () => {
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const [todos] = useFetchTodos();
 
@@ -20,11 +22,11 @@ export const ProjectList = () => {
     <Section accessibilityLabel="Projects">
       <SectionHeader>
         <Text size="body" weight="medium">
-          Projects
+          {t('home.project_list.heading')}
         </Text>
         <Pressable onPress={nagivateToTodoList}>
           <Text size="small" weight="medium" colour={Palette.primary.P300}>
-            More
+            {t('general.more')}
           </Text>
         </Pressable>
       </SectionHeader>
