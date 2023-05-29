@@ -30,7 +30,7 @@ export function Tabs() {
 
   return (
     <Tab.Navigator
-      initialRouteName="Todo/Settings"
+      initialRouteName="Todo/Home"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
