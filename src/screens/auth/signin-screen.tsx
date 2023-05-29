@@ -70,7 +70,12 @@ export const SignInScreen = () => {
       <CustomSafeAreaView>
         <Image
           source={bg}
-          style={{ width: WIDTH, height: HEIGHT / 2, position: "absolute", resizeMode: 'stretch' }}
+          style={{
+            width: WIDTH,
+            height: HEIGHT / 2,
+            position: "absolute",
+            resizeMode: "stretch",
+          }}
         />
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
