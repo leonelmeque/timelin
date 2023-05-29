@@ -1,11 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
-import * as SplashScreen from 'expo-splash-screen';
-import { cachedAssetAsync } from '../utils';
-import { User, api } from '../lib';
+import { useCallback, useEffect, useState } from "react";
+import * as SplashScreen from "expo-splash-screen";
+import { cachedAssetAsync } from "../utils";
+import { User, api } from "../lib";
 
 export const useInitApplication = () => {
   const [appIsReady, setAppIsReady] = useState(false);
   const [currentUser, setCurrentUser] = useState<User<{}> | null>(null);
+
   const onLayoutRootView = useCallback(async () => {
     if (appIsReady) {
       await SplashScreen.hideAsync();
@@ -16,8 +17,8 @@ export const useInitApplication = () => {
     try {
       await cachedAssetAsync({
         images: [
-          require('../../assets/splash-screen.png'),
-          require('../../assets/bg-login.jpg'),
+          require("../../assets/splash-screen.png"),
+          require("../../assets/bg-login.jpg"),
         ],
       });
     } catch (err) {
@@ -25,44 +26,28 @@ export const useInitApplication = () => {
     }
   }, [appIsReady]);
 
-  const signInWithSessionToken = useCallback(async () => {
+  const signInWithSessionToken = useCallback(() => {
     try {
-      const user = await api.users.userSignInWithPersistence();
-      if (user) {
-        const { displayName, email, photoURL } = api.users.getUserProfile();
-
-        setCurrentUser({
-          ...user,
-          avatar: photoURL,
-          email,
-          fullname: displayName,
-        } as User<{}>);
-      }
-
-      await Promise.resolve();
+      api.users.userSignInWithPersistence(setCurrentUser, setAppIsReady);
     } catch (err) {
       console.error(err);
-      setAppIsReady(true);
     }
   }, [appIsReady]);
 
   useEffect(() => {
-    console.log('Preparing application');
     const prepare = async () => {
+      console.log("Preparing application");
       try {
-        console.log('Loading assets');
         await loadAssetsAync();
-        console.log('Loading assets done');
-        console.log('Signing in with session token');
-        await signInWithSessionToken();
-        setAppIsReady(true);
-        console.log('Signing in with session token done');
       } catch (error) {
         console.log(error);
       }
     };
 
-    prepare();
+    prepare().then(() => {
+      signInWithSessionToken();
+      console.log("Finish loading application");
+    });
   }, []);
 
   return { appIsReady, onLayoutRootView, currentUser } as const;
