@@ -1,20 +1,25 @@
-import { ThemeProvider } from 'styled-components/native';
-import { NavigationContainer } from '@react-navigation/native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Tabs } from './src/routes/tab-routes';
+import { ThemeProvider } from "styled-components/native";
+import { NavigationContainer } from "@react-navigation/native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Tabs } from "./src/routes/tab-routes";
 import {
   CustomModalProvider,
   useUserContext,
   AuthenticatedUserProvider,
-} from './src/context';
-import AuthStack from './src/routes/auth.routes';
-import { FC } from 'react';
-import { useInitApplication } from './src/hooks/useInitApplication';
-import * as SplashScreen from 'expo-splash-screen';
-import { hooks } from './src/lib';
-import { theme } from './src/ui/theme';
+} from "./src/context";
+import AuthStack from "./src/routes/auth.routes";
+import { FC } from "react";
+import { useInitApplication } from "./src/hooks/useInitApplication";
+import * as SplashScreen from "expo-splash-screen";
+import { hooks } from "./src/lib";
+import { theme } from "./src/ui/theme";
+import { Alert } from "react-native";
 
-SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync()
+  .then(() => { })
+  .catch((err) => {
+    Alert.alert("Something has gone wrong, please restart application")
+  });
 
 const IsUserAuthenticated: FC<any> = () => {
   const [user] = useUserContext();

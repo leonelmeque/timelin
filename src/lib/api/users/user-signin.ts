@@ -7,13 +7,14 @@ export const userSignIn = async ({
   username,
   password,
 }: Partial<UserLogin>) => {
-  await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
+  await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
   const ref = await firebase
     .auth()
     .signInWithEmailAndPassword(username as string, password as string);
 
-  const userData = await getUserInformation(ref?.user?.uid || '');
-  const sessionToken = ref.user?.refreshToken;
+  const userData = await getUserInformation(ref?.user?.uid ?? '');
+  const sessionToken = await ref.user?.getIdToken();
 
   return { userData, sessionToken };
 };
