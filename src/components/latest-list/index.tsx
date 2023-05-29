@@ -4,11 +4,13 @@ import { withOptionsModal } from '../with-options-modal';
 import { useLatest, useUpdateTodos } from '../../store';
 import { Spacer, Text } from '../../ui/atoms';
 import { TodoCard } from '../../ui/organisms';
+import { useTranslation } from 'react-i18next';
 
 
 const TodoCardEnhanced = withOptionsModal(TodoCard);
 
 export const LatestList = () => {
+  const { t } = useTranslation()
   const { latestChanged } = useLatest();
   const { todos } = useUpdateTodos();
 
@@ -18,13 +20,13 @@ export const LatestList = () => {
     <Section accessibilityLabel="Latest">
       <SectionHeader>
         <Text size="body" weight="medium">
-          Latetst
+          {t("home.latest.heading")}
         </Text>
       </SectionHeader>
       <Spacer size="4" />
       <SectionContent>
         {!pinned ? (
-          <Text size="small">There's no recent updated todo's</Text>
+          <Text size="small">{t("home.latest.empty_state")}</Text>
         ) : (
           <TodoCardEnhanced {...pinned} badgeType="colored" />
         )}
