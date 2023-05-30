@@ -39,14 +39,14 @@ export const ConfirmModalView: FC<ConfirmModalViewProps> = ({
         <ActionsContainer>
           <Button
             onPress={onCancel}
-            label="Cancel"
+            label={cancelText}
             size="md"
             variant="tertiary"
           />
           <Spacer size="16" />
           <Button
             onPress={onConfirm}
-            label="Yes, Delete Task"
+            label={confirmText}
             size="md"
             variant="danger"
           />

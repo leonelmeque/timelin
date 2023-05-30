@@ -1,13 +1,13 @@
-import { MaterialIcons } from '@expo/vector-icons';
-import React, { useRef, useState } from 'react';
-import { ScrollView, View, Pressable } from 'react-native';
-import styled from 'styled-components/native';
-import { CalendarModalView, CalendarRefProps } from '../calendar-modal-view';
-import { TimelineCompactView } from '../timeline-view/compact-view';
+import { MaterialIcons } from "@expo/vector-icons";
+import React, { useRef, useState } from "react";
+import { ScrollView, View, Pressable } from "react-native";
+import styled from "styled-components/native";
+import { CalendarModalView, CalendarRefProps } from "../calendar-modal-view";
+import { TimelineCompactView } from "../timeline-view/compact-view";
 import {
   UpdateStatusModalRefProps,
   UpdateStatusModalView,
-} from '../update-status-modal-view';
+} from "../update-status-modal-view";
 import {
   Badge,
   Box,
@@ -16,11 +16,12 @@ import {
   PlainTextInput,
   Spacer,
   Button,
-} from '../../ui/atoms';
-import { TodoProps, TodoStatus, api } from '../../lib';
-import { useLatest, useUpdateTodos } from '../../store';
-import { dateFormatter } from '../../lib/utils';
-import { TimeStatus } from '../../ui/molecules';
+} from "../../ui/atoms";
+import { TodoProps, TodoStatus, TodoStatusTranslation, api } from "../../lib";
+import { useLatest, useUpdateTodos } from "../../store";
+import { dateFormatter } from "../../lib/utils";
+import { TimeStatus } from "../../ui/molecules";
+import { useTranslation } from "react-i18next";
 
 const DateChip = styled(Chip) <{ colour: string }>`
   background-color: ${(props) => props.colour};
@@ -29,6 +30,7 @@ const DateChip = styled(Chip) <{ colour: string }>`
 export const TodoView = ({ todo }: { todo: TodoProps }) => {
   const clearTimeoutRef = useRef<null | any>(null);
 
+  const { t } = useTranslation();
   const [state, setState] = useState<TodoProps | null>(todo);
   const { handleSyncTodoAtom } = useUpdateTodos();
   const { updateLatestChanged } = useLatest();
@@ -37,11 +39,11 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
   const todoStatusRef = useRef<UpdateStatusModalRefProps>(null);
 
   const dateStartLabel = !state?.startDate
-    ? 'Has not started'
+    ? t("todo.start_date_label.empty_state")
     : dateFormatter(state.startDate);
 
   const dateEndLabel = !state?.endDate
-    ? 'Has not started'
+    ? t("todo.end_date_label.empty_state")
     : dateFormatter(state.endDate);
 
   const onFormChange = (value: string, inputName: string) => {
@@ -55,10 +57,9 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
     clearTimeoutRef.current = setTimeout(async () => {
       try {
         await api.todo.updateTodo(state.id, newTodo);
-        await api.todo.addLatestChanged(state.id)
+        await api.todo.addLatestChanged(state.id);
         handleSyncTodoAtom(newTodo.id, newTodo);
-        updateLatestChanged(state.id)
-
+        updateLatestChanged(state.id);
       } catch (err) {
         console.error(err);
       }
@@ -72,7 +73,7 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
 
   const onPressSaveDate = () => {
     const { date, name, toggleModal } = calendarRef.current || {};
-    onFormChange(String(date), name || '');
+    onFormChange(String(date), name || "");
     if (toggleModal) toggleModal();
   };
 
@@ -84,9 +85,9 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
         onPressSave={onPressSaveDate}
       />
       <UpdateStatusModalView
-        onSelect={(value) => onFormChange(value, 'status')}
+        onSelect={(value) => onFormChange(value, "status")}
         ref={todoStatusRef}
-        initialSelection={state?.status ?? ''}
+        initialSelection={state?.status ?? ""}
       />
       <ScrollView>
         <Spacer size="8" />
@@ -103,15 +104,15 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
             weight="500"
             multiline
             value={state?.todo}
-            onChangeText={(value) => onFormChange(value, 'todo')}
+            onChangeText={(value) => onFormChange(value, "todo")}
             scrollEnabled={false}
           />
         </Box>
         <Spacer size="4" />
         <Box
           style={{
-            flexDirection: 'row',
-            alignItems: 'center',
+            flexDirection: "row",
+            alignItems: "center",
           }}
         >
           <MaterialIcons name="description" size={24} />
@@ -121,10 +122,10 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
               weight="500"
               multiline
               textAlignVertical="top"
-              placeholder="Add a description"
+              placeholder={t("todo.text_input.placeholder") as string}
               value={state?.description}
               scrollEnabled={false}
-              onChangeText={(value) => onFormChange(value, 'description')}
+              onChangeText={(value) => onFormChange(value, "description")}
             />
           </Box>
         </Box>
@@ -132,13 +133,13 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
         <Box
           style={{
             padding: 0,
-            flexDirection: 'row',
-            alignItems: 'center',
+            flexDirection: "row",
+            alignItems: "center",
           }}
         >
           <MaterialIcons name="calendar-today" size={24} />
           <Spacer size="8" />
-          <Pressable onPress={() => onPressToggleModalVisibility('startDate')}>
+          <Pressable onPress={() => onPressToggleModalVisibility("startDate")}>
             <DateChip
               label={dateStartLabel}
               isActive
@@ -152,27 +153,27 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
         <Box
           style={{
             padding: 0,
-            flexDirection: 'row',
-            alignItems: 'center',
+            flexDirection: "row",
+            alignItems: "center",
           }}
         >
           <MaterialIcons name="timeline" size={24} />
           <Spacer size="8" />
           <View style={{ flex: 1 }}>
-            <TimelineCompactView id={state?.id || ''} />
+            <TimelineCompactView id={state?.id || ""} />
           </View>
         </Box>
         <Spacer size="16" />
         <Box
           style={{
             padding: 0,
-            flexDirection: 'row',
-            alignItems: 'center',
+            flexDirection: "row",
+            alignItems: "center",
           }}
         >
           <MaterialIcons name="calendar-today" size={24} />
           <Spacer size="8" />
-          <Pressable onPress={() => onPressToggleModalVisibility('endDate')}>
+          <Pressable onPress={() => onPressToggleModalVisibility("endDate")}>
             <DateChip
               label={dateEndLabel}
               isActive
@@ -185,24 +186,34 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
         <Spacer size="8" />
         <Box
           style={{
-            flexDirection: 'row',
+            flexDirection: "row",
             paddingLeft: 56,
           }}
         >
-          <Badge type="colored" status={state?.status || TodoStatus.ON_HOLD} />
+          <Badge
+            type="colored"
+            status={state?.status || TodoStatus.ON_HOLD}
+            label={
+              t(
+                TodoStatusTranslation[
+                state?.status as keyof typeof TodoStatusTranslation
+                ]
+              ) as string
+            }
+          />
         </Box>
       </ScrollView>
       <Box
         style={{
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
+          flexDirection: "row",
+          justifyContent: "flex-end",
         }}
       >
         <Button
           onPress={() => {
             todoStatusRef.current?.toggleModalVisibility();
           }}
-          label="Update Progress"
+          label={t("general.update_progress") as string}
           variant="tertiary"
           size="md"
         />

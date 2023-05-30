@@ -14,11 +14,22 @@ import * as SplashScreen from "expo-splash-screen";
 import { hooks } from "./src/lib";
 import { theme } from "./src/ui/theme";
 import { Alert } from "react-native";
+import i18next from "i18next";
+import { initReactI18next } from "react-i18next";
+import translations from "./public/translations/translations.json";
+
+i18next.use(initReactI18next).init({
+  resources: translations,
+  lng: "en",
+  interpolation: {
+    escapeValue: false,
+  },
+});
 
 SplashScreen.preventAutoHideAsync()
   .then(() => { })
   .catch((err) => {
-    Alert.alert("Something has gone wrong, please restart application")
+    Alert.alert("Something has gone wrong, please restart application");
   });
 
 const IsUserAuthenticated: FC<any> = () => {
