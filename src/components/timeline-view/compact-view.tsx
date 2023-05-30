@@ -1,21 +1,22 @@
-import { useMemo, useRef } from 'react';
-import { FlatList, Pressable, View } from 'react-native';
-import { RenderTimelineEvent } from './render-timeline-event';
-import { useNavigation } from '@react-navigation/native';
-import { eventsDateSorter } from '../../lib/utils';
-import { useFetchTimeline, useTimeline } from '../../store';
-import { Spacer, Palette, Text } from '../../ui/atoms';
-import { Skeleton } from '../../ui/molecules/skeleton';
+import { useMemo, useRef } from "react";
+import { FlatList, Pressable, View } from "react-native";
+import { RenderTimelineEvent } from "./render-timeline-event";
+import { useNavigation } from "@react-navigation/native";
+import { eventsDateSorter } from "../../lib/utils";
+import { useFetchTimeline, useTimeline } from "../../store";
+import { Spacer, Palette, Text } from "../../ui/atoms";
+import { Skeleton } from "../../ui/molecules/skeleton";
+import { useTranslation } from "react-i18next";
 
 export const TimelineCompactView = ({ id }: { id: string }) => {
   const { value } = useFetchTimeline(id);
   const { timeline } = useTimeline();
   const navigation = useNavigation();
-
+  const { t } = useTranslation();
   const ref = useRef(1);
 
   const normalizeData = useMemo(() => {
-    if (value.state === 'loading' || value.state === 'hasError') {
+    if (value.state === "loading" || value.state === "hasError") {
       return [];
     }
 
@@ -28,25 +29,25 @@ export const TimelineCompactView = ({ id }: { id: string }) => {
     return eventsDateSorter(arr);
   }, [value]);
 
-  if (value.state === 'loading')
+  if (value.state === "loading")
     return (
       <>
         <View>
           <Skeleton>
             <Skeleton.Placeholder
-              width={'80%'}
+              width={"80%"}
               height={15}
               variant="rectangle"
             />
             <Spacer size="8" />
             <Skeleton.Placeholder
-              width={'70%'}
+              width={"70%"}
               height={15}
               variant="rectangle"
             />
             <Spacer size="8" />
             <Skeleton.Placeholder
-              width={'50%'}
+              width={"50%"}
               height={15}
               variant="rectangle"
             />
@@ -54,15 +55,16 @@ export const TimelineCompactView = ({ id }: { id: string }) => {
         </View>
       </>
     );
-  if (value.state === 'hasError')
-    return <Text size="body">Error loading data</Text>;
+
+  if (value.state === "hasError")
+    return <Text size="body">{t("general.loading_data.error")}</Text>;
 
   return (
     <>
       <Pressable
         onPress={() => {
           //@ts-ignore
-          navigation.navigate<any>('Timeline/Default', {
+          navigation.navigate<any>("Timeline/Default", {
             todoUID: id,
           });
         }}
@@ -84,13 +86,13 @@ export const TimelineCompactView = ({ id }: { id: string }) => {
       <Pressable
         onPress={() => {
           //@ts-ignore
-          navigation.navigate<any>('Timeline/AddEvent', {
+          navigation.navigate<any>("Timeline/AddEvent", {
             todoUID: id,
           });
         }}
       >
         <Text size="body" weight="medium" colour={Palette.primary.P300}>
-          + Add new timeline event
+          {t("todo.button.add_timeline_event")}
         </Text>
       </Pressable>
     </>
