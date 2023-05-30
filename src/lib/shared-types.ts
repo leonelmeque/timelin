@@ -63,3 +63,10 @@ export enum TodoStatus {
 }
 
 export type UserLogin = Pick<User, 'username' | 'password'>;
+
+export enum TodoStatusTranslation {
+  "TODO" = "todo.status.todo",
+  "ON_GOING" = "todo.status.on_going",
+  "ON_HOLD" = "todo.status.on_hold",
+  "COMPLETED" = "todo.status.completed",
+}
