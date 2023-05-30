@@ -21,6 +21,7 @@ import { TodoProps, TodoStatus, api } from '../../lib';
 import { useLatest, useUpdateTodos } from '../../store';
 import { dateFormatter } from '../../lib/utils';
 import { TimeStatus } from '../../ui/molecules';
+import { useTranslation } from 'react-i18next';
 
 const DateChip = styled(Chip) <{ colour: string }>`
   background-color: ${(props) => props.colour};
@@ -29,6 +30,7 @@ const DateChip = styled(Chip) <{ colour: string }>`
 export const TodoView = ({ todo }: { todo: TodoProps }) => {
   const clearTimeoutRef = useRef<null | any>(null);
 
+  const { t } = useTranslation()
   const [state, setState] = useState<TodoProps | null>(todo);
   const { handleSyncTodoAtom } = useUpdateTodos();
   const { updateLatestChanged } = useLatest();

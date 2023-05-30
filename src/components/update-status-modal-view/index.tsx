@@ -1,9 +1,11 @@
-import { ForwardedRef, forwardRef, useImperativeHandle, useState } from 'react';
-import { Modal, Pressable, View } from 'react-native';
-import styled from 'styled-components/native';
-import { CustomSafeAreaView } from '../safe-area-view';
-import { tokens } from '../../ui/tokens';
-import { Badge, Spacer } from '../../ui/atoms';
+import { ForwardedRef, forwardRef, useImperativeHandle, useState } from "react";
+import { Modal, Pressable, View } from "react-native";
+import styled from "styled-components/native";
+import { CustomSafeAreaView } from "../safe-area-view";
+import { tokens } from "../../ui/tokens";
+import { Badge, Spacer } from "../../ui/atoms";
+import { useTranslation } from "react-i18next";
+import { TodoStatusTranslation } from "../../lib";
 
 export interface UpdateStatusModalRefProps {
   visibility: boolean;
@@ -30,10 +32,11 @@ const Component = (
   { initialSelection, onSelect }: UpdateStatusModalProps,
   ref: ForwardedRef<UpdateStatusModalRefProps>
 ) => {
+  const { t } = useTranslation();
   const [visibility, setVisibility] = useState(false);
   const [selection, setSelection] = useState(initialSelection);
 
-  const status = ['TODO', 'ON_GOING', 'ON_HOLD', 'COMPLETED'];
+  const status = ["TODO", "ON_GOING", "ON_HOLD", "COMPLETED"];
 
   const toggleModalVisibility = () => {
     setVisibility(!visibility);
@@ -61,7 +64,17 @@ const Component = (
       >
         <View key={_status}>
           {index !== 0 && <Spacer size="8" />}
-          <Badge status={_status as any} type="colored" />
+          <Badge
+            status={_status as any}
+            label={
+              t(
+                TodoStatusTranslation[
+                _status as keyof typeof TodoStatusTranslation
+                ]
+              ) as string
+            }
+            type="colored"
+          />
         </View>
       </Pressable>
     ));
@@ -70,8 +83,8 @@ const Component = (
     <Modal visible={visibility} transparent>
       <CustomSafeAreaView
         style={{
-          backgroundColor: 'transparent',
-          position: 'relative',
+          backgroundColor: "transparent",
+          position: "relative",
           zIndex: 2,
         }}
       >
@@ -80,11 +93,11 @@ const Component = (
             toggleModalVisibility();
           }}
           style={{
-            position: 'relative',
-            flexDirection: 'row',
+            position: "relative",
+            flexDirection: "row",
             zIndex: 2,
             flex: 1,
-            justifyContent: 'flex-end',
+            justifyContent: "flex-end",
             paddingHorizontal: tokens.spacing.size16,
           }}
         >
