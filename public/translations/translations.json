@@ -1,0 +1,38 @@
+{
+  "en": {
+    "translation": {
+      "general.more": "More",
+      "general.save": "Save",
+      "general.back": "Back",
+      "general.forward": "Forward",
+      "general.update_progress": "Update progress",
+      "general.loading_data.error": "Error loading data",
+      "home.project_list.heading": "Projects",
+      "home.project_list.empty_state": "Looks like you don't have any projects.",
+      "home.pinned_todo.heading": "Pinned",
+      "home.pinned_todo.empty_state": "You can pin projects for easy access",
+      "home.latest.heading": "Latest",
+      "home.latest.empty_state": "There's no recent updated todo's",
+      "todo.modal.delete_project.title": "Delete Project",
+      "todo.modal.message": "Are you sure you want to delete this project?",
+      "todo.modal.confirm_button.label": "Yes, Delete",
+      "todo.modal.cancel_button.label": "Cancel",
+      "todo.time_period_status.on_time": "On time",
+      "todo.time_period_status.running_out_of_time": "Running out of time",
+      "todo.time_period_status.step_up": "Time to step up",
+      "todo.start_date_label.empty_state": "Has not start date",
+      "todo.end_date_label.empty_state": "Has no end date",
+      "todo.text_input.placeholder": "Add a description",
+      "todo.status.todo": "Todo",
+      "todo.status.on_going": "On going",
+      "todo.status.on_hold": "On hold",
+      "todo.status.completed": "Completed",
+      "todo.time_status.out_of_time": "⏳ Running out of time",
+      "todo.time_status.step_up": "💨 Time to step up",
+      "todo.time_status.overdue": "⏳ Above of time period",
+      "todo.time_status.completed": "🎉 Well done",
+      "todo.time_status.on_time": "⏰ On time",
+      "todo.button.add_timeline_event": "+ Add new timeline event"
+    }
+  }
+}
