@@ -1,27 +1,30 @@
-import { useNavigation } from '@react-navigation/native';
-import { FC, useRef, useState } from 'react';
-import { Modal, TouchableWithoutFeedback, Platform } from 'react-native';
-import { useUserContext } from '../../context';
-import { CustomSafeAreaView } from '../safe-area-view';
-import { ModalOverLay, StyledKeyboardAvoidingView } from './styles';
-import { useUpdateTodos } from '../../store';
-import { TodoProps, TodoStatus, api } from '../../lib';
-import { Box, Button, Palette, PlainTextInput, Spacer } from '../../ui/atoms';
+import React, { useNavigation } from "@react-navigation/native";
+import { useRef, useState } from "react";
+import {
+  Modal,
+  TouchableWithoutFeedback,
+  Platform,
+  Keyboard,
+} from "react-native";
+import { useCustomModal, useUserContext } from "../../context";
+import { CustomSafeAreaView } from "../safe-area-view";
+import { ModalOverLay, StyledKeyboardAvoidingView } from "./styles";
+import { useUpdateTodos } from "../../store";
+import { TodoProps, TodoStatus, api } from "../../lib";
+import { Box, Button, Palette, PlainTextInput, Spacer } from "../../ui/atoms";
 
-type AddTodoModalViewProps = {
-  visibility: boolean;
-  onModalDismiss: (args: any) => void;
-};
-
-export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
-  visibility,
-  onModalDismiss,
-}) => {
-  const [todoName, setTodoName] = useState('');
+export const AddTodoModalView = ({ }) => {
+  const [todoName, setTodoName] = useState("");
   const withDescriptionRef = useRef(false);
   const [user] = useUserContext();
   const navigation = useNavigation();
   const { handleAddTodoAtom } = useUpdateTodos();
+  const [modalVisibility, setModalVisibility] = useCustomModal();
+
+  const onModalDismiss = () => {
+    Keyboard.dismiss();
+    setModalVisibility(!modalVisibility);
+  };
 
   const onChangeText = (value: string) => {
     setTodoName(value);
@@ -32,14 +35,14 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
 
     return {
       todo: name,
-      description: '',
+      description: "",
       status: TodoStatus.TODO,
       //@ts-ignore
       timestamp: Date.now(),
       color: Object.keys(Palette.todoPalette).map((key) => key)[randomPalette],
       participants: [],
-      endDate: '',
-      startDate: '',
+      endDate: "",
+      startDate: "",
       creator: creator,
     };
   };
@@ -51,15 +54,15 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
 
       handleAddTodoAtom(data);
 
-      onModalDismiss(e);
-      onChangeText('');
+      onModalDismiss();
+      onChangeText("");
       setTimeout(() => {
         /**
          * TODO: fix this TS error
          *
          */
         //  @ts-ignore
-        navigation.navigate('Todo/Add', {
+        navigation.navigate("Todo/View", {
           todo: data,
           autofocusDescription: withDescriptionRef.current,
         });
@@ -71,13 +74,13 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
   };
 
   return (
-    <Modal visible={visibility} transparent>
-      <CustomSafeAreaView style={{ backgroundColor: 'transparent' }}>
+    <Modal visible={modalVisibility} transparent>
+      <CustomSafeAreaView style={{ backgroundColor: "transparent" }}>
         <TouchableWithoutFeedback onPress={onModalDismiss}>
           <ModalOverLay />
         </TouchableWithoutFeedback>
         <StyledKeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
           <Box
             style={{
@@ -96,8 +99,8 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
             <Spacer size="4" />
             <Box
               style={{
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
+                flexDirection: "row",
+                justifyContent: "flex-end",
               }}
             >
               {!!todoName && (
@@ -114,7 +117,7 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
               <Button
                 label="save"
                 size="md"
-                variant={!todoName ? 'disabled' : 'primary'}
+                variant={!todoName ? "disabled" : "primary"}
                 onPress={onPressSave}
                 disabled={!todoName}
               />
