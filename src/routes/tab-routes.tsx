@@ -1,29 +1,27 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
-import { useCustomModal } from '../context';
-import TodoScreen from '../screens/todo-screen';
-import TodoListStack from './todo-routes';
-import { MaterialIcons } from '@expo/vector-icons';
-import { HideTabBarNavigation } from './constants';
-import SettingsStack from './settings.routes';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useCustomModal } from "../context";
+import { MaterialIcons } from "@expo/vector-icons";
+import SettingsStack from "./settings.routes";
+import HomeScreen from "../screens/home-screen";
 
 const Tab = createBottomTabNavigator();
 
 const TabBarIcon = ({ route, color }: { route: string; color: string }) => {
   switch (route) {
-    case 'Todo/Home':
+    case "Todo/Home":
       return <MaterialIcons name="bookmark-border" size={24} color={color} />;
-    case 'Todo/Add':
+    case "Todo/Add":
       return (
         <MaterialIcons name="add-circle-outline" size={24} color={color} />
       );
-    case 'Todo/Settings': return <MaterialIcons name="settings" size={24} color={color} />;
+    case "Todo/Settings":
+      return <MaterialIcons name="settings" size={24} color={color} />;
     default:
       return <MaterialIcons name="logout" />;
   }
 };
 
-const DummyComponent = () => <></>;
+const DummyComponent = () => <></>
 
 export function Tabs() {
   const [, dispatch] = useCustomModal();
@@ -38,21 +36,8 @@ export function Tabs() {
     >
       <Tab.Screen
         name="Todo/Home"
-        component={TodoListStack}
+        component={HomeScreen}
         options={({ route }) => ({
-          tabBarStyle: ((route: any) => {
-            const routeName = getFocusedRouteNameFromRoute(route);
-
-            if (
-              HideTabBarNavigation[
-              routeName as keyof typeof HideTabBarNavigation
-              ]
-            ) {
-              return { display: 'none', backgroundColor: 'white' };
-            }
-
-            return;
-          })(route),
           tabBarIcon: ({ color }) => (
             <TabBarIcon route={route.name} color={color} />
           ),
@@ -60,7 +45,7 @@ export function Tabs() {
       />
       <Tab.Screen
         name="Todo/Add"
-        component={TodoScreen}
+        component={DummyComponent}
         options={({ route }) => ({
           tabBarIcon: ({ color }) => (
             <TabBarIcon route={route.name} color={color} />
@@ -80,6 +65,7 @@ export function Tabs() {
           tabBarIcon: ({ color }) => (
             <TabBarIcon route={route.name} color={color} />
           ),
+
         })}
       />
     </Tab.Navigator>
