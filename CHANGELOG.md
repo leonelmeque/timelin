@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/leonelmeque/timelin/compare/v0.2.0...v0.2.1) (2023-06-02)
+
+
+### Bug Fixes
+
+* application errors and inconsistencies ([#63](https://github.com/leonelmeque/timelin/issues/63)) ([22f7080](https://github.com/leonelmeque/timelin/commit/22f7080b1a863311541969b3736fbbc2c997168b))
+
 ## [0.2.0](https://github.com/leonelmeque/timelin/compare/v0.1.0...v0.2.0) (2023-05-31)
 
 
