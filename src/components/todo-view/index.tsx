@@ -28,7 +28,7 @@ const DateChip = styled(Chip) <{ colour: string }>`
 `;
 
 export const TodoView = ({ todo }: { todo: TodoProps }) => {
-  const clearTimeoutRef = useRef<null | any>(null);
+  const clearTimeoutRef = useRef<any>(null);
 
   const { t } = useTranslation();
   const [state, setState] = useState<TodoProps | null>(todo);
@@ -45,6 +45,8 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
   const dateEndLabel = !state?.endDate
     ? t("todo.end_date_label.empty_state")
     : dateFormatter(state.endDate);
+
+  const showDate = state?.startDate && state?.endDate;
 
   const onFormChange = (value: string, inputName: string) => {
     if (!state) return;
@@ -96,7 +98,7 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
             paddingLeft: 56,
           }}
         >
-          {state?.startDate && state?.endDate && (
+          {showDate && (
             <TimeStatus endDate={state.endDate} status={state.status} />
           )}
           <PlainTextInput
@@ -122,7 +124,7 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
               weight="500"
               multiline
               textAlignVertical="top"
-              placeholder={t("todo.text_input.placeholder") as string}
+              placeholder={t("todo.text_input.placeholder") ?? undefined}
               value={state?.description}
               scrollEnabled={false}
               onChangeText={(value) => onFormChange(value, "description")}
@@ -160,7 +162,7 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
           <MaterialIcons name="timeline" size={24} />
           <Spacer size="8" />
           <View style={{ flex: 1 }}>
-            <TimelineCompactView id={state?.id || ""} />
+            <TimelineCompactView id={state?.id ?? ""} />
           </View>
         </Box>
         <Spacer size="16" />
@@ -192,14 +194,12 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
         >
           <Badge
             type="colored"
-            status={state?.status || TodoStatus.ON_HOLD}
-            label={
-              t(
-                TodoStatusTranslation[
+            status={state?.status ?? TodoStatus.ON_HOLD}
+            label={t(
+              TodoStatusTranslation[
                 state?.status as keyof typeof TodoStatusTranslation
-                ]
-              ) as string
-            }
+              ]
+            )}
           />
         </Box>
       </ScrollView>
@@ -213,7 +213,7 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
           onPress={() => {
             todoStatusRef.current?.toggleModalVisibility();
           }}
-          label={t("general.update_progress") as string}
+          label={t("general.update_progress") ?? undefined}
           variant="tertiary"
           size="md"
         />
