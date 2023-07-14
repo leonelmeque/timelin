@@ -9,6 +9,5 @@ export {
   validatePasswordStrength,
   validateUsername,
 } from './form-validation';
-export { eventsDateSorter } from './events-date-sorter';
-export { initializeFirebaseApplication } from './firebase';
+export { eventsDateSorter } from "./events-date-sorter";
 export { phoneNumber } from "./phone-number"
