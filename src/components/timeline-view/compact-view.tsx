@@ -1,5 +1,5 @@
-import { useMemo, useRef } from "react";
-import { FlatList, Pressable, View } from "react-native";
+import { Fragment, useMemo, useRef } from "react";
+import { Pressable, View } from "react-native";
 import { RenderTimelineEvent } from "./render-timeline-event";
 import { useNavigation } from "@react-navigation/native";
 import { eventsDateSorter } from "../../lib/utils";
@@ -16,18 +16,26 @@ export const TimelineCompactView = ({ id }: { id: string }) => {
   const ref = useRef(1);
 
   const normalizeData = useMemo(() => {
+    let arr: any[] = [];
+
     if (value.state === "loading" || value.state === "hasError") {
-      return [];
+      return arr;
     }
 
-    const arr = timeline.slice(timeline.length - 4, timeline.length);
-
-    if (!timeline.length) {
+    if (timeline.length === 0) {
+      ref.current = 0;
+      return arr;
+    } else if (timeline.length <= 4) {
+      arr = timeline.slice();
       ref.current = arr.length;
+      return eventsDateSorter(arr);
     }
+
+    arr = timeline.slice(timeline.length - 4, timeline.length);
+    ref.current = arr.length;
 
     return eventsDateSorter(arr);
-  }, [value]);
+  }, [value, timeline]);
 
   if (value.state === "loading")
     return (
@@ -69,18 +77,17 @@ export const TimelineCompactView = ({ id }: { id: string }) => {
           });
         }}
       >
-        <FlatList
-          data={normalizeData}
-          ItemSeparatorComponent={() => <Spacer size="8" />}
-          renderItem={({ item, index }) => (
+        {normalizeData.map((item, index) => (
+          <Fragment key={String(index)}>
             <RenderTimelineEvent
               date={Number(item.timestamp)}
               description={item.title}
               compact
-              showVerticalLine={ref.current - 2 !== index}
+              showVerticalLine={ref.current !== index + 1}
             />
-          )}
-        />
+            {ref.current !== index + 1 && <Spacer size="8" />}
+          </Fragment>
+        ))}
       </Pressable>
       {normalizeData.length !== 0 && <Spacer size="8" />}
       <Pressable
