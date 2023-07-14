@@ -1,6 +1,7 @@
 import { ThemeProvider } from "styled-components/native";
 import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Tabs } from "./src/routes/tab-routes";
 import {
   CustomModalProvider,
   useUserContext,
@@ -16,8 +17,6 @@ import { Alert } from "react-native";
 import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
 import translations from "./public/translations/translations.json";
-import TodoListStack from "./src/routes/todo-routes";
-import { AddTodoModalView } from "./src/components/add-todo-modal-view";
 
 i18next.use(initReactI18next).init({
   resources: translations,
@@ -35,7 +34,7 @@ SplashScreen.preventAutoHideAsync()
 
 const IsUserAuthenticated: FC<any> = () => {
   const [user] = useUserContext();
-  return user ? <TodoListStack /> : <AuthStack />;
+  return user ? <Tabs /> : <AuthStack />;
 };
 
 export default function App() {
@@ -56,7 +55,6 @@ export default function App() {
         >
           <CustomModalProvider>
             <NavigationContainer>
-              <AddTodoModalView />
               <IsUserAuthenticated />
             </NavigationContainer>
           </CustomModalProvider>
