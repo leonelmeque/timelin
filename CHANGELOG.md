@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.3.0](https://github.com/leonelmeque/timelin/compare/v0.2.1...v0.3.0) (2023-07-14)
+
+
+### Features
+
+* start testing ([002e193](https://github.com/leonelmeque/timelin/commit/002e193e0e3fe67c66d101182ff28715bf9322e2))
+
+
+### Bug Fixes
+
+* **components:** code improvements ([3363986](https://github.com/leonelmeque/timelin/commit/3363986ee2c21ce6e2c34bbdad70dcea2a1b3737))
+* **components:** ui bugs and performance ([dce73c3](https://github.com/leonelmeque/timelin/commit/dce73c362400b64602d0635ca6471b0f5679cf15))
+* setupTests ([5e67532](https://github.com/leonelmeque/timelin/commit/5e675325bde5e05e66d00dbbb4eea56e7f7edef5))
+
 ## [0.2.1](https://github.com/leonelmeque/timelin/compare/v0.2.0...v0.2.1) (2023-06-02)
 
 
