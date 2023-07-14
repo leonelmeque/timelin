@@ -13,7 +13,7 @@
     "@react-navigation/bottom-tabs": "^6.5.3",
     "@react-navigation/native": "^6.0.12",
     "@react-navigation/native-stack": "^6.8.0",
-    "@testing-library/jest-native": "4.0.11",
+    "@testing-library/jest-native": "^5.4.2",
     "@testing-library/react-native": "11.0.0",
     "@types/jest": "^28.1.2",
     "add": "^2.0.6",
@@ -69,7 +69,7 @@
     "eslint-plugin-react": "^7.30.1",
     "eslint-plugin-react-native": "^4.0.0",
     "react-native-svg-transformer": "^1.0.0",
-    "react-test-renderer": "17.0.2",
+    "react-test-renderer": "^18.2.0",
     "typescript": "^4.6.3"
   },
   "scripts": {
