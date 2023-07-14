@@ -6,7 +6,7 @@ import { TodoStatus } from "../../../lib/shared-types";
 
 type BadgeProps = {
   status: TodoStatus;
-  label?: string;
+  label: string;
   type: "colored" | "simple";
 };
 

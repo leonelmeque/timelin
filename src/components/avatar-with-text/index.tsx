@@ -33,7 +33,7 @@ export const AvatarWithText: FC<AvatarWithTextProps> = ({
   profilePicture = 'https://picsum.photos/200',
 }) => {
   return (
-    <Container>
+    <Container testID='component.avatar-with-text' >
       <View style={styles.boxShadow}>
         <Avatar
           size={48}
