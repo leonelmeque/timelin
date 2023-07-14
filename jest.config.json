@@ -1,4 +1,14 @@
 {
   "preset": "react-native",
-  "setupFilesAfterEnv": ["@testing-library/jest-native/extend-expect"]
+  "setupFilesAfterEnv": [
+    "@babel/preset-typescript",
+    "@testing-library/jest-native/extend-expect"
+  ],
+  "coverageThreshold": {
+    "global": {
+      "branches": 80,
+      "functions": 80,
+      "lines": 80
+    }
+  }
 }
