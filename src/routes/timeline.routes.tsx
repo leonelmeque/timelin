@@ -1,3 +1,4 @@
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { TimelineScreen } from '../screens/timeline-screen';
 import { Stack } from './constants';
 import { EventScreen } from '../screens/event-screen';

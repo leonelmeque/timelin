@@ -1,5 +1,5 @@
 import { useMemo, useRef } from "react";
-import { Pressable, View } from "react-native";
+import { FlatList, Pressable, View } from "react-native";
 import { RenderTimelineEvent } from "./render-timeline-event";
 import { useNavigation } from "@react-navigation/native";
 import { eventsDateSorter } from "../../lib/utils";
@@ -69,17 +69,18 @@ export const TimelineCompactView = ({ id }: { id: string }) => {
           });
         }}
       >
-        {normalizeData.map((item, index) => (
-          <View key={index}>
+        <FlatList
+          data={normalizeData}
+          ItemSeparatorComponent={() => <Spacer size="8" />}
+          renderItem={({ item, index }) => (
             <RenderTimelineEvent
               date={Number(item.timestamp)}
               description={item.title}
               compact
               showVerticalLine={ref.current - 2 !== index}
             />
-            <Spacer size="8" />
-          </View>
-        ))}
+          )}
+        />
       </Pressable>
       {normalizeData.length !== 0 && <Spacer size="8" />}
       <Pressable

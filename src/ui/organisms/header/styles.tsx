@@ -10,14 +10,17 @@ export const Container = styled(Pressable)`
 `;
 
 export const HeaderLeftContent = styled.View`
+  order: 1;
   justify-content: flex-start;
 `;
 
 export const HeaderMiddleContent = styled.View`
+  order: 2;
   justify-content: center;
 `;
 
 export const HeaderRightContent = styled.View`
+  order: 3;
   justify-content: flex-end;
 `;
 
