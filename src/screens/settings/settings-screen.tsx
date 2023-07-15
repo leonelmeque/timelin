@@ -1,13 +1,12 @@
-import React from 'react';
-import { CustomSafeAreaView } from '../../components/safe-area-view';
-import { Header } from '../../ui/organisms';
-import { Box, Spacer, Text, Toggle } from '../../ui/atoms';
-import { SettingsButton } from '../../ui/organisms/settings-button';
-import { Pressable, ScrollView } from 'react-native';
-import { AvatarWithText } from '../../components/avatar-with-text';
-import { User, api } from '../../lib';
-import { useUserContext } from '../../context';
-import { useNavigation } from '@react-navigation/native';
+import { CustomSafeAreaView } from "../../components/safe-area-view";
+import { Header } from "../../ui/organisms";
+import { Box, Spacer, Text, Toggle } from "../../ui/atoms";
+import { SettingsButton } from "../../ui/organisms/settings-button";
+import { Pressable, ScrollView } from "react-native";
+import { AvatarWithText } from "../../components/avatar-with-text";
+import { User, api } from "../../lib";
+import { useUserContext } from "../../context";
+import { useNavigation } from "@react-navigation/native";
 
 export const SettingsScreen = () => {
   const [user, dispatch] = useUserContext();
@@ -16,12 +15,14 @@ export const SettingsScreen = () => {
 
   const handleNavigation = (path: string) => {
     switch (path) {
-      case 'profile':
+      case "profile":
         //@ts-ignore
-        navigation.navigate('Settings/Profile'); break
-      case 'account':
+        navigation.navigate("Settings/Profile");
+        break;
+      case "account":
         //@ts-ignore
-        navigation.navigate('Settings/Account'); break
+        navigation.navigate("Settings/Account");
+        break;
       default:
         return null;
     }
@@ -39,6 +40,8 @@ export const SettingsScreen = () => {
 
   const handleSignOut = async () => {
     await api.users.userSignOut();
+    //@ts-ignore
+    navigation.navigate("Todo/Home");
     dispatch(null);
   };
 
@@ -54,7 +57,7 @@ export const SettingsScreen = () => {
             profilePicture={avatar}
           />
           <Spacer size="16" />
-          <Pressable onPress={() => handleNavigation('profile')}>
+          <Pressable onPress={() => handleNavigation("profile")}>
             <SettingsButton
               iconName="person-outline"
               settingName="Profile"
@@ -62,7 +65,7 @@ export const SettingsScreen = () => {
             />
           </Pressable>
           <Spacer size="16" />
-          <Pressable onPress={() => handleNavigation('account')}>
+          <Pressable onPress={() => handleNavigation("account")}>
             <SettingsButton
               iconName="add"
               settingName="Account"
