@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/leonelmeque/timelin/compare/v0.3.0...v0.4.0) (2023-07-15)
+
+
+### Features
+
+* add country flags to phone input ([#67](https://github.com/leonelmeque/timelin/issues/67)) ([145ed52](https://github.com/leonelmeque/timelin/commit/145ed523cba616c3d252afcb97052f051d9f8999))
+
 ## [0.3.0](https://github.com/leonelmeque/timelin/compare/v0.2.1...v0.3.0) (2023-07-14)
 
 
