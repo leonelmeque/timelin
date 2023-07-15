@@ -1,5 +1,5 @@
-import React, { FC, ReactNode, useRef, useState } from "react";
-import { Box, Caption, Input, Spacer, Text } from "../../atoms";
+import { FC, ReactNode, useRef, useState } from "react";
+import { Box, Input, Spacer, Text } from "../../atoms";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
   Dimensions,
@@ -13,7 +13,9 @@ import {
 import {
   Container,
   CountryCode,
+  CountryLabel,
   DropdownList,
+  Flag,
   SelectedIcon,
   StyledDropdownListItem,
 } from "./styles";
@@ -53,8 +55,8 @@ export const PhoneInput: FC<PhoneInputProps> = ({
   dialcode = "+1",
   code = "US",
   number,
-  onSelectCountryCode = () => { },
-  onNumberChange = () => { },
+  onSelectCountryCode = () => {},
+  onNumberChange = () => {},
   ...rest
 }) => {
   const [toggle, setToggle] = useState(false);
@@ -154,9 +156,16 @@ export const PhoneInput: FC<PhoneInputProps> = ({
                     inputRef.current?.focus();
                   }}
                 >
-                  <Text weight="medium" size="body">
-                    {item.label} ({item.dialcode})
-                  </Text>
+                  <CountryLabel>
+                    <Flag>
+                      {/*@ts-ignore*/}
+                      <Flag.CountryFlag size={26} isoCode={item.code} />
+                    </Flag>
+
+                    <Text weight="medium" size="body">
+                      {item.label} ({item.dialcode})
+                    </Text>
+                  </CountryLabel>
                 </DropdownListItem>
               )}
             />

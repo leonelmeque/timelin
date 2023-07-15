@@ -9,7 +9,7 @@ export const useConfirmation = ({
   confirmText,
   cancelText,
 }: {
-  onConfirm: () => void;
+  onConfirm: () => void | Promise<void>;
   onCancel: () => void;
   title: string;
   message: string;
