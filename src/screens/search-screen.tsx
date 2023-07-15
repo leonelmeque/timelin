@@ -24,11 +24,17 @@ export const SearchScreen: FC = () => {
             <BackButton>
               <MaterialIcons name="arrow-back" size={24} />
               <Spacer size="4" />
-              <Text size="body">Back</Text>
+              <Text size="body" weight="medium">
+                Back
+              </Text>
             </BackButton>
           </Pressable>
         )}
-        renderRigthContent={() => <Text size="body">Search</Text>}
+        renderRigthContent={() => (
+          <Text size="body" weight="bold">
+            Search
+          </Text>
+        )}
       />
       <Spacer size="8" />
       <SearchView />
