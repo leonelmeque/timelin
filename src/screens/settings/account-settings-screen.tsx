@@ -1,12 +1,11 @@
-import { useTheme } from 'styled-components/native';
-import { LeftArrowWithTextButton } from '../../components/back-button';
-import { CustomSafeAreaView } from '../../components/safe-area-view';
-import { Box, Spacer } from '../../ui/atoms';
-import { Header } from '../../ui/organisms';
-import { SettingsButton } from '../../ui/organisms/settings-button';
-import styled from 'styled-components/native';
-import { useNavigation } from '@react-navigation/native';
-import { Pressable } from 'react-native';
+import styled, { useTheme } from "styled-components/native";
+import { LeftArrowWithTextButton } from "../../components/back-button";
+import { CustomSafeAreaView } from "../../components/safe-area-view";
+import { Box, Spacer } from "../../ui/atoms";
+import { Header } from "../../ui/organisms";
+import { SettingsButton } from "../../ui/organisms/settings-button";
+import { useNavigation } from "@react-navigation/native";
+import { Pressable } from "react-native";
 
 const RemoveAccountButton = styled(SettingsButton)`
   background-color: ${({ theme }) => theme.colours.danger.D50};
@@ -31,8 +30,9 @@ export const AccountSettingsScreen = () => {
       <Box>
         <Pressable
           onPress={() =>
-            navigation.navigate('Settings/Account-Modal', {
-              value: 'change-password',
+            //@ts-ignore
+            navigation.navigate("Settings/Account-Modal", {
+              value: "change-password",
             })
           }
         >
@@ -45,8 +45,9 @@ export const AccountSettingsScreen = () => {
         <Spacer size="16" />
         <Pressable
           onPress={() =>
-            navigation.navigate('Settings/Delete-Account', {
-              value: 'delete-account',
+            //@ts-ignore
+            navigation.navigate("Settings/Delete-Account", {
+              value: "delete-account",
             })
           }
         >

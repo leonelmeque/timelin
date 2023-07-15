@@ -28,11 +28,17 @@ export const TimelineScreen = () => {
             <BackButton>
               <MaterialIcons name="arrow-back" size={24} />
               <Spacer size="4" />
-              <Text size="body">Back</Text>
+              <Text size="body" weight="medium">
+                Back
+              </Text>
             </BackButton>
           </Pressable>
         )}
-        renderRigthContent={() => <Text size="body">Timeline</Text>}
+        renderRigthContent={() => (
+          <Text size="body" weight="bold">
+            Timeline
+          </Text>
+        )}
       />
       <Spacer size="8" />
       <TimelineView />

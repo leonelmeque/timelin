@@ -48,8 +48,8 @@ export const ProfileSettingsScreen = () => {
   };
 
   const phoneNumber = formatPhoneNumber(
-    normalizedCountries(phonenumber?.countryCode || "US")[0].code,
-    phonenumber?.number || ""
+    normalizedCountries(phonenumber?.countryCode ?? "US")[0].code,
+    phonenumber?.number ?? ""
   );
 
   return (

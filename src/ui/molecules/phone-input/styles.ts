@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import CountryFlag from "react-native-country-flag";
 
 export const Container = styled.View``;
 
@@ -12,9 +13,11 @@ export const CountryCode = styled.View`
 
 export const DropdownList = styled.FlatList`
   padding: ${(props) => props.theme.spacing.size16}px;
-  box-shadow: ${(props) => props.theme.shadow.L4};
-  background-color: ${(props) => props.theme.colours.neutrals.white};
+  background-color: rgba(232, 232, 232, 0.2);
   border-radius: ${(props) => props.theme.spacing.size16}px;
+  padding: ${(props) => props.theme.spacing.size16}px;
+  margin-left: ${(props) => props.theme.spacing.size16}px;
+  margin-right: ${(props) => props.theme.spacing.size16}px;
 `;
 
 export const StyledDropdownListItem = styled.Pressable<{ selected: boolean }>`
@@ -22,7 +25,8 @@ export const StyledDropdownListItem = styled.Pressable<{ selected: boolean }>`
   justify-content: space-between;
   align-items: center;
   padding: ${(props) => props.theme.spacing.size24}px;
-  background-color: ${props => !props.selected ? props.theme.colours.neutrals.white : props.theme.colours.primary.P50};
+  background-color: ${(props) =>
+    !props.selected ? "transparent" : props.theme.colours.primary.P50};
   border-radius: ${(props) => props.theme.spacing.size8}px;
 `;
 
@@ -34,3 +38,30 @@ export const SelectedIcon = styled.View`
   border-width: 2px;
   border-color: ${(props) => props.theme.colours.greys.G300};
 `;
+
+export const CountryLabel = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
+const StyledFlag = styled.View`
+  margin-right: 10px;
+  border-radius: 999999%;
+  height: 24px;
+  width: 24px;
+  overflow: hidden;
+  position: relative;
+  border-width: 1px;
+  border-color: ${(props) => props.theme.colours.greys.G75};
+`;
+
+const StyledCountryFlag = styled(CountryFlag)`
+  position: absolute;
+  top: 0%;
+`;
+
+export const Flag: typeof StyledFlag & {
+  CountryFlag?: typeof StyledCountryFlag;
+} = StyledFlag;
+
+Flag.CountryFlag = StyledCountryFlag;

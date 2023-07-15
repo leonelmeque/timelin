@@ -24,21 +24,24 @@ const TodoScreen = () => {
   const navigation = useNavigation();
   const { handleDeleteTodoAtom } = useUpdateTodos();
   const { params } = useRoute<RouteProp<AddTodoScreenProps>>();
+
+  async function onConfirm() {
+    try {
+      await api.todo.deleteTodo(params.todo.id);
+      handleDeleteTodoAtom(params.todo.id);
+      navigation.goBack();
+    } catch (error) {
+      alert((error as Error).message);
+    }
+  }
+
   const { ConfirmationDialog, handleConfirm } = useConfirmation({
     title: t("todo.modal.delete_project.title"),
     message: t("todo.modal.message"),
     confirmText: t("todo.modal.confirm_button.label"),
     cancelText: t("todo.modal.cancel_button.label"),
-    onConfirm: async () => {
-      try {
-        await api.todo.deleteTodo(params.todo.id);
-        handleDeleteTodoAtom(params.todo.id);
-        navigation.goBack();
-      } catch (error) {
-        alert((error as Error).message);
-      }
-    },
-    onCancel: () => { },
+    onConfirm,
+    onCancel: () => {},
   });
 
   const {

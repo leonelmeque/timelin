@@ -44,12 +44,14 @@ export const EventScreen = () => {
             <BackButton>
               <MaterialIcons name="arrow-back" size={24} />
               <Spacer size="4" />
-              <Text size="body">Back</Text>
+              <Text size="body" weight="medium">
+                Back
+              </Text>
             </BackButton>
           </Pressable>
         )}
         renderRigthContent={() => (
-          <HeaderActions onPressDelete={onPressDeleteEvent(event?.id || '')} />
+          <HeaderActions onPressDelete={onPressDeleteEvent(event?.id ?? "")} />
         )}
       />
       <Spacer size="8" />

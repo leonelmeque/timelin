@@ -41,7 +41,7 @@ export const ListTodoScreen: FC = () => {
         <StatusList
           activeStatus={status as string}
           onPress={(e, name) => {
-            setStatus(name);
+            setStatus(name as any);
           }}
         />
       </Box>
