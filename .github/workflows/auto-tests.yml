@@ -1,4 +1,6 @@
 name: automated-tests
+run-name: ${{ github.actor }} is learning GitHub Actions
+
 on:
   push:
     branches: [$default-branch, main]
@@ -8,22 +10,20 @@ jobs:
   run_script:
     runs-on: ubuntu-latest
     steps: 
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Setting up variables
-        run: echo "default-branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-  
-      - name: Setting up node 
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
         with: 
           node-version: '16'
-      
+
+      - name: Setting up variables
+        run: |
+             echo "default-branch=${GITHUB_REF#refs/heads/}"
+             echo "default-branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+  
       - name: Yarn installation
         run: |
              npm i -g corepack
              yarn install
 
       - name: Running jest script
-        uses: actions/setup-node@v3
-      - run: yarn run tests
+        run: yarn run tests
