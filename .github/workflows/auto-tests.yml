@@ -9,15 +9,21 @@ jobs:
   run_script:
     runs-on: ubuntu-latest
     steps: 
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Setting up variables
         run: echo "default-branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
   
-      - name: Yarn installation
+      - name: Setting up node 
         uses: actions/setup-node@v3
-      - run: npm i -g yarn
+        with: 
+          node-version: '16'
+      
+      - name: Yarn installation
+        run: |
+             npm i -g corepack
+             yarn install
 
       - name: Running jest script
         uses: actions/setup-node@v3
