@@ -1,0 +1,19 @@
+name: Automated Tests
+
+on:
+  push:
+    branches:
+       - main
+
+
+jobs: 
+  run_script:
+    runs-on: ubuntu-latest
+
+
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Running jest script
+        run: yarn run tests
