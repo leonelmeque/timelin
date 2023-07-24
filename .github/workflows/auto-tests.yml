@@ -3,17 +3,22 @@ name: Automated Tests
 on:
   push:
     branches:
-       - main
-
+       - $default-branch
 
 jobs: 
   run_script:
     runs-on: ubuntu-latest
-
-
     steps: 
       - name: Checkout code
         uses: actions/checkout@v2
-      
+
+      - name: Setting up variables
+        run: echo "default-branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+  
+      - name: Yarn installation
+        uses: actions/setup-node@v3
+      - run: npm i -g yarn
+
       - name: Running jest script
-        run: yarn run tests
+        uses: actions/setup-node@v3
+      - run: yarn run tests
