@@ -1,9 +1,8 @@
-name: Automated Tests
-
+name: automated-tests
 on:
   push:
-    branches:
-       - $default-branch
+    branches: [$default-branch, main]
+       
 
 jobs: 
   run_script:
