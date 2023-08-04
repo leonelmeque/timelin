@@ -8,6 +8,7 @@ export interface ButtonProps extends ViewProps {
   variant: keyof ReturnType<typeof _variants>;
   size: keyof typeof _sizes;
   pressed?: boolean;
+  isLoading?: boolean;
 }
 
 export const Button = ({
@@ -16,9 +17,10 @@ export const Button = ({
   variant,
   size,
   style,
+  isLoading,
   ...rest
 }: ButtonProps & PressableProps) => (
-  <Pressable {...rest}>
+  <Pressable {...rest} disabled={isLoading || rest.disabled}>
     {({ pressed }) => (
       <StyledButton
         style={style}
@@ -35,7 +37,7 @@ export const Button = ({
             labelSize={size}
             labelColor={variant}
           >
-            {label}
+            {isLoading ? "Loading..." : label}
           </Label>
         )}
       </StyledButton>

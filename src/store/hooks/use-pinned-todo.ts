@@ -17,13 +17,15 @@ export const usePinnedTodo = () => {
   useEffect(() => {
     const fetchPinnedTodo = async () => {
       try {
-        const { pinned: pinnedTodo } = (await api.todo.getPinnedTodo()) as {
-          pinned: string;
-        };
+        const { pinned: pinnedTodo = null } =
+          (await api.todo.getPinnedTodo()) ||
+          ({} as {
+            pinned: string;
+          });
+
         if (!pinnedTodo) {
           return;
         }
-
         setPinned(pinnedTodo);
       } catch (err) {
         console.error('Could not find a pinned todo');
