@@ -16,8 +16,8 @@ export const useLatest = () => {
           latestChanged: string
         }
 
-        if (data.latestChanged) {
-          setLatestChanged(data.latestChanged)
+        if (data?.latestChanged) {
+          setLatestChanged(data.latestChanged);
         }
       } catch (err) {
         console.error("Could not find latest changed")
