@@ -7,9 +7,9 @@ export const updateTodo = async (
 ) => {
   await firebase
     .firestore()
-    .collection('todos')
+    .collection("todos")
     .doc(firebase.auth().currentUser?.uid)
-    .collection('list')
+    .collection("list")
     .doc(id)
-    .update(payload);
+    .set(payload);
 };
