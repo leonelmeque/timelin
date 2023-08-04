@@ -5,9 +5,9 @@ import 'firebase/firestore';
 export const addLatestChanged = async (uid: string) => {
   return await firebase
     .firestore()
-    .collection('todos')
+    .collection("todos")
     .doc(firebase.auth().currentUser?.uid)
-    .update({
+    .set({
       latestChanged: uid,
     });
 };
