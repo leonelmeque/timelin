@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.5.0](https://github.com/leonelmeque/timelin/compare/v0.4.0...v0.5.0) (2023-08-04)
+
+
+### Features
+
+* **api:** add verify existing username ([6e438ce](https://github.com/leonelmeque/timelin/commit/6e438ceb276201649cfe0b63f68618502fa96898))
+* **ui:** add isLoading to button ([10eba19](https://github.com/leonelmeque/timelin/commit/10eba193146bc183eeb70dc857231ea372739982))
+
+
+### Bug Fixes
+
+* **api:** firebase errors ([aaba2fa](https://github.com/leonelmeque/timelin/commit/aaba2fad0b515ef0b7b8387aecb106d3d3e776a7))
+* **components:** signup form ([dcd2e86](https://github.com/leonelmeque/timelin/commit/dcd2e86a50b61eae6296831f3ccffa3e68755f72))
+* **store:** errors when new user is created ([505da8d](https://github.com/leonelmeque/timelin/commit/505da8d773a389cd01223a96895e514ae87c69fa))
+
 ## [0.4.0](https://github.com/leonelmeque/timelin/compare/v0.3.0...v0.4.0) (2023-07-15)
 
 
