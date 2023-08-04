@@ -5,6 +5,7 @@ import { userSignOut } from './user-signout';
 import { userSignInWithPersistence } from './user-signin-with-persistence';
 import { getUserProfile } from './get-user-profile';
 import { useUpdateProfile } from './use-update-profile';
+import { verifyUsername } from "./verify-username";
 
 export const users = {
   getUserInformation,
@@ -14,4 +15,5 @@ export const users = {
   userSignInWithPersistence,
   getUserProfile,
   useUpdateProfile,
+  verifyUsername,
 };
