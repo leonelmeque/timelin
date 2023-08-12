@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.6.0](https://github.com/leonelmeque/timelin/compare/v0.5.0...v0.6.0) (2023-08-12)
+
+
+### Features
+
+* add confirm dialog before user removal ([6b724a5](https://github.com/leonelmeque/timelin/commit/6b724a5df7d46f17608ed12247112e4cac17478a))
+* add remove user account ([15bbd83](https://github.com/leonelmeque/timelin/commit/15bbd835f029b5b3cd58651304000cd95122c1a1))
+* add translations ([18a8c0c](https://github.com/leonelmeque/timelin/commit/18a8c0c4b61af398df8d34cdc51d652ed063b870))
+
 ## [0.5.0](https://github.com/leonelmeque/timelin/compare/v0.4.0...v0.5.0) (2023-08-04)
 
 
