@@ -131,7 +131,6 @@ export const useSignUpForm = ({
     }
 
     if (!validateEmail(state.email as string) && state.email) {
-      debugger;
       newErrors.email = "Email is not valid";
     }
 
