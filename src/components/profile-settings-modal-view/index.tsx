@@ -97,7 +97,6 @@ export const ProfileSettingsModalView = () => {
 
   const handlePhoneNumber = async (countryCode: string, number: string) => {
     try {
-      debugger;
       await updatePhoneNumber(countryCode, number);
       dispatch({ ...user, phonenumber: { countryCode, number } } as User);
       navigation.goBack();
