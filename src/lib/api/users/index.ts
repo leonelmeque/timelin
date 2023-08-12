@@ -6,6 +6,7 @@ import { userSignInWithPersistence } from './user-signin-with-persistence';
 import { getUserProfile } from './get-user-profile';
 import { useUpdateProfile } from './use-update-profile';
 import { verifyUsername } from "./verify-username";
+import { deleteAccount } from "./delete-account";
 
 export const users = {
   getUserInformation,
@@ -16,4 +17,5 @@ export const users = {
   getUserProfile,
   useUpdateProfile,
   verifyUsername,
+  deleteAccount,
 };
