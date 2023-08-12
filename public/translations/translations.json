@@ -32,7 +32,11 @@
       "todo.time_status.overdue": "⏳ Above of time period",
       "todo.time_status.completed": "🎉 Well done",
       "todo.time_status.on_time": "⏰ On time",
-      "todo.button.add_timeline_event": "+ Add new timeline event"
+      "todo.button.add_timeline_event": "+ Add new timeline event",
+      "settings.account_settings.modal.title.text": "Account deletion",
+      "settings.account_settings.modal.message.text": "This action cannot be reversed, are you sure you want to proceed?",
+      "settings.account_settings.modal.confirm_text.label": "Yes, I am sure",
+      "settings.account_settings.modal.cancel_text.label": "Cancel"
     }
   }
 }
