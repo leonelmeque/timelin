@@ -6,6 +6,10 @@ import { Header } from "../../ui/organisms";
 import { SettingsButton } from "../../ui/organisms/settings-button";
 import { useNavigation } from "@react-navigation/native";
 import { Pressable } from "react-native";
+import { useUserContext } from "../../context";
+import { useConfirmation } from "../../hooks/use-confirmation";
+import { useTranslation } from "react-i18next";
+import { api } from "../../lib";
 
 const RemoveAccountButton = styled(SettingsButton)`
   background-color: ${({ theme }) => theme.colours.danger.D50};
@@ -13,10 +17,24 @@ const RemoveAccountButton = styled(SettingsButton)`
 
 export const AccountSettingsScreen = () => {
   const theme = useTheme();
+  const [, dispatch] = useUserContext();
   const navigation = useNavigation();
+  const { t } = useTranslation();
+  const { ConfirmationDialog, handleConfirm } = useConfirmation({
+    confirmText: t("settings.account_settings.modal.confirm_text.label"),
+    cancelText: t("settings.account_settings.modal.cancel_text.label"),
+    message: t("settings.account_settings.modal.message.text"),
+    title: t("settings.account_settings.modal.title.text"),
+    onConfirm: async () => {
+      await api.users.deleteAccount();
+      dispatch(null);
+    },
+    onCancel: () => {},
+  });
 
   return (
     <CustomSafeAreaView>
+      <ConfirmationDialog />
       <Header
         renderLeftContent={() => (
           <LeftArrowWithTextButton
@@ -46,9 +64,7 @@ export const AccountSettingsScreen = () => {
         <Pressable
           onPress={() =>
             //@ts-ignore
-            navigation.navigate("Settings/Delete-Account", {
-              value: "delete-account",
-            })
+            handleConfirm()
           }
         >
           <RemoveAccountButton
