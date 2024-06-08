@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/leonelmeque/timelin/compare/v0.6.1...v0.7.0) (2024-06-08)
+
+
+### Miscellaneous Chores
+
+* release 0.7.0 ([21d3e3f](https://github.com/leonelmeque/timelin/commit/21d3e3f9410161c635918b3070bd45de9429323f))
+
 ## [0.6.1](https://github.com/leonelmeque/timelin/compare/v0.6.0...v0.6.1) (2023-08-12)
 
 
