@@ -1,5 +1,4 @@
 import '@testing-library/jest-native'
-import "@testing-library/jest-native/extend-expect";
 import { render } from "@testing-library/react-native";
 import { ThemeProvider } from "styled-components/native";
 import { lightTheme } from "./utils/theme";
