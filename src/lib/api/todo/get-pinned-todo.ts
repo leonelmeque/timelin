@@ -1,12 +1,11 @@
-import firebase from 'firebase/app';
-import "firebase/firestore"
-import "firebase/auth"
+import firestore from "@react-native-firebase/firestore";
+import auth from "@react-native-firebase/auth"
 
 export const getPinnedTodo = async () => {
-  const ref = await firebase
-    .firestore()
+  const ref = await
+    firestore()
     .collection(`todos`)
-    .doc(firebase.auth().currentUser?.uid)
+    .doc(auth().currentUser?.uid)
     .get();
 
   return ref.data();

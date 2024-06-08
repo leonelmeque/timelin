@@ -1,13 +1,9 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
+import firestore from "@react-native-firebase/firestore";
+import auth from "@react-native-firebase/auth"
 
-export const addLatestChanged = async (uid: string) => {
-  return await firebase
-    .firestore()
+export const addLatestChanged = async (uid: string) => firestore()
     .collection("todos")
-    .doc(firebase.auth().currentUser?.uid)
+    .doc(auth().currentUser?.uid)
     .set({
       latestChanged: uid,
     });
-};

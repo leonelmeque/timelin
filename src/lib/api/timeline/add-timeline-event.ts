@@ -1,12 +1,11 @@
-import firebase from 'firebase/app';
+import firestore from '@react-native-firebase/firestore';
 import { TimelineEventProps } from '../../shared-types';
 
 export const addTimelineEvent = async (
   uid: string,
   payload: TimelineEventProps
 ) => {
-  const ref = firebase
-    .firestore()
+  const ref = firestore()
     .collection('timelines')
     .doc(uid)
     .collection('events')

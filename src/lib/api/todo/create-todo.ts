@@ -1,23 +1,24 @@
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import 'firebase/auth';
+import firestore from "@react-native-firebase/firestore";
+import auth from "@react-native-firebase/auth"
 import { TodoProps } from '../../shared-types';
 
 export const createTodo = async (todo: TodoProps) => {
-  const ref = firebase
-    .firestore()
+  const userUID = auth().currentUser?.uid
+  const ref = await firestore()
     .collection('todos')
-    .doc(firebase.auth().currentUser?.uid)
+    .doc(userUID)
     .collection('list')
-    .doc();
+    .add({});
 
   await ref.set({
-    ...todo,
     id: ref.id,
+    ...todo,
+    creator: userUID
   });
 
   return {
     ...todo,
+    creator: userUID,
     id: ref.id,
   };
 };
