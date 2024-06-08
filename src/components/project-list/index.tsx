@@ -1,18 +1,18 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { Pressable } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { TodoListView } from '../todo-list-view';
 import { Section, SectionHeader, SectionContent } from './styles';
 import { useFetchTodos } from '../../store';
 import { Palette, Spacer, Box, Text } from '../../ui/atoms';
-import { useTranslation } from 'react-i18next';
 
 export const ProjectList = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const [todos] = useFetchTodos();
+  const todos = useFetchTodos();
 
   const nagivateToTodoList = () => {
-    //@ts-ignore
+    // @ts-ignore
     navigation.navigate<string>('Todo/ListTodo');
   };
 

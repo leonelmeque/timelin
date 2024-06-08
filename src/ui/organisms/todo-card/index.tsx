@@ -32,30 +32,30 @@ export const TodoCard: FC<TodoCardProps> = ({
   showDescription,
   assigned,
   badgeType = 'simple',
-}) => {
-  const assignedAvatars = hooks.useFetchAvatar<typeof assigned>(assigned);
+}) => 
+  // const assignedAvatars = hooks.useFetchAvatar<typeof assigned>(assigned);
 
-  const avatars = useCallback(
-    () =>
-      assignedAvatars?.map((avatar, index) => (
-        <Avatar
-          key={index}
-          style={{
-            borderWidth: 1,
-            borderColor: Palette.greys.G200,
-            right: (index - 1) * 5,
-            position: 'relative',
-            zIndex: -index,
-          }}
-          source={{ uri: avatar.avatar }}
-          radius={'full'}
-          size={tokens.sizes.extraLarge}
-        />
-      )),
-    [assignedAvatars]
-  );
+  // const avatars = useCallback(
+  //   () =>
+  //     assignedAvatars?.map((avatar, index) => (
+  //       <Avatar
+  //         key={index}
+  //         style={{
+  //           borderWidth: 1,
+  //           borderColor: Palette.greys.G200,
+  //           right: (index - 1) * 5,
+  //           position: 'relative',
+  //           zIndex: -index,
+  //         }}
+  //         source={{ uri: avatar.avatar }}
+  //         radius={'full'}
+  //         size={tokens.sizes.extraLarge}
+  //       />
+  //     )),
+  //   [assignedAvatars]
+  // );
 
-  return (
+   (
     <TodoCardContainer
       cardColor={color as keyof typeof tokens.colours.light.todoPalette}
     >
@@ -83,9 +83,9 @@ export const TodoCard: FC<TodoCardProps> = ({
           </>
         )}
       </TodoCardContent>
-      <AvatarsContainer>{avatars()}</AvatarsContainer>
+      {/* <AvatarsContainer>{avatars()}</AvatarsContainer> */}
     </TodoCardContainer>
-  );
-};
+  )
+;
 
 TodoCard.displayName = 'TodoCard';

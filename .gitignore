@@ -14,3 +14,8 @@ coverage
 # macOS
 .DS_Store
 .env
+ios
+android
+.idea
+google-services.json
+GoogleService-Info.plist

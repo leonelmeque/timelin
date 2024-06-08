@@ -1,8 +1,7 @@
-import firebase from 'firebase/app';
-import 'firebase/firestore';
+import auth from "@react-native-firebase/auth"
 
 export const getUserProfile = () => {
-  const currentUser = firebase.auth().currentUser;
+  const {currentUser} = auth();
 
   if (!currentUser) {
     return {};

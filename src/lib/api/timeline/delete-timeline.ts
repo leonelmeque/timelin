@@ -1,9 +1,9 @@
-import firebase from 'firebase/app';
+import firestore from '@react-native-firebase/firestore';
 
 export const deleteTimeline = async (uid: string) => {
-  return await firebase
-    .firestore()
-    .collection('timelines')
-    .doc(uid)
-    .delete();
-};
+  const docRef = firestore()
+      .collection('timelines')
+      .doc(uid)
+
+  await docRef.delete()
+}

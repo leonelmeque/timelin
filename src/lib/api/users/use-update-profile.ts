@@ -1,45 +1,32 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/storage';
+import firestore from "@react-native-firebase/firestore";
+import auth, {type FirebaseAuthTypes} from "@react-native-firebase/auth"
 
 export const useUpdateProfile = () => {
-  const currentUser = firebase.auth().currentUser as firebase.User;
+  const currentUser = auth().currentUser as FirebaseAuthTypes.User;
 
-  const updateProfileName = async (name: string) => {
-    return await currentUser?.updateProfile({
+  const updateProfileName = async (name: string) => currentUser?.updateProfile({
       displayName: name,
     });
-  };
 
-  const updateUsername = async (username: string) => {
-    return await firebase
-      .firestore()
+  const updateUsername = async (username: string) => firestore()
       .collection('users')
       .doc(currentUser?.uid)
       .update({
         username,
       });
-  };
 
-  const updateProfilePhoto = async (photoURL: string) => {
-    return await currentUser?.updateProfile({
+  const updateProfilePhoto = async (photoURL: string) => currentUser?.updateProfile({
       photoURL,
     });
-  };
 
-  const updateBirthDate = async (birthdate: string) => {
-    return await firebase
-      .firestore()
+  const updateBirthDate = async (birthdate: string) => firestore()
       .collection('users')
       .doc(currentUser?.uid)
       .update({
         birthdate,
       });
-  };
 
-  const updatePhoneNumber = async (countryCode: string, number: string) => {
-    return await firebase
-      .firestore()
+  const updatePhoneNumber = async (countryCode: string, number: string) => firestore()
       .collection('users')
       .doc(currentUser?.uid)
       .update({
@@ -48,40 +35,28 @@ export const useUpdateProfile = () => {
           number,
         },
       });
-  };
 
-  const updatePassword = async (password: string) => {
-    return await currentUser?.updatePassword(password);
-  };
+  const updatePassword = async (password: string) =>  currentUser?.updatePassword(password);
 
-  const sendResetPasswordEmail = async () => {
-    return await firebase
-      .auth()
+  const sendResetPasswordEmail = async () =>  auth()
       ?.sendPasswordResetEmail(currentUser?.email as string);
-  };
 
-  const updateEmail = async (email: string) => {
-    return await currentUser?.updateEmail(email);
-  };
+  const updateEmail = async (email: string) => currentUser?.updateEmail(email);
 
-  const sendEmailVerification = async () => {
-    return await currentUser?.sendEmailVerification();
-  };
+  const sendEmailVerification = async () => currentUser?.sendEmailVerification();
 
   /**
    * @linkcode https://stackoverflow.com/questions/37811684/how-to-create-credential-object-needed-by-firebase-web-user-reauthenticatewith
    */
   const reauthenticatePassword = async (password: string) => {
-    const credential = firebase.auth.EmailAuthProvider.credential(
+    const credential = auth.EmailAuthProvider.credential(
       currentUser.email as string,
       password
     );
     return currentUser.reauthenticateWithCredential(credential);
   };
 
-  const deleteUser = async () => {
-    return await currentUser?.delete();
-  };
+  const deleteUser = async () => currentUser?.delete();
 
   return {
     updateProfileName,

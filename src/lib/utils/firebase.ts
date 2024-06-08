@@ -1,5 +1,7 @@
-import firebase from 'firebase/app';
-import Constants from "expo-constants"
+import { initializeApp, getApp, getApps } from "@react-native-firebase/app";
+import { getFirestore } from "firebase/firestore";
+
+import Constants from "expo-constants";
 
 export const config = {
   projectId: Constants?.expoConfig?.extra?.projectId,
@@ -12,11 +14,17 @@ export const config = {
   measurementId: Constants?.expoConfig?.extra?.measurementId,
 };
 
-export function initializeFirebaseApplication() {
-  if (!firebase.apps.length) {
-    firebase.initializeApp(config)
+const initFirebase = () => {
+  let app = null;
+  const apps = getApps();
 
+  if (!apps.length) {
+    app = initializeApp(config);
   } else {
-    firebase.app()
+    app = getApp();
   }
+
+  return app
 }
+
+initFirebase()

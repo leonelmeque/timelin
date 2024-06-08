@@ -1,23 +1,20 @@
-import firebase from "firebase";
-import "firebase/auth";
-import "firebase/storage";
+import firestore from "@react-native-firebase/firestore";
+import auth from "@react-native-firebase/auth"
 
 export const deleteAccount = async () => {
-  const uid = firebase.auth().currentUser?.uid;
-  await firebase
-    .firestore()
+  const uid = auth().currentUser?.uid;
+  await firestore()
     .collection("todos")
     .doc(uid)
     .collection("lists")
     .doc()
     .delete();
-  await firebase.firestore().collection("users").doc(uid).delete();
-  await firebase
-    .firestore()
+  await firestore().collection("users").doc(uid).delete();
+  await firestore()
     .collection("timelines")
     .doc(uid)
     .collection("events")
     .doc()
     .delete();
-  await firebase.auth().currentUser?.delete();
+  await auth().currentUser?.delete();
 };
