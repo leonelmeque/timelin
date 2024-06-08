@@ -1,5 +1,4 @@
 import firestore from "@react-native-firebase/firestore";
-import "firebase/storage";
 
 export const verifyUsername = async (username: string) => {
   const res = await firestore()
