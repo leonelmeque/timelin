@@ -1,6 +1,6 @@
-import firebase from 'firebase/app';
+import auth from "@react-native-firebase/auth"
 
 export const userSignOut = async () => {
-  await firebase.auth().signOut();
-  await firebase.auth().currentUser?.delete();
+  await auth().signOut();
+  await auth().currentUser?.delete();
 };

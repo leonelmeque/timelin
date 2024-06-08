@@ -1,13 +1,11 @@
-import firebase from 'firebase/app';
+import firestore from "@react-native-firebase/firestore";
 import { TimelineEventProps } from '../../shared-types';
 
 export const updateTimelineEvent = async (
   uid: string,
   eventID: string,
   payload: TimelineEventProps
-) => {
-  return await firebase
-    .firestore()
+) => firestore()
     .collection('timelines')
     .doc(uid)
     .collection('events')
@@ -15,4 +13,3 @@ export const updateTimelineEvent = async (
     .update({
       ...payload,
     });
-};

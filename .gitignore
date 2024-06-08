@@ -14,3 +14,6 @@ coverage
 # macOS
 .DS_Store
 .env
+ios
+android
+.idea

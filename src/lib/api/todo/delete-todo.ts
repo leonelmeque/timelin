@@ -1,10 +1,10 @@
-import firebase from 'firebase/app';
+import firestore from "@react-native-firebase/firestore";
+import auth from "@react-native-firebase/auth"
 
 export const deleteTodo = async (id: string) => {
-  await firebase
-    .firestore()
+  firestore()
     .collection('todos')
-    .doc(firebase.auth().currentUser?.uid)
+    .doc(auth().currentUser?.uid)
     .collection('list')
     .doc(id)
     .delete();

@@ -1,12 +1,11 @@
-import firebase from 'firebase/app';
-import "firebase/firestore"
+import firestore from "@react-native-firebase/firestore";
+import auth from "@react-native-firebase/auth"
 import { TodoProps } from '../../shared-types';
 
 export const getTodos = async () => {
-  const ref = firebase
-    .firestore()
+  const ref = firestore()
     .collection('todos')
-    .doc(firebase.auth().currentUser?.uid)
+    .doc(auth().currentUser?.uid)
     .collection('list');
   const res = await ref.get();
 
