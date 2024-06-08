@@ -1,23 +1,21 @@
 import { useAtom } from 'jotai';
 import { useEffect } from 'react';
 import { todosState } from '../todos/todos.store';
-import { api } from '../../lib/api';
+import { api } from "../../lib";
 
 export const useFetchTodos = () => {
   const [state, setTodoState] = useAtom(todosState);
 
   useEffect(() => {
-    async function fetchData() {
+    (async () => {
       try {
         const data = await api.todo.getTodos();
         setTodoState(data);
       } catch (err) {
-        throw err;
+        console.log(err)
       }
-    }
+    })()
+  }, []);
 
-    fetchData();
-  }, [setTodoState]);
-
-  return [state, setTodoState] as const;
+  return state;
 };
