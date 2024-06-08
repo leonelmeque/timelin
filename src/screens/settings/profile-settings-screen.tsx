@@ -1,33 +1,35 @@
-import { CustomSafeAreaView } from "../../components/safe-area-view";
-import { Avatar, Box, Spacer, Text } from "../../ui/atoms";
-import { Header } from "../../ui/organisms";
+import { FC } from "react";
 import { Alert, Pressable, ScrollView } from "react-native";
 import { useTheme } from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
+import { Header } from "../../ui/organisms";
+import { Avatar, Box, Spacer, Text } from "../../ui/atoms";
+import { CustomSafeAreaView } from "../../components/safe-area-view";
 import { LeftArrowWithTextButton } from "../../components/back-button";
 import { TextLabelPresentation } from "../../ui/molecules/text-label-presentation";
 import { useUserContext } from "../../context";
 import { User, utils } from "../../lib";
 import { useImagePicker } from "../../lib/hooks/use-image-picker";
-import { useImageUpload } from "../../lib/hooks/use-image-upload";
 import { dateFormatter } from "../../lib/utils";
 import { normalizedCountries } from "../../lib/utils/normalized-countries";
+import { useImageUpload } from "../../lib/hooks/use-image-upload";
 
-export const ProfileSettingsScreen = () => {
+
+export const ProfileSettingsScreen: FC = () => {
   const theme = useTheme();
   const navigation = useNavigation();
   const [user] = useUserContext();
   const { openImagePicker } = useImagePicker();
 
-  const { handleImageUpload } = useImageUpload();
+  const { handleImageUpload, isUploading, percentage } = useImageUpload();
   const { formatPhoneNumber } = utils.phoneNumber;
-  //TODO: fix role in firestore, users don't have a role, but we may not need it anymore
+  // TODO: fix role in firestore, users don't have a role, but we may not need it anymore
 
   const { fullname, username, email, phonenumber, birthdate, avatar } =
     user as User;
 
   const navigateToEditProfileModal = (value: string) => {
-    //@ts-ignore
+    // @ts-ignore
     navigation.navigate<any>("Settings/ProfileModal", {
       value,
     });
@@ -42,7 +44,7 @@ export const ProfileSettingsScreen = () => {
         size: image?.fileSize as number,
       });
     } catch (err: any) {
-      //TODO: implement the error apiF
+      // TODO: implement the error apiF
       Alert.alert("Image upload error", err);
     }
   };
@@ -51,6 +53,7 @@ export const ProfileSettingsScreen = () => {
     normalizedCountries(phonenumber?.countryCode ?? "US")[0].code,
     phonenumber?.number ?? ""
   );
+  const birthDate =  birthdate ? dateFormatter(Number(birthdate), { dateStyle: "short" }) : "N/A"
 
   return (
     <CustomSafeAreaView>
@@ -90,7 +93,7 @@ export const ProfileSettingsScreen = () => {
           <Pressable onPress={() => navigateToEditProfileModal("dateOfBirth")}>
             <TextLabelPresentation
               label="Date of birth"
-              value={dateFormatter(Number(birthdate), { dateStyle: "short" })}
+              value={birthDate}
             />
           </Pressable>
           <Spacer size="8" />
