@@ -1,5 +1,4 @@
 import * as ImagePicker from 'expo-image-picker';
-import { useState } from 'react';
 
 type OpenImagePicker = () => Promise<ImagePicker.ImagePickerAsset | null>;
 
@@ -11,11 +10,11 @@ export const useImagePicker = () => {
 
   const openImagePicker: OpenImagePicker = async () => {
     if (!permissions?.granted) {
-      requestPermissions();
+      await requestPermissions();
       return null;
     }
 
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],

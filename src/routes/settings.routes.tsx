@@ -18,7 +18,7 @@ const SettingsStack = () => (
       }}
     >
       <Stack.Screen component={SettingsScreen} name="Settings/Default" />
-      <Stack.Screen component={ProfileSettingsScreen} name="Settings/Profile" />
+       <Stack.Screen component={ProfileSettingsScreen} name="Settings/Profile" />
       <Stack.Screen
         component={ProfileSettingsModalView}
         name="Settings/ProfileModal"

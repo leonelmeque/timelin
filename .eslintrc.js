@@ -30,12 +30,7 @@ module.exports = {
     'react/function-component-definition': 'off',
     'import/extensions': [1, { pattern: { tsx: 'never' } }],
     'no-console': 'off',
-    '@typescript-eslint/no-empty-interface': [
-      'error',
-      {
-        allowSignleExtends: false,
-      },
-    ],
+    '@typescript-eslint/no-empty-interface': 'error',
   },
   settings: {
     'import/resolver': {

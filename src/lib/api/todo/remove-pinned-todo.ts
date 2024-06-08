@@ -1,11 +1,9 @@
-import firebase from 'firebase/app';
+import firestore from "@react-native-firebase/firestore";
+import auth from "@react-native-firebase/auth"
 
-export const removePinnedTodo = async (id: string) => {
-  return await firebase
-    .firestore()
+export const removePinnedTodo = async (id: string) => firestore()
     .collection('todos')
-    .doc(firebase.auth().currentUser?.uid)
+    .doc(auth().currentUser?.uid)
     .update({
       pinned: '',
     });
-};

@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import auth from '@react-native-firebase/auth';
 import { generateUserData } from './generate-user-data';
 import { User } from '../../shared-types';
 
@@ -7,11 +7,10 @@ export async function userSignUp<T>(
 ) {
   const { email, username, password } = data;
 
-  const result = await firebase
-    .auth()
+  const result = await auth()
     .createUserWithEmailAndPassword(email as string, password as string);
 
-  const user = await generateUserData({
+  return generateUserData({
     username: username as string,
     email: email as string,
     id: result.user?.uid as string,
@@ -22,6 +21,4 @@ export async function userSignUp<T>(
       number: '',
     },
   });
-
-  return user;
 }

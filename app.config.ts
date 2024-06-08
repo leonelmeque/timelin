@@ -1,6 +1,11 @@
 import { ExpoConfig, ConfigContext } from '@expo/config';
 import * as dotenv from 'dotenv';
-dotenv.config();
+
+
+dotenv.config({
+  path: process.env.NODE_ENV === "production" ? ".env.production" : "./.env",
+});
+
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
@@ -20,8 +25,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   assetBundlePatterns: ['**/*'],
   ios: {
-    supportsTablet: true,
+    supportsTablet: false,
     bundleIdentifier: 'com.timelin.mobile',
+    googleServicesFile: './GoogleService-Info.plist',
   },
   android: {
     adaptiveIcon: {
@@ -29,12 +35,23 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       backgroundColor: '#FFFFFF',
     },
     package: 'com.timelin.mobile',
-
+    googleServicesFile: './google-services.json',
   },
   web: {
     favicon: './assets/favicon.png',
   },
   plugins: [
+    "@react-native-firebase/app",
+    "@react-native-firebase/auth",
+    "@react-native-firebase/app",
+    [
+      'expo-build-properties',
+      {
+        ios: {
+          useFrameworks: 'static'
+        }
+      }
+    ],
     [
       'expo-image-picker',
       {

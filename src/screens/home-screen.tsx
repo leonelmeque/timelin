@@ -1,11 +1,11 @@
 import { Suspense } from "react";
-import { CustomSafeAreaView } from "../components/safe-area-view";
 import { useNavigation } from "@react-navigation/native";
 import { Keyboard, Pressable, ScrollView } from "react-native";
-import { AddTodoModalView } from "../components/add-todo-modal-view";
-import { useCustomModal, useUserContext } from "../context";
 import { MaterialIcons } from "@expo/vector-icons";
 import styled from "styled-components/native";
+import { AddTodoModalView } from "../components/add-todo-modal-view";
+import { useCustomModal, useUserContext } from "../context";
+import { CustomSafeAreaView } from "../components/safe-area-view";
 import { ProjectList } from "../components/project-list";
 import { PinnedTodo } from "../components/pinned-todo";
 import { tokens } from "../lib";
@@ -32,7 +32,7 @@ export default function HomeScreen() {
   const renderRigthContent = () => (
     <Pressable
       onPress={() => {
-        //@ts-ignore
+        // @ts-ignore
         navigation.navigate<string>("Todo/Search");
       }}
     >

@@ -1,8 +1,7 @@
-import firebase from 'firebase/app';
+import firestore from "@react-native-firebase/firestore";
 
 export const getTimeline = async (uid: string) => {
-  const res = await firebase
-    .firestore()
+  const res = await firestore()
     .collection('timelines')
     .doc(uid)
     .collection('events')

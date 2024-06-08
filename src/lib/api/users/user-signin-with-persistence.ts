@@ -1,14 +1,13 @@
-import firebase from "firebase/app";
-import "firebase/auth";
+import auth, {type FirebaseAuthTypes} from "@react-native-firebase/auth";
+import { Dispatch, SetStateAction } from "react";
 import { getUserInformation } from "./get-user-information";
 import { User } from "../../shared-types";
-import { Dispatch, SetStateAction } from "react";
 
 export const userSignInWithPersistence = (
   callback: Dispatch<SetStateAction<User<{}> | null>>,
   onAppReady: Dispatch<SetStateAction<boolean>>
 ) => {
-  const onStateObserver = async (user: firebase.User | null) => {
+  const onStateObserver = async (user: FirebaseAuthTypes.User | null ) => {
     if (!user) {
       onAppReady(true);
       return;
@@ -24,16 +23,16 @@ export const userSignInWithPersistence = (
         avatar: photoURL,
         fullname: displayName,
         email,
-      } as User<{}>)
+      } as User<any>)
     );
 
     onAppReady(true);
   };
 
-  const onStateObserverError = (err: firebase.auth.Error) => {
-    onAppReady(true);
-    throw err;
-  };
+  // const onStateObserverError = (err: FirebaseError) => {
+  //   onAppReady(true);
+  //   throw err;
+  // };
 
-  firebase.auth().onAuthStateChanged(onStateObserver, onStateObserverError);
+  auth().onAuthStateChanged((user) => onStateObserver(user));
 };

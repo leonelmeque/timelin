@@ -18,6 +18,5 @@ export function formatPhoneNumber(countryCode: string, number: string) {
     );
   } catch (err) {
     console.error(err);
-    return "";
   }
 }
