@@ -1,6 +1,11 @@
 import { ThemeProvider } from "styled-components/native";
 import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { initReactI18next } from "react-i18next";
+import { FC } from "react";
+import * as SplashScreen from "expo-splash-screen";
+import { Alert } from "react-native";
+import i18next from "i18next";
 import { Tabs } from "./src/routes/tab-routes";
 import {
   CustomModalProvider,
@@ -8,14 +13,9 @@ import {
   AuthenticatedUserProvider,
 } from "./src/context";
 import AuthStack from "./src/routes/auth.routes";
-import { FC } from "react";
 import { useInitApplication } from "./src/hooks/useInitApplication";
-import * as SplashScreen from "expo-splash-screen";
 import { hooks } from "./src/lib";
 import { theme } from "./src/ui/theme";
-import { Alert } from "react-native";
-import i18next from "i18next";
-import { initReactI18next } from "react-i18next";
 import translations from "./public/translations/translations.json";
 
 i18next.use(initReactI18next).init({
