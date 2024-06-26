@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/leonelmeque/timelin/compare/v0.6.0...v0.6.1) (2024-06-26)
+
+
+### Bug Fixes
+
+* remove zombie debuggers ([890033b](https://github.com/leonelmeque/timelin/commit/890033b536c88ac8d43d3a1298b25f5c26c3ea7b))
+
 ## [0.6.1](https://github.com/leonelmeque/timelin/compare/v0.6.0...v0.6.1) (2023-08-12)
 
 
