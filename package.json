@@ -5,7 +5,6 @@
   "main": "index.tsx",
   "author": "Leonel Meque",
   "license": "MIT",
-  "private": "true",
   "dependencies": {
     "@expo/vector-icons": "^14.0.0",
     "@react-native-async-storage/async-storage": "1.23.1",
@@ -76,9 +75,12 @@
     "metro-react-native-babel-transformer": "^0.77.0",
     "react-native-svg-transformer": "^1.0.0",
     "react-test-renderer": "^18.2.0",
+    "readline-sync": "^1.4.10",
     "typescript": "~5.3.3"
   },
   "scripts": {
+    "build:ios:dev": "eas build --platform=ios --local --profile=development:simulator",
+    "build:android:dev": "eas build --platform=android --local --profile=development:simulator",
     "run:build": "ts-node ./scripts/actions/build.ts",
     "run:install": "ts-node ./scripts/actions/install.ts",
     "run:clean": "ts-node ./scripts/actions/clean.ts",

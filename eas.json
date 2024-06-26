@@ -4,11 +4,14 @@
   },
 
   "build": {
-    "development-simulator": {
+    "development:simulator": {
       "developmentClient": true,
       "distribution": "internal",
       "ios": {
         "simulator": true
+      },
+      "android": {
+        "buildType": "apk"
       }
     },
     "development": {
@@ -17,6 +20,9 @@
     },
     "preview": {
       "distribution": "internal",
+      "ios": {
+        "simulator": true
+      },
       "android": {
         "buildType": "apk"
       }
