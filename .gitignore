@@ -17,3 +17,8 @@ coverage
 ios
 android
 .idea
+*.gz
+google-services.json
+GoogleService-Info.plist
+*.app
+.yarn
