@@ -1,7 +1,7 @@
 import { Fragment, useMemo, useRef } from "react";
 import { Pressable, View } from "react-native";
 import { RenderTimelineEvent } from "./render-timeline-event";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import { eventsDateSorter } from "../../lib/utils";
 import { useFetchTimeline, useTimeline } from "../../store";
 import { Spacer, Palette, Text } from "../../ui/atoms";
@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 export const TimelineCompactView = ({ id }: { id: string }) => {
   const { value } = useFetchTimeline(id);
   const { timeline } = useTimeline();
-  const navigation = useNavigation();
+  const router = useRouter();
   const { t } = useTranslation();
   const ref = useRef(1);
 
@@ -71,10 +71,7 @@ export const TimelineCompactView = ({ id }: { id: string }) => {
     <>
       <Pressable
         onPress={() => {
-          //@ts-ignore
-          navigation.navigate<any>("Timeline/Default", {
-            todoUID: id,
-          });
+          router.push(`/timeline/${id}`);
         }}
       >
         {normalizeData.map((item, index) => (
@@ -92,10 +89,7 @@ export const TimelineCompactView = ({ id }: { id: string }) => {
       {normalizeData.length !== 0 && <Spacer size="8" />}
       <Pressable
         onPress={() => {
-          //@ts-ignore
-          navigation.navigate<any>("Timeline/AddEvent", {
-            todoUID: id,
-          });
+          router.push(`/timeline/${id}/add-event`);
         }}
       >
         <Text size="body" weight="medium" colour={Palette.primary.P300}>

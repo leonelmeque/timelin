@@ -1,6 +1,6 @@
 import { CustomSafeAreaView } from '../components/safe-area-view';
 import { FC } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 import { SearchView } from '../components/search-view';
 import { Pressable } from 'react-native';
 import styled from 'styled-components/native';
@@ -14,13 +14,13 @@ const BackButton = styled.View`
 `;
 
 export const SearchScreen: FC = () => {
-  const navigation = useNavigation();
+  const router = useRouter();
 
   return (
     <CustomSafeAreaView>
       <Header
         renderLeftContent={() => (
-          <Pressable onPress={() => navigation.goBack()}>
+          <Pressable onPress={() => router.back()}>
             <BackButton>
               <MaterialIcons name="arrow-back" size={24} />
               <Spacer size="4" />

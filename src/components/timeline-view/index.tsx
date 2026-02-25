@@ -1,4 +1,4 @@
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { FC } from 'react';
 import { View } from 'react-native';
 import { TimelineDefaultView } from './default-view';
@@ -11,10 +11,8 @@ type TimelineViewProps = {
 };
 
 export const TimelineView: FC<TimelineViewProps> = () => {
-  const navigation = useNavigation();
-  const {
-    params: { todoUID },
-  } = useRoute<RouteProp<{ params: { todoUID: string } }>>();
+  const router = useRouter();
+  const { todoUID } = useLocalSearchParams<{ todoUID: string }>();
 
   const { timeline } = useTimeline()
   const { todos } = useUpdateTodos()
@@ -22,11 +20,7 @@ export const TimelineView: FC<TimelineViewProps> = () => {
   const todoName = todos.find(todo => todo.id === todoUID)?.todo
 
   const addNewEvent = () => {
-    //@ts-ignore
-    navigation.navigate<any>('Timeline/AddEvent', {
-      event: null,
-      todoUID,
-    });
+    router.push(`/timeline/${todoUID}/add-event`);
   };
 
   return (

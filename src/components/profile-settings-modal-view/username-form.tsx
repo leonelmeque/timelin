@@ -7,7 +7,7 @@ import {
 import { validateUsername } from '../../lib/utils';
 import { FormInput } from '../../ui/molecules';
 import { Button, Spacer } from '../../ui/atoms';
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 
 type UsernameForm = {
   username: string;
@@ -49,11 +49,11 @@ export const UsernameForm: FC<UsernameForm> = ({ username, onSubmit }) => {
     validation
   );
 
-  const navigation = useNavigation();
+  const router = useRouter();
 
   const handleUpdateInformation = () => {
     console.log({ username });
-    navigation.goBack();
+    router.back();
   };
 
   return (

@@ -1,4 +1,4 @@
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { Box, Spacer, Text } from "../../ui/atoms";
 import { CustomSafeAreaView } from "../safe-area-view";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -6,18 +6,10 @@ import { ChangePasswordForm } from "./change-password-form";
 import { KeyboardAvoidingView, Platform, ScrollView } from "react-native";
 import { useCallback } from "react";
 
-type RouteParams = {
-  params: {
-    value: string;
-  };
-};
-
 export const AccountSettingsModalView = () => {
-  const {
-    params: { value },
-  } = useRoute<RouteProp<RouteParams>>();
+  const { value } = useLocalSearchParams<{ value: string }>();
 
-  const navigation = useNavigation();
+  const router = useRouter();
 
   const RenderFrom = useCallback(() => {
     if (value === "change-password") {
@@ -36,7 +28,7 @@ export const AccountSettingsModalView = () => {
           name="close"
           size={24}
           color="black"
-          onPress={() => navigation.goBack()}
+          onPress={() => router.back()}
         />
         <Spacer size="8" />
         <Text size="heading" weight="bold">

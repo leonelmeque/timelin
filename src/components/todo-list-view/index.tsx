@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 import React, { FC, useCallback } from 'react';
 import { GestureResponderEvent } from 'react-native';
 import { TodoList } from './styles';
@@ -22,10 +22,9 @@ export const TodoListView: FC<TodoListViewProps> = ({
   showDescription,
   horizontal,
 }) => {
-  const navigation = useNavigation();
+  const router = useRouter();
   const onPressTodoCard = (todo: TodoProps) => (e: GestureResponderEvent) => {
-    //@ts-ignore
-    navigation.navigate<string>('Todo/View', { todo });
+    router.push(`/todo/${todo.id}`);
   };
 
   const _renderItem = useCallback(

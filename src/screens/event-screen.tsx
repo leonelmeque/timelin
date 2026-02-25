@@ -1,11 +1,11 @@
 import { GestureResponderEvent, Pressable } from 'react-native';
 import { CustomSafeAreaView } from '../components/safe-area-view';
 import styled from 'styled-components/native';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import { EventView } from '../components/event-view';
 import { HeaderActions } from '../components/header-actions';
-import { TimelineEventProps, api } from '../lib';
+import { api } from '../lib';
 import { useTimeline } from '../store';
 import { Spacer, Text } from '../ui/atoms';
 import { Header } from '../ui/organisms';
@@ -14,23 +14,17 @@ const BackButton = styled.View`
   align-items: center;
   flex-direction: row;
 `;
-type RouteParams = {
-  params: { event: TimelineEventProps | null; todoUID: string };
-};
-
 export const EventScreen = () => {
-  const navigation = useNavigation();
-  const {
-    params: { event = null, todoUID },
-  } = useRoute<RouteProp<RouteParams>>();
+  const router = useRouter();
+  const { todoId, eventId } = useLocalSearchParams<{ todoId: string; eventId: string }>();
   const { handleDeleteTimeline } = useTimeline();
 
   const onPressDeleteEvent =
     (id: string) => async (e: GestureResponderEvent) => {
       try {
-        await api.timeline.deleteTimelineEvent(todoUID, id);
+        await api.timeline.deleteTimelineEvent(todoId, id);
         handleDeleteTimeline(id);
-        navigation.goBack();
+        router.back();
       } catch (error) {
         alert((error as Error).message);
       }
@@ -40,7 +34,7 @@ export const EventScreen = () => {
     <CustomSafeAreaView>
       <Header
         renderLeftContent={() => (
-          <Pressable onPress={() => navigation.goBack()}>
+          <Pressable onPress={() => router.back()}>
             <BackButton>
               <MaterialIcons name="arrow-back" size={24} />
               <Spacer size="4" />
@@ -51,11 +45,11 @@ export const EventScreen = () => {
           </Pressable>
         )}
         renderRigthContent={() => (
-          <HeaderActions onPressDelete={onPressDeleteEvent(event?.id ?? "")} />
+          <HeaderActions onPressDelete={onPressDeleteEvent(eventId ?? "")} />
         )}
       />
       <Spacer size="8" />
-      <EventView event={event} todoUID={todoUID} />
+      <EventView event={null} todoUID={todoId} />
     </CustomSafeAreaView>
   );
 };

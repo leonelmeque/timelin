@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 import React, { Pressable } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { TodoListView } from '../todo-list-view';
@@ -8,12 +8,11 @@ import { Palette, Spacer, Box, Text } from '../../ui/atoms';
 
 export const ProjectList = () => {
   const { t } = useTranslation();
-  const navigation = useNavigation();
+  const router = useRouter();
   const todos = useFetchTodos();
 
   const nagivateToTodoList = () => {
-    // @ts-ignore
-    navigation.navigate<string>('Todo/ListTodo');
+    router.push("/list-todos");
   };
 
   if (!todos) return <Text size="body">Loading Projects</Text>;

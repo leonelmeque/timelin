@@ -1,7 +1,7 @@
 import { Pressable } from 'react-native';
 import { CustomSafeAreaView } from '../components/safe-area-view';
 import styled from 'styled-components/native';
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 import { TimelineView } from '../components/timeline-view';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useCallback } from 'react';
@@ -14,10 +14,10 @@ const BackButton = styled.View`
 `;
 
 export const TimelineScreen = () => {
-  const navigation = useNavigation();
+  const router = useRouter();
 
   const handleBackButton = useCallback(() => {
-    navigation.goBack();
+    router.back();
   }, []);
 
   return (

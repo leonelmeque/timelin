@@ -6,7 +6,7 @@ import {
   ValidationFunction,
   useForm,
 } from '../../hooks/use-form';
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 
 type RoleForm = {
   role: string;
@@ -29,11 +29,11 @@ export const RoleForm: FC<RoleForm> = (props) => {
     handleChange: onFormChange,
   } = useForm(props, validation);
 
-  const navigation = useNavigation();
+  const router = useRouter();
 
   const handleUpdateFormField = () => {
     console.log({ role });
-    navigation.goBack();
+    router.back();
   };
 
   return (

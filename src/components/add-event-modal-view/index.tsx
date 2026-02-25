@@ -1,4 +1,4 @@
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { FC, useRef, useState } from 'react';
 import { TouchableWithoutFeedback, Platform } from 'react-native';
 import { useUserContext } from '../../context';
@@ -22,10 +22,8 @@ export const AddEventModalView: FC<AddTodoModalViewProps> = ({
   const [eventName, setEventName] = useState('');
   const withDescriptionRef = useRef(false);
   const [user] = useUserContext();
-  const navigation = useNavigation();
-  const {
-    params: { todoUID },
-  } = useRoute<RouteProp<{ params: { todoUID: string } }>>();
+  const router = useRouter();
+  const { todoUID } = useLocalSearchParams<{ todoUID: string }>();
   const { handleAddTimeline } = useTimeline();
 
   const onChangeText = (value: string) => {
@@ -51,13 +49,8 @@ export const AddEventModalView: FC<AddTodoModalViewProps> = ({
 
       setTimeout(() => {
         onChangeText('');
-        navigation.goBack();
-        //  @ts-ignore
-        navigation.navigate('Timeline/Event', {
-          event: data,
-          todoUID,
-          autofocusDescription: withDescriptionRef.current,
-        });
+        router.back();
+        router.push(`/timeline/${todoUID}/event/${data.id}`);
       }, 300);
     } catch (error) {
       // Notification Error
@@ -68,7 +61,7 @@ export const AddEventModalView: FC<AddTodoModalViewProps> = ({
   return (
     // <Modal visible={visibility} transparent>
     <CustomSafeAreaView style={{ backgroundColor: 'transparent' }}>
-      <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
+      <TouchableWithoutFeedback onPress={() => router.back()}>
         <ModalOverLay />
       </TouchableWithoutFeedback>
       <StyledKeyboardAvoidingView

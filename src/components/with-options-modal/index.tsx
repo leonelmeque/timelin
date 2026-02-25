@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 import { FC, useState } from 'react';
 import {
   Dimensions,
@@ -53,11 +53,10 @@ export const withOptionsModal =
 
       const theme = useTheme();
 
-      const navigation = useNavigation();
+      const router = useRouter();
 
       const onPressTodoCard = (todo: TodoProps) => (e: GestureResponderEvent) => {
-        //@ts-ignore
-        navigation.navigate<string>('Todo/View', { todo });
+        router.push(`/todo/${todo.id}`);
       };
 
       const handlePinTodo = async () => {

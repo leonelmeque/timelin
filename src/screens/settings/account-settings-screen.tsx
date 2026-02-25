@@ -4,7 +4,7 @@ import { CustomSafeAreaView } from "../../components/safe-area-view";
 import { Box, Spacer } from "../../ui/atoms";
 import { Header } from "../../ui/organisms";
 import { SettingsButton } from "../../ui/organisms/settings-button";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import { Pressable } from "react-native";
 import { useUserContext } from "../../context";
 import { useConfirmation } from "../../hooks/use-confirmation";
@@ -18,7 +18,7 @@ const RemoveAccountButton = styled(SettingsButton)`
 export const AccountSettingsScreen = () => {
   const theme = useTheme();
   const [, dispatch] = useUserContext();
-  const navigation = useNavigation();
+  const router = useRouter();
   const { t } = useTranslation();
   const { ConfirmationDialog, handleConfirm } = useConfirmation({
     confirmText: t("settings.account_settings.modal.confirm_text.label"),
@@ -39,7 +39,7 @@ export const AccountSettingsScreen = () => {
         renderLeftContent={() => (
           <LeftArrowWithTextButton
             text="Back"
-            onPress={() => navigation.goBack()}
+            onPress={() => router.back()}
             colour={theme.colours.neutrals.dark}
           />
         )}
@@ -48,10 +48,7 @@ export const AccountSettingsScreen = () => {
       <Box>
         <Pressable
           onPress={() =>
-            //@ts-ignore
-            navigation.navigate("Settings/Account-Modal", {
-              value: "change-password",
-            })
+            router.push("/(tabs)/settings/account/change-password")
           }
         >
           <SettingsButton

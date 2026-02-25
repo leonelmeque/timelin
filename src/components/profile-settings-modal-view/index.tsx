@@ -1,4 +1,4 @@
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { Box, Spacer, Text } from "../../ui/atoms";
 import { MaterialIcons } from "@expo/vector-icons";
 import { DateOfBirthForm } from "./date-of-birth-form";
@@ -26,18 +26,10 @@ const headingTitle = {
   phonenumber: "Update phone number",
 };
 
-type RoutParams = {
-  params: {
-    value: string;
-  };
-};
-
 export const ProfileSettingsModalView = () => {
-  const {
-    params: { value },
-  } = useRoute<RouteProp<RoutParams>>();
+  const { value } = useLocalSearchParams<{ value: string }>();
 
-  const navigation = useNavigation();
+  const router = useRouter();
   const [user, dispatch] = useUserContext();
   const { fullname, username, birthdate, email, phonenumber } = user as User;
   const {
@@ -53,7 +45,7 @@ export const ProfileSettingsModalView = () => {
     try {
       await updateProfileName(values);
       dispatch({ ...user, fullname: values } as User);
-      navigation.goBack();
+      router.back();
     } catch (err) {
       //TODO: write an error api
       console.error(err);
@@ -64,7 +56,7 @@ export const ProfileSettingsModalView = () => {
     try {
       await updateUsername(values);
       dispatch({ ...user, username: values } as User);
-      navigation.goBack();
+      router.back();
     } catch (err) {
       //TODO: write an error api
       console.error(err);
@@ -76,7 +68,7 @@ export const ProfileSettingsModalView = () => {
     try {
       dispatch({ ...user, birthdate: String(values) } as User);
       updateBirthDate(String(values));
-      navigation.goBack();
+      router.back();
     } catch (err) {
       //TODO: write an error api
       console.error(err);
@@ -88,7 +80,7 @@ export const ProfileSettingsModalView = () => {
       await sendEmailVerification();
       await updateEmail(values);
       dispatch({ ...user, email: values } as User);
-      navigation.goBack();
+      router.back();
     } catch (err) {
       //TODO: write an error api
       console.error(err);
@@ -99,7 +91,7 @@ export const ProfileSettingsModalView = () => {
     try {
       await updatePhoneNumber(countryCode, number);
       dispatch({ ...user, phonenumber: { countryCode, number } } as User);
-      navigation.goBack();
+      router.back();
     } catch (err) { }
   };
 
@@ -147,7 +139,7 @@ export const ProfileSettingsModalView = () => {
         name="close"
         size={24}
         color="black"
-        onPress={() => navigation.goBack()}
+        onPress={() => router.back()}
       />
       <Spacer size="8" />
       <Text size="heading" weight="bold">

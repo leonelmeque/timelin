@@ -1,19 +1,16 @@
 import { FlatList, Pressable } from 'react-native';
 import styled from 'styled-components/native';
 import { EventBubble } from './event-bubble';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { TimelineEventProps } from '../../lib';
 import { Palette, Spacer } from '../../ui/atoms';
 
 export const ListEvents = styled(({ data, ...rest }: { data: any }) => {
-  const navigation = useNavigation();
-  const {
-    params: { todoUID },
-  } = useRoute<RouteProp<{ params: { todoUID: string } }>>();
+  const router = useRouter();
+  const { todoUID } = useLocalSearchParams<{ todoUID: string }>();
 
   const handleNavigation = (event: TimelineEventProps) => {
-    // @ts-ignore
-    navigation.navigate('Timeline/Event', { event, todoUID });
+    router.push(`/timeline/${todoUID}/event/${event.id}`);
   };
   const bgBasedOnPosition = (index: number) => {
     if (index === 0) {

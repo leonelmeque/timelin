@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Alert, Pressable, ScrollView } from "react-native";
 import { useTheme } from "styled-components/native";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import { Header } from "../../ui/organisms";
 import { Avatar, Box, Spacer, Text } from "../../ui/atoms";
 import { CustomSafeAreaView } from "../../components/safe-area-view";
@@ -17,7 +17,7 @@ import { useImageUpload } from "../../lib/hooks/use-image-upload";
 
 export const ProfileSettingsScreen: FC = () => {
   const theme = useTheme();
-  const navigation = useNavigation();
+  const router = useRouter();
   const [user] = useUserContext();
   const { openImagePicker } = useImagePicker();
 
@@ -29,10 +29,7 @@ export const ProfileSettingsScreen: FC = () => {
     user as User;
 
   const navigateToEditProfileModal = (value: string) => {
-    // @ts-ignore
-    navigation.navigate<any>("Settings/ProfileModal", {
-      value,
-    });
+    router.push(`/(tabs)/settings/profile/${value}`);
   };
 
   const handleProfileImage = async () => {
@@ -60,7 +57,7 @@ export const ProfileSettingsScreen: FC = () => {
       <Header
         renderLeftContent={() => (
           <LeftArrowWithTextButton
-            onPress={() => navigation.goBack()}
+            onPress={() => router.back()}
             colour={theme.colours.greys.G300}
             text="Back"
           />

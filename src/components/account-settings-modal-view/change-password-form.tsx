@@ -8,7 +8,7 @@ import { FormInput } from '../../ui/molecules';
 import { Button, Spacer } from '../../ui/atoms';
 import { Alert } from 'react-native';
 import { useUpdateProfile } from '../../lib/api/users/use-update-profile';
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 
 type ChangePasswordFormProps = {
   currentPassword: string;
@@ -49,7 +49,7 @@ export const ChangePasswordForm = () => {
   );
 
   const { reauthenticatePassword, updatePassword } = useUpdateProfile();
-  const navigation = useNavigation();
+  const router = useRouter();
   const [isCurrentPasswordValid, setCurrentPasswordValid] = useState(false);
 
   const handleSubmitCurrentPassword = async () => {
@@ -70,7 +70,7 @@ export const ChangePasswordForm = () => {
   const handleSubmitNewPassword = async () => {
     try {
       await updatePassword(newPassword);
-      navigation.goBack();
+      router.back();
     } catch (err) {
       //TODO:implement the error notification api
       console.error(err);

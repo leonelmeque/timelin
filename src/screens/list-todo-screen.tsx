@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 import { FC } from 'react';
 import { Pressable } from 'react-native';
 import { CustomSafeAreaView } from '../components/safe-area-view';
@@ -16,14 +16,14 @@ const BackButton = styled.View`
 `;
 
 export const ListTodoScreen: FC = () => {
-  const navigation = useNavigation();
+  const router = useRouter();
   const { filteredData, status, setStatus } = useFilterTodosStatus();
 
   return (
     <CustomSafeAreaView>
       <Header
         renderLeftContent={() => (
-          <Pressable onPress={() => navigation.goBack()}>
+          <Pressable onPress={() => router.back()}>
             <BackButton>
               <MaterialIcons name="arrow-back" size={24} />
               <Spacer size="4" />

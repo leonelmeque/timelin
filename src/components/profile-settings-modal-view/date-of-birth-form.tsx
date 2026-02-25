@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import { useForm } from '../../hooks/use-form';
 import { Button, Caption, Spacer, Text } from '../../ui/atoms';
-import { useNavigation } from '@react-navigation/native';
 import RNDateTimePicker, {
   DateTimePickerEvent,
 } from '@react-native-community/datetimepicker';

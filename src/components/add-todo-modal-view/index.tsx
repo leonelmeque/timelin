@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 import { FC, useRef, useState } from 'react';
 import { Modal, TouchableWithoutFeedback, Platform } from 'react-native';
 import { useUserContext } from '../../context';
@@ -20,7 +20,7 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
   const [todoName, setTodoName] = useState('');
   const withDescriptionRef = useRef(false);
   const [user] = useUserContext();
-  const navigation = useNavigation();
+  const router = useRouter();
   const { handleAddTodoAtom } = useUpdateTodos();
 
   const onChangeText = (value: string) => {
@@ -54,15 +54,7 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
       onModalDismiss(e);
       onChangeText('');
       setTimeout(() => {
-        /**
-         * TODO: fix this TS error
-         *
-         */
-        //  @ts-ignore
-        navigation.navigate('Todo/Add', {
-          todo: data,
-          autofocusDescription: withDescriptionRef.current,
-        });
+        router.push(`/todo/${data.id}`);
       }, 1000);
     } catch (error) {
       // Notification Error
