@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Pressable } from 'react-native';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import { CustomSafeAreaView } from '../../components/safe-area-view';
 import { RetroView } from '../../components/retro-view';
@@ -8,30 +8,24 @@ import { Header } from '../../ui/organisms';
 import { Text } from '~/components/ui/text';
 import { RetroSummary, api } from '../../lib';
 
-type RetroScreenParams = {
-  Params: {
-    todoId?: string;
-    todoName?: string;
-    period?: 'day' | 'week' | 'month';
-  };
-};
-
 type Period = 'todo' | 'day' | 'week' | 'month';
 
 export const RetroScreen = () => {
-  const navigation = useNavigation();
-  const { params } = useRoute<RouteProp<RetroScreenParams>>();
+  const router = useRouter();
+  const params = useLocalSearchParams<{ id?: string; name?: string }>();
+  const todoId = params.id;
+  const todoName = params.name;
   const [summary, setSummary] = useState<RetroSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [activePeriod, setActivePeriod] = useState<Period>(
-    params?.todoId ? 'todo' : params?.period || 'day'
+    todoId ? 'todo' : 'day'
   );
 
   const fetchRetro = async (period: Period) => {
     setLoading(true);
     try {
-      if (period === 'todo' && params?.todoId) {
-        const data = await api.retro.getTodoRetro(params.todoId);
+      if (period === 'todo' && todoId) {
+        const data = await api.retro.getTodoRetro(todoId);
         setSummary(data);
       } else if (period !== 'todo') {
         const data = await api.retro.getPeriodRetro(period);
@@ -50,14 +44,14 @@ export const RetroScreen = () => {
 
   const getTitle = () => {
     switch (activePeriod) {
-      case 'todo': return `Retro: ${params?.todoName || 'Task'}`;
+      case 'todo': return `Retro: ${todoName || 'Task'}`;
       case 'day': return 'Daily Retrospective';
       case 'week': return 'Weekly Retrospective';
       case 'month': return 'Monthly Retrospective';
     }
   };
 
-  const periods: { key: Period; label: string }[] = params?.todoId
+  const periods: { key: Period; label: string }[] = todoId
     ? [
         { key: 'todo', label: 'Task' },
         { key: 'day', label: 'Day' },
@@ -74,7 +68,7 @@ export const RetroScreen = () => {
     <CustomSafeAreaView>
       <Header
         renderLeftContent={() => (
-          <Pressable onPress={() => navigation.goBack()}>
+          <Pressable onPress={() => router.back()}>
             <View className="flex-row items-center">
               <MaterialIcons name="arrow-back" size={24} />
               <View className="w-1" />

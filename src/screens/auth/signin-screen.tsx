@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import {
   Dimensions,
   Image,
@@ -29,7 +29,7 @@ const Container = styled.View`
 const bg = require("../../../assets/bg-login.jpg");
 
 export const SignInScreen = () => {
-  const navigation = useNavigation();
+  const router = useRouter();
   const [_, dispatch] = useUserContext();
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
@@ -90,8 +90,7 @@ export const SignInScreen = () => {
             <SignInFormView
               isLoggingIn={isLoggingIn}
               onSignin={(data) => handleSignIn(data)}
-              //@ts-ignore
-              goToSignup={() => navigation.navigate("Todo/Signup")}
+              goToSignup={() => router.push("/(auth)/sign-up")}
             />
           </Container>
         </KeyboardAvoidingView>

@@ -2,6 +2,7 @@ import { test, expect, Page } from '@playwright/test';
 
 async function login(page: Page) {
   await page.goto('/');
+  await page.waitForURL('**/sign-in', { timeout: 10000 }).catch(() => {});
   await page.getByPlaceholder("john.doe").fill('test@example.com');
   await page.getByPlaceholder("**********").fill('password123');
   await page.getByText('Login', { exact: true }).click();

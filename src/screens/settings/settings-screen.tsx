@@ -6,22 +6,20 @@ import { Pressable, ScrollView } from "react-native";
 import { AvatarWithText } from "../../components/avatar-with-text";
 import { User, api } from "../../lib";
 import { useUserContext } from "../../context";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 
 export const SettingsScreen = () => {
   const [user, dispatch] = useUserContext();
   const { avatar, fullname } = user as User;
-  const navigation = useNavigation();
+  const router = useRouter();
 
   const handleNavigation = (path: string) => {
     switch (path) {
       case "profile":
-        //@ts-ignore
-        navigation.navigate("Settings/Profile");
+        router.push("/(tabs)/settings/profile");
         break;
       case "account":
-        //@ts-ignore
-        navigation.navigate("Settings/Account");
+        router.push("/(tabs)/settings/account");
         break;
       default:
         return null;
@@ -40,8 +38,6 @@ export const SettingsScreen = () => {
 
   const handleSignOut = async () => {
     await api.users.userSignOut();
-    //@ts-ignore
-    navigation.navigate("Todo/Home");
     dispatch(null);
   };
 

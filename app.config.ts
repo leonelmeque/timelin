@@ -35,10 +35,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     },
     package: 'com.timelin.mobile',
   },
+  scheme: 'timelin',
   web: {
     favicon: './assets/favicon.png',
+    bundler: 'metro',
   },
   plugins: [
+    'expo-router',
     [
       'expo-image-picker',
       {

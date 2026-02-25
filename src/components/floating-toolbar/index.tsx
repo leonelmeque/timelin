@@ -12,9 +12,9 @@ type TabDef = {
 };
 
 const TAB_DEFS: TabDef[] = [
-  { routeName: 'Todo/Home', icon: 'home' },
-  { routeName: 'Todo/Add', icon: 'add', isAdd: true },
-  { routeName: 'Todo/Settings', icon: 'settings' },
+  { routeName: 'index', icon: 'home' },
+  { routeName: 'add', icon: 'add', isAdd: true },
+  { routeName: 'settings', icon: 'settings' },
 ];
 
 export const FloatingToolbar: React.FC<BottomTabBarProps> = ({

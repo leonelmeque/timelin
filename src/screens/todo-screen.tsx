@@ -1,4 +1,4 @@
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { GestureResponderEvent, Pressable, View } from "react-native";
 import { CustomSafeAreaView } from "../components/safe-area-view";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -6,30 +6,26 @@ import { TodoView } from "../components/todo-view";
 import { HeaderActions } from "../components/header-actions";
 import { useConfirmation } from "../hooks/use-confirmation";
 import { onShare } from "../utils/utils";
-import { TodoProps, api } from "../lib";
+import { api } from "../lib";
 import { useUpdateTodos, useFetchTodo } from "../store";
 import { Spacer, Text } from "../ui/atoms";
 import { Header } from "../ui/organisms";
 import { TodoScreenTemplate } from "../ui/templates/todo-screen.template";
 import { useTranslation } from "react-i18next";
 
-type AddTodoScreenProps = {
-  Params: {
-    todo: TodoProps;
-  };
-};
-
 const TodoScreen = () => {
   const { t } = useTranslation();
-  const navigation = useNavigation();
+  const router = useRouter();
+  const { id } = useLocalSearchParams<{ id: string }>();
   const { handleDeleteTodoAtom } = useUpdateTodos();
-  const { params } = useRoute<RouteProp<AddTodoScreenProps>>();
+
+  const todoId = id ?? "";
 
   async function onConfirm() {
     try {
-      await api.todo.deleteTodo(params.todo.id);
-      handleDeleteTodoAtom(params.todo.id);
-      navigation.goBack();
+      await api.todo.deleteTodo(todoId);
+      handleDeleteTodoAtom(todoId);
+      router.back();
     } catch (error) {
       alert((error as Error).message);
     }
@@ -47,10 +43,10 @@ const TodoScreen = () => {
   const {
     value: [state],
     resetCacheData,
-  } = useFetchTodo(params.todo.id);
+  } = useFetchTodo(todoId);
 
   const onPressDeleteTodo =
-    (id: string) => async (e: GestureResponderEvent) => {
+    (_id: string) => async (_e: GestureResponderEvent) => {
       handleConfirm();
     };
 
@@ -62,7 +58,7 @@ const TodoScreen = () => {
             <Pressable
               onPress={() => {
                 resetCacheData();
-                navigation.goBack();
+                router.back();
               }}
             >
               <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -76,10 +72,10 @@ const TodoScreen = () => {
           )}
           renderRigthContent={() => (
             <HeaderActions
-              onPressDelete={onPressDeleteTodo(params.todo.id)}
+              onPressDelete={onPressDeleteTodo(todoId)}
               onPressShare={async () =>
                 await onShare(
-                  (state as typeof state & { data: any })?.data.todo as string
+                  (state as typeof state & { data: any })?.data?.todo as string
                 )
               }
             />

@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import { Keyboard, Pressable, ScrollView } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import styled from "styled-components/native";
@@ -20,7 +20,7 @@ const SafeArea = styled(CustomSafeAreaView)`
 `;
 
 export default function HomeScreen() {
-  const navigation = useNavigation();
+  const router = useRouter();
   const [modalVisibility, setModalVisibility] = useCustomModal();
   const [user] = useUserContext();
 
@@ -32,8 +32,7 @@ export default function HomeScreen() {
   const renderRigthContent = () => (
     <Pressable
       onPress={() => {
-        // @ts-ignore
-        navigation.navigate<string>("Todo/Search");
+        router.push("/search");
       }}
     >
       <MaterialIcons name="search" size={24} />

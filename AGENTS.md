@@ -8,12 +8,13 @@ Timelin is a React Native (Expo SDK 51) todo app with timeline features. Firebas
 
 ### Architecture
 
+- **Routing**: Expo Router (file-based) — routes live in `app/` directory. Auth redirect in `app/_layout.tsx`. Tabs in `app/(tabs)/`. Detail screens at `app/todo/[id].tsx`, `app/retro/[id].tsx`, etc.
+- **Styling**: NativeWind v4 (Tailwind CSS) for new components + styled-components/native for legacy. Reusable UI primitives in `src/components/ui/` (Button, Card, Input, Badge, Text).
 - **API client**: `src/services/api-client.ts` — thin `fetch()` wrapper for REST calls. When switching to Supabase, replace these calls with Supabase SDK equivalents.
-- **Auth state**: `src/services/auth-state.ts` — client-side auth state manager (replaces Firebase Auth's `onAuthStateChanged`). When switching to Supabase, replace with Supabase Auth session management.
-- **API layer**: `src/lib/api/` — all business logic calls go through `fetch()` to REST endpoints (`/api/auth/*`, `/api/todos/*`, `/api/timelines/*`, `/api/users/*`, `/api/storage/*`).
-- **Mock server**: `src/mocks/mock-server.ts` — patches `globalThis.fetch` to intercept `/api/*` requests and route them to handlers.
-- **Mock handlers**: `src/mocks/handlers.ts` — route handlers organized by domain (auth, users, todos, timelines, storage).
-- **Mock database**: `src/mocks/db.ts` — in-memory Maps that simulate a database. The data model maps to Supabase tables.
+- **Auth state**: `src/services/auth-state.ts` — client-side auth state manager. When switching to Supabase, replace with Supabase Auth session management.
+- **API layer**: `src/lib/api/` — business logic calls via `fetch()` to REST endpoints.
+- **Mock server**: `src/mocks/mock-server.ts` — patches `globalThis.fetch` to intercept `/api/*` requests.
+- **Mock database**: `src/mocks/db.ts` — in-memory Maps simulating a database.
 
 ### Running the app (web)
 
