@@ -6,6 +6,7 @@
   "author": "Leonel Meque",
   "license": "MIT",
   "dependencies": {
+    "@expo/metro-runtime": "~3.2.3",
     "@expo/vector-icons": "^14.0.0",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/datetimepicker": "8.0.1",
@@ -73,6 +74,7 @@
     "eslint-plugin-react": "^7.30.1",
     "eslint-plugin-react-native": "^4.0.0",
     "metro-react-native-babel-transformer": "^0.77.0",
+    "msw": "^2.12.10",
     "react-native-svg-transformer": "^1.0.0",
     "react-test-renderer": "^18.2.0",
     "readline-sync": "^1.4.10",
@@ -93,5 +95,10 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "tests": "yarn run jest"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }
