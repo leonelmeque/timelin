@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Pressable } from 'react-native';
-import styled from 'styled-components/native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { CustomSafeAreaView } from '../../components/safe-area-view';
 import { RetroView } from '../../components/retro-view';
 import { Header } from '../../ui/organisms';
-import { Text, Spacer } from '../../ui/atoms';
+import { Text } from '~/components/ui/text';
 import { RetroSummary, api } from '../../lib';
 
 type RetroScreenParams = {
@@ -16,22 +15,6 @@ type RetroScreenParams = {
     period?: 'day' | 'week' | 'month';
   };
 };
-
-const TabBar = styled.View`
-  flex-direction: row;
-  padding: 8px 16px;
-`;
-
-const Tab = styled(Pressable)<{ active: boolean }>`
-  padding: 8px 16px;
-  border-radius: 20px;
-  margin-right: 8px;
-  background-color: ${(props) => props.active ? '#3D3868' : '#F0EFF7'};
-`;
-
-const TabText = styled(Text)<{ active: boolean }>`
-  color: ${(props) => props.active ? '#FFFFFF' : '#3D3868'};
-`;
 
 type Period = 'todo' | 'day' | 'week' | 'month';
 
@@ -92,35 +75,43 @@ export const RetroScreen = () => {
       <Header
         renderLeftContent={() => (
           <Pressable onPress={() => navigation.goBack()}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View className="flex-row items-center">
               <MaterialIcons name="arrow-back" size={24} />
-              <Spacer size="4" />
-              <Text size="body" weight="medium">Back</Text>
+              <View className="w-1" />
+              <Text className="text-base font-medium">Back</Text>
             </View>
           </Pressable>
         )}
         renderRigthContent={() => null}
       />
 
-      <TabBar>
+      <View className="flex-row px-4 py-2">
         {periods.map(({ key, label }) => (
-          <Tab key={key} active={activePeriod === key} onPress={() => setActivePeriod(key)}>
-            <TabText size="small" weight="bold" active={activePeriod === key}>
+          <Pressable
+            key={key}
+            onPress={() => setActivePeriod(key)}
+            className={`px-4 py-2 rounded-full mr-2 ${
+              activePeriod === key ? 'bg-primary-500' : 'bg-primary-50'
+            }`}
+          >
+            <Text className={`text-sm font-bold ${
+              activePeriod === key ? 'text-white' : 'text-primary-500'
+            }`}>
               {label}
-            </TabText>
-          </Tab>
+            </Text>
+          </Pressable>
         ))}
-      </TabBar>
+      </View>
 
       {loading ? (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text size="body" weight="regular">Loading...</Text>
+        <View className="flex-1 items-center justify-center">
+          <Text className="text-base text-gray-400">Loading...</Text>
         </View>
       ) : summary ? (
         <RetroView summary={summary} title={getTitle()} />
       ) : (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text size="body" weight="regular">No data available</Text>
+        <View className="flex-1 items-center justify-center">
+          <Text className="text-base text-gray-400">No data available</Text>
         </View>
       )}
     </CustomSafeAreaView>

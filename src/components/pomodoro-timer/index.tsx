@@ -1,57 +1,8 @@
 import React from 'react';
 import { View, Pressable } from 'react-native';
-import styled from 'styled-components/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { usePomodoro, PomodoroState } from './use-pomodoro';
-import { Text, Spacer } from '../../ui/atoms';
-
-const COLORS = {
-  primary: '#3D3868',
-  primaryLight: '#F0EFF7',
-  success: '#386d36',
-  successLight: '#eff7ee',
-  warning: '#84712e',
-  warningLight: '#fbf8ed',
-  danger: '#842e39',
-  dangerLight: '#fbedef',
-  grey: '#77777a',
-  greyLight: '#e8e8e8',
-  greyDark: '#3d3c41',
-  white: '#FFFFFF',
-  bg: '#F8F8FB',
-};
-
-const Container = styled.View`
-  padding: 16px;
-  border-radius: 16px;
-  background-color: ${COLORS.bg};
-`;
-
-const TimerDisplay = styled.View`
-  align-items: center;
-  justify-content: center;
-  padding: 24px 0;
-`;
-
-const Controls = styled.View`
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ProgressBarOuter = styled.View`
-  height: 4px;
-  border-radius: 2px;
-  background-color: ${COLORS.greyLight};
-  overflow: hidden;
-  margin: 0 16px;
-`;
-
-const SessionDots = styled.View`
-  flex-direction: row;
-  justify-content: center;
-  margin-top: 8px;
-`;
+import { Text } from '~/components/ui/text';
 
 function getStateLabel(state: PomodoroState): string {
   switch (state) {
@@ -62,134 +13,124 @@ function getStateLabel(state: PomodoroState): string {
   }
 }
 
-function getColor(state: PomodoroState): string {
+function getStateColor(state: PomodoroState) {
   switch (state) {
-    case 'working': return COLORS.primary;
-    case 'break': return COLORS.success;
-    case 'paused': return COLORS.warning;
-    default: return COLORS.grey;
+    case 'working': return { text: 'text-primary-500', bar: 'bg-primary-500' };
+    case 'break': return { text: 'text-success-500', bar: 'bg-success-500' };
+    case 'paused': return { text: 'text-warning-500', bar: 'bg-warning-500' };
+    default: return { text: 'text-gray-400', bar: 'bg-gray-300' };
   }
 }
 
-type Props = {
-  todoId: string;
-};
+type Props = { todoId: string };
 
 export const PomodoroTimer: React.FC<Props> = ({ todoId }) => {
   const {
-    state,
-    displayTime,
-    progress,
-    sessionCount,
-    startWork,
-    pause,
-    resume,
-    stop,
-    skip,
+    state, displayTime, progress, sessionCount,
+    startWork, pause, resume, stop, skip,
   } = usePomodoro(todoId);
 
-  const color = getColor(state);
+  const colors = getStateColor(state);
 
   return (
-    <Container>
-      <TimerDisplay>
-        <Text size="small" weight="bold" style={{ color, letterSpacing: 2 }}>
+    <View className="p-4 rounded-2xl bg-gray-50">
+      {/* Timer display */}
+      <View className="items-center justify-center py-6">
+        <Text className={`text-xs font-bold tracking-widest ${colors.text}`}>
           {getStateLabel(state)}
         </Text>
-        <Spacer size="4" />
-        <Text size="large" weight="bold" style={{ fontSize: 48, color, fontVariant: ['tabular-nums'] }}>
+        <View className="h-1" />
+        <Text className={`text-5xl font-bold ${colors.text}`} style={{ fontVariant: ['tabular-nums'] }}>
           {displayTime}
         </Text>
-      </TimerDisplay>
+      </View>
 
-      <ProgressBarOuter>
-        <View style={{
-          height: '100%',
-          width: `${Math.min(progress * 100, 100)}%`,
-          backgroundColor: color,
-          borderRadius: 2,
-        }} />
-      </ProgressBarOuter>
+      {/* Progress bar */}
+      <View className="h-1 rounded-full bg-gray-200 mx-4 overflow-hidden">
+        <View
+          className={`h-full rounded-full ${colors.bar}`}
+          style={{ width: `${Math.min(progress * 100, 100)}%` }}
+        />
+      </View>
 
-      <SessionDots>
+      {/* Session dots */}
+      <View className="flex-row justify-center mt-2 gap-1.5">
         {Array.from({ length: 4 }).map((_, i) => (
-          <View key={i} style={{
-            width: 8, height: 8, borderRadius: 4, marginHorizontal: 3,
-            backgroundColor: i < (sessionCount % 4) ? COLORS.primary : COLORS.greyLight,
-          }} />
+          <View
+            key={i}
+            className={`w-2 h-2 rounded-full ${i < (sessionCount % 4) ? 'bg-primary-500' : 'bg-gray-200'}`}
+          />
         ))}
-      </SessionDots>
+      </View>
 
-      <Spacer size="16" />
+      <View className="h-4" />
 
-      <Controls>
+      {/* Controls */}
+      <View className="flex-row justify-center items-center">
         {state === 'idle' && (
-          <Pressable onPress={startWork} style={{
-            width: 64, height: 64, borderRadius: 32, backgroundColor: COLORS.primary,
-            alignItems: 'center', justifyContent: 'center',
-          }}>
-            <MaterialIcons name="play-arrow" size={32} color={COLORS.white} />
+          <Pressable
+            onPress={startWork}
+            className="w-16 h-16 rounded-full bg-primary-500 items-center justify-center active:opacity-90"
+          >
+            <MaterialIcons name="play-arrow" size={32} color="white" />
           </Pressable>
         )}
 
         {state === 'working' && (
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Pressable onPress={stop} style={{
-              width: 48, height: 48, borderRadius: 24, backgroundColor: COLORS.dangerLight,
-              alignItems: 'center', justifyContent: 'center', marginRight: 16,
-            }}>
-              <MaterialIcons name="stop" size={24} color={COLORS.danger} />
+          <View className="flex-row items-center">
+            <Pressable
+              onPress={stop}
+              className="w-12 h-12 rounded-full bg-danger-50 items-center justify-center mr-4"
+            >
+              <MaterialIcons name="stop" size={24} color="#842e39" />
             </Pressable>
-            <Pressable onPress={pause} style={{
-              width: 64, height: 64, borderRadius: 32, backgroundColor: COLORS.warning,
-              alignItems: 'center', justifyContent: 'center',
-            }}>
-              <MaterialIcons name="pause" size={32} color={COLORS.white} />
+            <Pressable
+              onPress={pause}
+              className="w-16 h-16 rounded-full bg-warning-500 items-center justify-center active:opacity-90"
+            >
+              <MaterialIcons name="pause" size={32} color="white" />
             </Pressable>
           </View>
         )}
 
         {state === 'paused' && (
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Pressable onPress={stop} style={{
-              width: 48, height: 48, borderRadius: 24, backgroundColor: COLORS.dangerLight,
-              alignItems: 'center', justifyContent: 'center', marginRight: 16,
-            }}>
-              <MaterialIcons name="stop" size={24} color={COLORS.danger} />
+          <View className="flex-row items-center">
+            <Pressable
+              onPress={stop}
+              className="w-12 h-12 rounded-full bg-danger-50 items-center justify-center mr-4"
+            >
+              <MaterialIcons name="stop" size={24} color="#842e39" />
             </Pressable>
-            <Pressable onPress={resume} style={{
-              width: 64, height: 64, borderRadius: 32, backgroundColor: COLORS.primary,
-              alignItems: 'center', justifyContent: 'center',
-            }}>
-              <MaterialIcons name="play-arrow" size={32} color={COLORS.white} />
+            <Pressable
+              onPress={resume}
+              className="w-16 h-16 rounded-full bg-primary-500 items-center justify-center active:opacity-90"
+            >
+              <MaterialIcons name="play-arrow" size={32} color="white" />
             </Pressable>
           </View>
         )}
 
         {state === 'break' && (
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Pressable onPress={skip} style={{
-              width: 48, height: 48, borderRadius: 24, backgroundColor: COLORS.greyLight,
-              alignItems: 'center', justifyContent: 'center', marginRight: 16,
-            }}>
-              <MaterialIcons name="skip-next" size={24} color={COLORS.greyDark} />
+          <View className="flex-row items-center">
+            <Pressable
+              onPress={skip}
+              className="w-12 h-12 rounded-full bg-gray-200 items-center justify-center mr-4"
+            >
+              <MaterialIcons name="skip-next" size={24} color="#3d3c41" />
             </Pressable>
-            <View style={{
-              width: 64, height: 64, borderRadius: 32, backgroundColor: COLORS.success,
-              alignItems: 'center', justifyContent: 'center',
-            }}>
-              <MaterialIcons name="free-breakfast" size={32} color={COLORS.white} />
+            <View className="w-16 h-16 rounded-full bg-success-500 items-center justify-center">
+              <MaterialIcons name="free-breakfast" size={32} color="white" />
             </View>
           </View>
         )}
-      </Controls>
+      </View>
 
-      <Spacer size="8" />
-      <View style={{ alignItems: 'center' }}>
-        <Text size="small" weight="regular" style={{ color: COLORS.grey }}>
+      <View className="h-2" />
+      <View className="items-center">
+        <Text className="text-xs text-gray-400">
           {sessionCount} pomodoro{sessionCount !== 1 ? 's' : ''} completed
         </Text>
       </View>
-    </Container>
+    </View>
   );
 };

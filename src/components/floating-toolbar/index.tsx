@@ -1,20 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, Pressable, View, StyleSheet, Platform } from 'react-native';
+import { Animated, Pressable, View, Platform } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 
-const PILL_HEIGHT = 56;
-const PILL_RADIUS = 28;
 const BOTTOM_OFFSET = Platform.OS === 'web' ? 24 : 32;
-
-const COLORS = {
-  pill: '#1A1730',
-  pillActive: '#2D2952',
-  iconActive: '#FFFFFF',
-  iconInactive: 'rgba(255, 255, 255, 0.45)',
-  addBg: '#645CAA',
-  shadow: 'rgba(26, 23, 48, 0.35)',
-};
 
 type TabDef = {
   routeName: string;
@@ -51,12 +40,17 @@ export const FloatingToolbar: React.FC<BottomTabBarProps> = ({
 
   return (
     <Animated.View
-      style={[
-        styles.wrapper,
-        { transform: [{ translateY: slideAnim }] },
-      ]}
+      style={{
+        position: 'absolute',
+        bottom: BOTTOM_OFFSET,
+        left: 0,
+        right: 0,
+        alignItems: 'center',
+        zIndex: 100,
+        transform: [{ translateY: slideAnim }],
+      }}
     >
-      <View style={styles.pill}>
+      <View className="flex-row items-center justify-center bg-toolbar-bg rounded-[28px] h-14 px-3 shadow-lg">
         {state.routes.map((route, index) => {
           const tab = TAB_DEFS.find((t) => t.routeName === route.name);
           if (!tab) return null;
@@ -69,7 +63,6 @@ export const FloatingToolbar: React.FC<BottomTabBarProps> = ({
               target: route.key,
               canPreventDefault: true,
             });
-
             if (!isFocused && !event.defaultPrevented) {
               navigation.navigate(route.name);
             }
@@ -80,14 +73,11 @@ export const FloatingToolbar: React.FC<BottomTabBarProps> = ({
               <Pressable
                 key={route.key}
                 onPress={onPress}
-                style={({ pressed }) => [
-                  styles.addBtn,
-                  pressed && { opacity: 0.8, transform: [{ scale: 0.93 }] },
-                ]}
+                className="w-12 h-10 rounded-[20px] bg-toolbar-accent items-center justify-center mx-1.5 active:opacity-80 active:scale-95"
                 accessibilityRole="button"
                 accessibilityLabel="Add todo"
               >
-                <MaterialIcons name="add" size={26} color={COLORS.iconActive} />
+                <MaterialIcons name="add" size={26} color="#FFFFFF" />
               </Pressable>
             );
           }
@@ -96,18 +86,16 @@ export const FloatingToolbar: React.FC<BottomTabBarProps> = ({
             <Pressable
               key={route.key}
               onPress={onPress}
-              style={({ pressed }) => [
-                styles.tabBtn,
-                isFocused && styles.tabBtnActive,
-                pressed && { opacity: 0.7 },
-              ]}
+              className={`w-12 h-10 rounded-[20px] items-center justify-center mx-0.5 active:opacity-70 ${
+                isFocused ? 'bg-toolbar-active' : ''
+              }`}
               accessibilityRole="button"
               accessibilityLabel={tab.routeName}
             >
               <MaterialIcons
                 name={tab.icon}
                 size={22}
-                color={isFocused ? COLORS.iconActive : COLORS.iconInactive}
+                color={isFocused ? '#FFFFFF' : 'rgba(255, 255, 255, 0.45)'}
               />
             </Pressable>
           );
@@ -116,52 +104,3 @@ export const FloatingToolbar: React.FC<BottomTabBarProps> = ({
     </Animated.View>
   );
 };
-
-const styles = StyleSheet.create({
-  wrapper: {
-    position: 'absolute',
-    bottom: BOTTOM_OFFSET,
-    left: 0,
-    right: 0,
-    alignItems: 'center',
-    zIndex: 100,
-  },
-  pill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: COLORS.pill,
-    borderRadius: PILL_RADIUS,
-    height: PILL_HEIGHT,
-    paddingHorizontal: 12,
-    ...(Platform.OS === 'web'
-      ? { boxShadow: `0 8px 32px ${COLORS.shadow}` }
-      : {
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 8 },
-          shadowOpacity: 0.25,
-          shadowRadius: 16,
-          elevation: 16,
-        }),
-  },
-  tabBtn: {
-    width: 48,
-    height: 40,
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginHorizontal: 2,
-  },
-  tabBtnActive: {
-    backgroundColor: COLORS.pillActive,
-  },
-  addBtn: {
-    width: 48,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: COLORS.addBg,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginHorizontal: 6,
-  },
-});

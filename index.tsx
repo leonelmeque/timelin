@@ -1,3 +1,4 @@
+import "./global.css";
 import { registerRootComponent } from 'expo';
 import { createStore, Provider as JotaiProvider } from 'jotai';
 import App from './App';
