@@ -1,52 +1,23 @@
 import { useRouter } from "expo-router";
-import {
-  Dimensions,
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-} from "react-native";
-import styled from "styled-components/native";
-import { CustomSafeAreaView } from "../../components/safe-area-view";
-import { SignInFormView } from "../../components/signin-form-view";
-import { useUserContext } from "../../context";
+import { View, Pressable, KeyboardAvoidingView, Platform } from "react-native";
 import { useState } from "react";
+import { useUserContext } from "../../context";
 import { User, api } from "../../lib";
-
-const WIDTH = Dimensions.get("window").width;
-const HEIGHT = Dimensions.get("window").height;
-
-const Container = styled.View`
-  padding-top: ${(props) => props.theme.spacing.size56}px;
-  padding-bottom: ${HEIGHT / 8}px;
-  align-self: flex-end;
-  width: ${WIDTH}px;
-  border-top-right-radius: ${(props) => props.theme.spacing.size32}px;
-  border-top-left-radius: ${(props) => props.theme.spacing.size32}px;
-  background-color: ${(props) => props.theme.colours.neutrals.white};
-`;
-
-const bg = require("../../../assets/bg-login.jpg");
+import { Text } from "~/components/ui/text";
+import { Input } from "~/components/ui/input";
+import { Button } from "~/components/ui/button";
 
 export const SignInScreen = () => {
   const router = useRouter();
   const [_, dispatch] = useUserContext();
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleSignIn = async ({
-    username,
-    password,
-  }: {
-    username?: string;
-    password?: string;
-  }) => {
+  const handleSignIn = async () => {
     try {
       setIsLoggingIn(true);
-      const { userData } = await api.users.userSignIn({
-        username,
-        password,
-      });
-
+      const { userData } = await api.users.userSignIn({ username, password });
       const { displayName, photoURL } = api.users.getUserProfile();
 
       if (userData) {
@@ -66,35 +37,61 @@ export const SignInScreen = () => {
   };
 
   return (
-    <ScrollView style={{ flexDirection: "row" }} bounces={false}>
-      <CustomSafeAreaView>
-        <Image
-          source={bg}
-          style={{
-            width: WIDTH,
-            height: HEIGHT / 2,
-            position: "absolute",
-            resizeMode: "stretch",
-          }}
-        />
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={{
-            // backgroundColor: 'red',
-            flex: 1,
-            alignSelf: "flex-end",
-            flexDirection: "row",
-          }}
-        >
-          <Container>
-            <SignInFormView
-              isLoggingIn={isLoggingIn}
-              onSignin={(data) => handleSignIn(data)}
-              goToSignup={() => router.push("/(auth)/sign-up")}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      className="flex-1 bg-bg"
+    >
+      <View className="flex-1 items-center justify-center px-6">
+        <View className="w-full max-w-sm">
+          {/* Logo / Brand */}
+          <View className="items-center mb-10">
+            <Text className="text-3xl font-bold text-fg">Timelin</Text>
+            <Text className="text-sm text-fg-secondary mt-1">
+              Focus on what matters
+            </Text>
+          </View>
+
+          {/* Form */}
+          <View className="mb-4">
+            <Text className="text-sm font-medium text-fg mb-1.5">Email</Text>
+            <Input
+              placeholder="you@example.com"
+              value={username}
+              onChangeText={setUsername}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              className="border-border bg-bg"
             />
-          </Container>
-        </KeyboardAvoidingView>
-      </CustomSafeAreaView>
-    </ScrollView>
+          </View>
+
+          <View className="mb-6">
+            <Text className="text-sm font-medium text-fg mb-1.5">Password</Text>
+            <Input
+              placeholder="Enter your password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+              autoCapitalize="none"
+              className="border-border bg-bg"
+            />
+          </View>
+
+          <Button
+            onPress={handleSignIn}
+            disabled={isLoggingIn || !username || !password}
+            className="mb-4"
+          >
+            <Text>{isLoggingIn ? 'Signing in...' : 'Sign in'}</Text>
+          </Button>
+
+          <Pressable onPress={() => router.push("/(auth)/sign-up")}>
+            <Text className="text-sm text-fg-secondary text-center">
+              Don't have an account?{' '}
+              <Text className="text-sm text-accent font-medium">Create one</Text>
+            </Text>
+          </Pressable>
+        </View>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
