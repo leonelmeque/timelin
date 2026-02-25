@@ -10,7 +10,7 @@ export const normalizeTimeline = (timeline: TimelineEventProps[]) => {
 
   Object.entries(orderedTimeline).forEach(
     ([key, { timestamp, ...rest }], index) => {
-      const dateKey = new Date(Number(timestamp)).toLocaleDateString('en-US');
+      const dateKey = new Date(timestamp).toLocaleDateString('en-US');
 
       normalizedData[dateKey]
         ? normalizedData[dateKey]?.push({ timestamp, ...rest })

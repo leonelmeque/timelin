@@ -61,7 +61,7 @@ export const TodoCard: FC<TodoCardProps> = ({
     >
       <TodoCardHeader>
         <Text size="small" weight="medium" colour={Palette.greys.G200}>
-          {dateFormatter(Number(timestamp))}
+          {dateFormatter(timestamp)}
         </Text>
         {showStatus && (
           <BadgeContainer>

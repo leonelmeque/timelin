@@ -55,7 +55,7 @@ export const useEventView = ({
 
   const timestamp = !state?.timestamp
     ? dateFormatter(String(Date.now()))
-    : dateFormatter(Number(state.timestamp));
+    : dateFormatter(state.timestamp);
 
   return {
     state,

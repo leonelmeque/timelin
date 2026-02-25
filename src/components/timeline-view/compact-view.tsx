@@ -80,7 +80,7 @@ export const TimelineCompactView = ({ id }: { id: string }) => {
         {normalizeData.map((item, index) => (
           <Fragment key={String(index)}>
             <RenderTimelineEvent
-              date={Number(item.timestamp)}
+              date={item.timestamp}
               description={item.title}
               compact
               showVerticalLine={ref.current !== index + 1}

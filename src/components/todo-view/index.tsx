@@ -4,6 +4,7 @@ import { ScrollView, View, Pressable } from "react-native";
 import styled from "styled-components/native";
 import { CalendarModalView, CalendarRefProps } from "../calendar-modal-view";
 import { TimelineCompactView } from "../timeline-view/compact-view";
+import { PomodoroTimer } from "../pomodoro-timer";
 import {
   UpdateStatusModalRefProps,
   UpdateStatusModalView,
@@ -164,6 +165,10 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
           <View style={{ flex: 1 }}>
             <TimelineCompactView id={state?.id ?? ""} />
           </View>
+        </Box>
+        <Spacer size="16" />
+        <Box style={{ padding: 0 }}>
+          <PomodoroTimer todoId={state?.id ?? ""} />
         </Box>
         <Spacer size="16" />
         <Box
