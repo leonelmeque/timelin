@@ -1,10 +1,10 @@
 import { useRouter } from "expo-router";
 import { View, Pressable, ScrollView, Keyboard } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { Text } from "~/components/ui/text";
 import { AddTodoModalView } from "../components/add-todo-modal-view";
 import { useCustomModal, useUserContext } from "../context";
 import { useFetchTodos } from "../store";
-import { Text } from "~/components/ui/text";
 import { useResponsive } from "../hooks/use-responsive";
 import { TodoProps } from "../lib";
 import { dateFormatter } from "../lib/utils";

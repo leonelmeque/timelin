@@ -1,15 +1,15 @@
 import React from 'react';
 import { View, Pressable } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { usePomodoro, PomodoroState } from './use-pomodoro';
 import { Text } from '~/components/ui/text';
+import { usePomodoro, PomodoroState } from './use-pomodoro';
 
 function getStateLabel(state: PomodoroState): string {
   switch (state) {
     case 'working': return 'FOCUS TIME';
     case 'break': return 'BREAK TIME';
     case 'paused': return 'PAUSED';
-    case 'idle': return 'READY TO FOCUS';
+    default: return 'READY TO FOCUS';
   }
 }
 

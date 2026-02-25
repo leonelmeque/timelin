@@ -20,8 +20,7 @@ const NAV_ITEMS: NavItem[] = [
 export const Sidebar: React.FC<BottomTabBarProps> = ({
   state,
   navigation,
-}) => {
-  return (
+}) => (
     <View className="w-60 h-full bg-bg-secondary border-r border-border py-4 px-3">
       <View className="px-3 py-2 mb-4">
         <Text className="text-lg font-bold text-fg">Timelin</Text>
@@ -70,4 +69,3 @@ export const Sidebar: React.FC<BottomTabBarProps> = ({
       </View>
     </View>
   );
-};

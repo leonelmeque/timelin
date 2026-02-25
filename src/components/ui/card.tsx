@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { View } from 'react-native';
 import { cn } from '~/lib/cn';
-import { TextClassContext } from './text';
 
 type CardProps = React.ComponentPropsWithoutRef<typeof View> & {
   className?: string;

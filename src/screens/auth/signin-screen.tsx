@@ -1,15 +1,15 @@
 import { useRouter } from "expo-router";
 import { View, Pressable, KeyboardAvoidingView, Platform } from "react-native";
 import { useState } from "react";
-import { useUserContext } from "../../context";
-import { User, api } from "../../lib";
 import { Text } from "~/components/ui/text";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
+import { User, api } from "../../lib";
+import { useUserContext } from "../../context";
 
 export const SignInScreen = () => {
   const router = useRouter();
-  const [_, dispatch] = useUserContext();
+  const [, dispatch] = useUserContext();
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -86,7 +86,7 @@ export const SignInScreen = () => {
 
           <Pressable onPress={() => router.push("/(auth)/sign-up")}>
             <Text className="text-sm text-fg-secondary text-center">
-              Don't have an account?{' '}
+              {"Don't have an account? "}
               <Text className="text-sm text-accent font-medium">Create one</Text>
             </Text>
           </Pressable>

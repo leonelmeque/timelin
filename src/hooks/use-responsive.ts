@@ -2,14 +2,16 @@ import { useWindowDimensions, Platform } from 'react-native';
 
 export type LayoutMode = 'mobile' | 'tablet' | 'desktop';
 
+function getLayoutMode(width: number): LayoutMode {
+  if (Platform.OS !== 'web') return 'mobile';
+  if (width >= 1024) return 'desktop';
+  if (width >= 768) return 'tablet';
+  return 'mobile';
+}
+
 export function useResponsive() {
   const { width } = useWindowDimensions();
-
-  const mode: LayoutMode =
-    Platform.OS !== 'web' ? 'mobile' :
-    width >= 1024 ? 'desktop' :
-    width >= 768 ? 'tablet' :
-    'mobile';
+  const mode = getLayoutMode(width);
 
   return {
     mode,

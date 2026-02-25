@@ -27,8 +27,7 @@ type BadgeProps = React.ComponentPropsWithoutRef<typeof View> & {
 };
 
 const Badge = React.forwardRef<React.ElementRef<typeof View>, BadgeProps>(
-  ({ className, variant = 'default', ...props }, ref) => {
-    return (
+  ({ className, variant = 'default', ...props }, ref) => (
       <TextClassContext.Provider value={textVariants[variant]}>
         <View
           ref={ref}
@@ -40,8 +39,7 @@ const Badge = React.forwardRef<React.ElementRef<typeof View>, BadgeProps>(
           {...props}
         />
       </TextClassContext.Provider>
-    );
-  }
+    )
 );
 Badge.displayName = 'Badge';
 

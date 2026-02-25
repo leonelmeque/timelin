@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { View, Pressable } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Text } from '~/components/ui/text';
 import { CustomSafeAreaView } from '../../components/safe-area-view';
 import { RetroView } from '../../components/retro-view';
 import { Header } from '../../ui/organisms';
-import { Text } from '~/components/ui/text';
 import { RetroSummary, api } from '../../lib';
 
 type Period = 'todo' | 'day' | 'week' | 'month';
@@ -48,6 +48,7 @@ export const RetroScreen = () => {
       case 'day': return 'Daily Retrospective';
       case 'week': return 'Weekly Retrospective';
       case 'month': return 'Monthly Retrospective';
+      default: return 'Retrospective';
     }
   };
 

@@ -73,7 +73,7 @@ export function ScreenWithSidebar({ children }: { children: React.ReactNode }) {
   const { showSidebar } = useResponsive();
 
   if (!showSidebar) {
-    return <>{children}</>;
+    return children as React.ReactElement;
   }
 
   return (

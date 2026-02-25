@@ -35,16 +35,6 @@ export function usePomodoro(todoId: string, settings: PomodoroSettings = DEFAULT
     }, 1000);
   }, [clearTimer]);
 
-  useEffect(() => {
-    if (secondsLeft === 0 && state !== 'idle') {
-      handleTimerComplete();
-    }
-  }, [secondsLeft]);
-
-  useEffect(() => {
-    return clearTimer;
-  }, [clearTimer]);
-
   const handleTimerComplete = useCallback(async () => {
     clearTimer();
 
@@ -79,6 +69,14 @@ export function usePomodoro(todoId: string, settings: PomodoroSettings = DEFAULT
       setSecondsLeft(settings.workMinutes * 60);
     }
   }, [state, sessionCount, currentSession, todoId, settings, clearTimer, startTimer]);
+
+  useEffect(() => {
+    if (secondsLeft === 0 && state !== 'idle') {
+      handleTimerComplete();
+    }
+  }, [secondsLeft]);
+
+  useEffect(() => clearTimer, [clearTimer]);
 
   const startWork = useCallback(async () => {
     try {

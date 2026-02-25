@@ -7,8 +7,7 @@ type InputProps = React.ComponentPropsWithoutRef<typeof TextInput> & {
 };
 
 const Input = React.forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
-  ({ className, placeholderTextColor, ...props }, ref) => {
-    return (
+  ({ className, placeholderTextColor, ...props }, ref) => (
       <TextInput
         ref={ref}
         className={cn(
@@ -21,8 +20,7 @@ const Input = React.forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
         placeholderTextColor={placeholderTextColor ?? '#9CA3AF'}
         {...props}
       />
-    );
-  }
+    )
 );
 Input.displayName = 'Input';
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { RetroSummary } from '../../lib/shared-types';
 import { Text } from '~/components/ui/text';
 import { Card, CardContent } from '~/components/ui/card';
+import { RetroSummary } from '../../lib/shared-types';
 
 function formatMinutes(minutes: number): string {
   if (minutes < 60) return `${minutes}m`;
