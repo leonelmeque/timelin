@@ -69,6 +69,16 @@ test.describe('Retrospective', () => {
   });
 });
 
+test.describe('Logout', () => {
+  test('should logout and redirect to sign-in', async ({ page }) => {
+    await login(page);
+    await page.getByText('Settings').click();
+    await expect(page.getByText('Log out')).toBeVisible({ timeout: 5000 });
+    await page.getByText('Log out').click();
+    await expect(page.getByPlaceholder('you@example.com')).toBeVisible({ timeout: 10000 });
+  });
+});
+
 test.describe('Responsive Layout', () => {
   test('should show sidebar on desktop', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });

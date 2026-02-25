@@ -23,10 +23,10 @@ export const ProfileSettingsScreen: FC = () => {
 
   const { handleImageUpload, isUploading, percentage } = useImageUpload();
   const { formatPhoneNumber } = utils.phoneNumber;
-  // TODO: fix role in firestore, users don't have a role, but we may not need it anymore
 
-  const { fullname, username, email, phonenumber, birthdate, avatar } =
-    user as User;
+  if (!user) return null;
+
+  const { fullname, username, email, phonenumber, birthdate, avatar } = user;
 
   const navigateToEditProfileModal = (value: string) => {
     router.push(`/(tabs)/settings/profile/${value}`);

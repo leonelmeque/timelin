@@ -31,7 +31,10 @@ export const ProfileSettingsModalView = () => {
 
   const router = useRouter();
   const [user, dispatch] = useUserContext();
-  const { fullname, username, birthdate, email, phonenumber } = user as User;
+
+  if (!user) return null;
+
+  const { fullname, username, birthdate, email, phonenumber } = user;
   const {
     updateProfileName,
     updateEmail,

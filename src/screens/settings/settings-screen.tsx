@@ -10,8 +10,11 @@ import { useRouter } from "expo-router";
 
 export const SettingsScreen = () => {
   const [user, dispatch] = useUserContext();
-  const { avatar, fullname } = user as User;
   const router = useRouter();
+
+  if (!user) return null;
+
+  const { avatar, fullname } = user;
 
   const handleNavigation = (path: string) => {
     switch (path) {
