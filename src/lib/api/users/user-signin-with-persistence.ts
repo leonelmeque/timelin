@@ -1,38 +1,37 @@
-import auth, {type FirebaseAuthTypes} from "@react-native-firebase/auth";
 import { Dispatch, SetStateAction } from "react";
-import { getUserInformation } from "./get-user-information";
+import { apiClient } from "../../../services/api-client";
+import { authState, AuthUser } from "../../../services/auth-state";
 import { User } from "../../shared-types";
 
 export const userSignInWithPersistence = (
   callback: Dispatch<SetStateAction<User<{}> | null>>,
   onAppReady: Dispatch<SetStateAction<boolean>>
 ) => {
-  const onStateObserver = async (user: FirebaseAuthTypes.User | null ) => {
+  const onStateObserver = async (user: AuthUser | null) => {
     if (!user) {
       onAppReady(true);
       return;
     }
 
-    const userInformation = await getUserInformation(user.uid);
-    const { displayName, email, photoURL } = user;
+    try {
+      const userInformation = await apiClient.get<User>(`/users/${user.uid}`);
+      const { displayName, email, photoURL } = user;
 
-    callback(
-      () =>
-      ({
-        ...userInformation,
-        avatar: photoURL,
-        fullname: displayName,
-        email,
-      } as User<any>)
-    );
+      callback(
+        () =>
+        ({
+          ...userInformation,
+          avatar: photoURL,
+          fullname: displayName,
+          email,
+        } as User<any>)
+      );
+    } catch {
+      // User data not found, continue anyway
+    }
 
     onAppReady(true);
   };
 
-  // const onStateObserverError = (err: FirebaseError) => {
-  //   onAppReady(true);
-  //   throw err;
-  // };
-
-  auth().onAuthStateChanged((user) => onStateObserver(user));
+  authState.onAuthStateChanged((user) => onStateObserver(user));
 };

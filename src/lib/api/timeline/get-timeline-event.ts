@@ -1,9 +1,6 @@
-import firestore from "@react-native-firebase/firestore";
+import { apiClient } from '../../../services/api-client';
+import { TimelineEventProps } from '../../shared-types';
 
-export const getTimelineEvent = async (uid: string, id: string) =>
-    firestore()
-    .collection('timelines')
-    .doc(uid)
-    .collection('events')
-    .doc(id)
-    .get();
+export const getTimelineEvent = async (uid: string, id: string) => {
+  return apiClient.get<TimelineEventProps>(`/timelines/${uid}/events/${id}`);
+};

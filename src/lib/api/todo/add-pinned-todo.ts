@@ -1,9 +1,5 @@
-import firestore from "@react-native-firebase/firestore";
-import auth from "@react-native-firebase/auth"
+import { apiClient } from '../../../services/api-client';
 
-export const addPinnedTodo = async (uid: string) => firestore()
-    .collection('todos')
-    .doc(auth().currentUser?.uid)
-    .update({
-      pinned: uid,
-    });
+export const addPinnedTodo = async (uid: string) => {
+  await apiClient.put('/todos/meta/pinned', { uid });
+};

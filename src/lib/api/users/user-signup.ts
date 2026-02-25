@@ -1,5 +1,5 @@
-import auth from '@react-native-firebase/auth';
-import { generateUserData } from './generate-user-data';
+import { apiClient } from '../../../services/api-client';
+import { authState } from '../../../services/auth-state';
 import { User } from '../../shared-types';
 
 export async function userSignUp<T>(
@@ -7,18 +7,20 @@ export async function userSignUp<T>(
 ) {
   const { email, username, password } = data;
 
-  const result = await auth()
-    .createUserWithEmailAndPassword(email as string, password as string);
+  const result = await apiClient.post<{
+    user: { uid: string; email: string; displayName: string | null; photoURL: string | null };
+    userData: User;
+    sessionToken: string;
+  }>('/auth/signup', { email, username, password });
 
-  return generateUserData({
-    username: username as string,
-    email: email as string,
-    id: result.user?.uid as string,
-    birthdate: '',
-    preferences: {},
-    phonenumber: {
-      countryCode: '',
-      number: '',
-    },
+  authState.setUser({
+    uid: result.user.uid,
+    email: result.user.email,
+    displayName: result.user.displayName,
+    photoURL: result.user.photoURL,
+    emailVerified: false,
+    phoneNumber: null,
   });
+
+  return result.userData;
 }

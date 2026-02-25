@@ -1,20 +1,28 @@
-import storage, { FirebaseStorageTypes } from '@react-native-firebase/storage';
-import auth from '@react-native-firebase/auth'
+type UploadResult = {
+  downloadURL: string;
+};
 
-type UploadImage = (
+export const uploadImage = async (
   imagePath: string,
-  metadata?: Partial< FirebaseStorageTypes.FullMetadata>
-) => Promise<FirebaseStorageTypes.TaskSnapshot>;
-
-export const uploadImage: UploadImage = async (imagePath, metadata) => {
+  metadata?: Record<string, any>
+): Promise<UploadResult> => {
   const res = await fetch(imagePath);
   const blob = await res.blob();
 
-  const storageRef = storage().ref();
+  const formData = new FormData();
+  formData.append('file', blob);
+  if (metadata) {
+    formData.append('metadata', JSON.stringify(metadata));
+  }
 
-  return storageRef
-    .child(
-      `images/${auth().currentUser?.uid}/${Math.random().toString(36)}`
-    )
-    .put(blob, metadata);
+  const response = await fetch('/api/storage/upload', {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error('Upload failed');
+  }
+
+  return response.json();
 };

@@ -1,3 +1,0 @@
-export function getFirestore() {
-  return {};
-}

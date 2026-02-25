@@ -1,6 +1,7 @@
-import auth from "@react-native-firebase/auth"
+import { apiClient } from '../../../services/api-client';
+import { authState } from '../../../services/auth-state';
 
 export const userSignOut = async () => {
-  await auth().signOut();
-  await auth().currentUser?.delete();
+  await apiClient.post('/auth/signout');
+  authState.clear();
 };

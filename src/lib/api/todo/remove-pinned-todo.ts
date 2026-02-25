@@ -1,9 +1,5 @@
-import firestore from "@react-native-firebase/firestore";
-import auth from "@react-native-firebase/auth"
+import { apiClient } from '../../../services/api-client';
 
-export const removePinnedTodo = async (id: string) => firestore()
-    .collection('todos')
-    .doc(auth().currentUser?.uid)
-    .update({
-      pinned: '',
-    });
+export const removePinnedTodo = async (_id: string) => {
+  await apiClient.delete('/todos/meta/pinned');
+};

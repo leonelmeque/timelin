@@ -1,4 +1,7 @@
-import { setupWorker } from 'msw/browser';
-import { handlers } from './handlers';
+import { startMockServer } from './mock-server';
+import { registerHandlers } from './handlers';
 
-export const worker = setupWorker(...handlers);
+export function setupMocks() {
+  registerHandlers();
+  startMockServer();
+}

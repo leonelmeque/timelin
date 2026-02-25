@@ -1,8 +1,5 @@
-import firestore from "@react-native-firebase/firestore";
+import { apiClient } from '../../../services/api-client';
 
-export const deleteTimelineEvent = async (uid: string, eventId: string) =>  firestore()
-    .collection('timelines')
-    .doc(uid)
-    .collection('events')
-    .doc(eventId)
-    .delete();
+export const deleteTimelineEvent = async (uid: string, eventId: string) => {
+  await apiClient.delete(`/timelines/${uid}/events/${eventId}`);
+};

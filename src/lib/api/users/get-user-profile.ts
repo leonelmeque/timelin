@@ -1,7 +1,7 @@
-import auth from "@react-native-firebase/auth"
+import { authState } from '../../../services/auth-state';
 
 export const getUserProfile = () => {
-  const {currentUser} = auth();
+  const currentUser = authState.getUser();
 
   if (!currentUser) {
     return {};

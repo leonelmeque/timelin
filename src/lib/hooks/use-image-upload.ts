@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import type { FirebaseStorageTypes } from '@react-native-firebase/storage';
-import { ReactNativeFirebase } from "@react-native-firebase/app";
 import { api } from '../api';
 import { useUpdateProfile } from '../api/users/use-update-profile';
 import { User } from '../shared-types';
@@ -19,50 +17,29 @@ export const useImageUpload = () => {
   const { updateProfilePhoto } = useUpdateProfile();
   const [user, userDispatch] = useUserContext();
 
-  const taskProgress = (snapshot: FirebaseStorageTypes.TaskSnapshot) => {
-    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  const handleImageUpload: HandleImageUpload = async ({ path }) => {
+    setIsUploading(true);
 
-    console.log(`Upload progress so far: `, progress);
-  };
+    try {
+      if (percentage) {
+        setPercentage(0);
+      }
 
-  const taskError = (error: ReactNativeFirebase.NativeFirebaseError) => {
-    console.error(`Something has gone wrong: ${error}`);
-    setIsUploading(false);
-  };
+      const result = await api.storage.uploadImage(path);
 
-  const taskComplete =
-    (task: FirebaseStorageTypes.TaskSnapshot) => async () => {
-      const uri = await task.ref.getDownloadURL();
-
-      await updateProfilePhoto(uri);
+      await updateProfilePhoto(result.downloadURL);
 
       userDispatch({
         ...user,
-        avatar: uri,
+        avatar: result.downloadURL,
       } as User);
-      setIsUploading(false);
+
       console.log('Image upload completed');
-    };
-
-  const handleImageUpload: HandleImageUpload = async ({ path}) => {
-    setIsUploading(true);
-
-    const snapshot = await api.storage.uploadImage(path, {
-      customMetadata: {
-        timestamp: String(new Date().getTime()),
-      },
-    });
-
-    if (percentage) {
-      setPercentage(0);
+    } catch (error) {
+      console.error('Something has gone wrong:', error);
+    } finally {
+      setIsUploading(false);
     }
-
-    snapshot.task.on(
-      'state_changed',
-      taskProgress,
-      taskError,
-      taskComplete(snapshot)
-    );
   };
 
   return {

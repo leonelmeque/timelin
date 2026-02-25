@@ -1,62 +1,68 @@
-import firestore from "@react-native-firebase/firestore";
-import auth, {type FirebaseAuthTypes} from "@react-native-firebase/auth"
+import { apiClient } from '../../../services/api-client';
+import { authState } from '../../../services/auth-state';
 
 export const useUpdateProfile = () => {
-  const currentUser = auth().currentUser as FirebaseAuthTypes.User;
-
-  const updateProfileName = async (name: string) => currentUser?.updateProfile({
-      displayName: name,
-    });
-
-  const updateUsername = async (username: string) => firestore()
-      .collection('users')
-      .doc(currentUser?.uid)
-      .update({
-        username,
-      });
-
-  const updateProfilePhoto = async (photoURL: string) => currentUser?.updateProfile({
-      photoURL,
-    });
-
-  const updateBirthDate = async (birthdate: string) => firestore()
-      .collection('users')
-      .doc(currentUser?.uid)
-      .update({
-        birthdate,
-      });
-
-  const updatePhoneNumber = async (countryCode: string, number: string) => firestore()
-      .collection('users')
-      .doc(currentUser?.uid)
-      .update({
-        phonenumber: {
-          countryCode,
-          number,
-        },
-      });
-
-  const updatePassword = async (password: string) =>  currentUser?.updatePassword(password);
-
-  const sendResetPasswordEmail = async () =>  auth()
-      ?.sendPasswordResetEmail(currentUser?.email as string);
-
-  const updateEmail = async (email: string) => currentUser?.updateEmail(email);
-
-  const sendEmailVerification = async () => currentUser?.sendEmailVerification();
-
-  /**
-   * @linkcode https://stackoverflow.com/questions/37811684/how-to-create-credential-object-needed-by-firebase-web-user-reauthenticatewith
-   */
-  const reauthenticatePassword = async (password: string) => {
-    const credential = auth.EmailAuthProvider.credential(
-      currentUser.email as string,
-      password
-    );
-    return currentUser.reauthenticateWithCredential(credential);
+  const updateProfileName = async (name: string) => {
+    await apiClient.patch('/auth/profile', { displayName: name });
+    authState.updateUser({ displayName: name });
   };
 
-  const deleteUser = async () => currentUser?.delete();
+  const updateUsername = async (username: string) => {
+    const user = authState.getUser();
+    if (user) {
+      await apiClient.patch(`/users/${user.uid}`, { username });
+    }
+  };
+
+  const updateProfilePhoto = async (photoURL: string) => {
+    await apiClient.patch('/auth/profile', { photoURL });
+    authState.updateUser({ photoURL });
+  };
+
+  const updateBirthDate = async (birthdate: string) => {
+    const user = authState.getUser();
+    if (user) {
+      await apiClient.patch(`/users/${user.uid}`, { birthdate });
+    }
+  };
+
+  const updatePhoneNumber = async (countryCode: string, number: string) => {
+    const user = authState.getUser();
+    if (user) {
+      await apiClient.patch(`/users/${user.uid}`, {
+        phonenumber: { countryCode, number },
+      });
+    }
+  };
+
+  const updatePassword = async (password: string) => {
+    await apiClient.patch('/auth/profile', { password });
+  };
+
+  const sendResetPasswordEmail = async () => {
+    const user = authState.getUser();
+    if (user?.email) {
+      await apiClient.post('/auth/password-reset', { email: user.email });
+    }
+  };
+
+  const updateEmail = async (email: string) => {
+    await apiClient.patch('/auth/profile', { email });
+    authState.updateUser({ email });
+  };
+
+  const sendEmailVerification = async () => {
+    await apiClient.post('/auth/email-verification');
+  };
+
+  const reauthenticatePassword = async (password: string) => {
+    await apiClient.post('/auth/reauthenticate', { password });
+  };
+
+  const deleteUser = async () => {
+    await apiClient.delete('/auth/account');
+    authState.clear();
+  };
 
   return {
     updateProfileName,
