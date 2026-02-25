@@ -1,3 +1,9 @@
+export enum TimelineEventType {
+  UPDATE = 'UPDATE',
+  POMODORO = 'POMODORO',
+  BREAK = 'BREAK',
+}
+
 export type TimelineEventProps = {
   id?: string;
   title: string;
@@ -5,6 +11,8 @@ export type TimelineEventProps = {
   timestamp: string | number;
   participants?: string[];
   creator: string;
+  type?: TimelineEventType;
+  durationMinutes?: number;
 };
 
 export type TodoProps = {
@@ -18,12 +26,49 @@ export type TodoProps = {
   assigned?: string[];
   startDate: string;
   endDate: string;
+  deadline?: string;
+  organizePeriod?: 'day' | 'week' | 'month';
 };
 
 export type TimelineProps = {
   id: string;
   todo: string;
   events: TimelineEventProps[];
+};
+
+export type PomodoroSession = {
+  id: string;
+  todoId: string;
+  type: 'work' | 'break';
+  startedAt: string;
+  endedAt?: string;
+  durationMinutes: number;
+  completed: boolean;
+};
+
+export type PomodoroSettings = {
+  workMinutes: number;
+  shortBreakMinutes: number;
+  longBreakMinutes: number;
+  sessionsBeforeLongBreak: number;
+};
+
+export const DEFAULT_POMODORO_SETTINGS: PomodoroSettings = {
+  workMinutes: 25,
+  shortBreakMinutes: 5,
+  longBreakMinutes: 15,
+  sessionsBeforeLongBreak: 4,
+};
+
+export type RetroSummary = {
+  todoId?: string;
+  period: 'todo' | 'day' | 'week' | 'month';
+  totalPomodoros: number;
+  totalWorkMinutes: number;
+  totalBreakMinutes: number;
+  totalUpdates: number;
+  events: TimelineEventProps[];
+  pomodoroSessions: PomodoroSession[];
 };
 
 export type UserProps = {

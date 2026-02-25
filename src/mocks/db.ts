@@ -18,10 +18,21 @@ type TodoMeta = {
   latestChanged?: string;
 };
 
+type PomodoroRecord = {
+  id: string;
+  todoId: string;
+  type: 'work' | 'break';
+  startedAt: string;
+  endedAt?: string;
+  durationMinutes: number;
+  completed: boolean;
+};
+
 const users = new Map<string, UserRecord>();
 const todos = new Map<string, Map<string, TodoRecord>>();
 const todoMeta = new Map<string, TodoMeta>();
 const timelines = new Map<string, Map<string, TimelineEventRecord>>();
+const pomodoroSessions = new Map<string, PomodoroRecord[]>();
 
 let currentSession: { uid: string; token: string } | null = null;
 
@@ -132,6 +143,53 @@ export const db = {
     },
     deleteTimeline: (timelineId: string) => {
       timelines.delete(timelineId);
+    },
+  },
+
+  pomodoro: {
+    start: (todoId: string, type: 'work' | 'break', durationMinutes: number): PomodoroRecord => {
+      const session: PomodoroRecord = {
+        id: generateId(),
+        todoId,
+        type,
+        startedAt: new Date().toISOString(),
+        durationMinutes,
+        completed: false,
+      };
+      const existing = pomodoroSessions.get(todoId) || [];
+      existing.push(session);
+      pomodoroSessions.set(todoId, existing);
+      return session;
+    },
+    complete: (todoId: string, sessionId: string): PomodoroRecord | undefined => {
+      const sessions = pomodoroSessions.get(todoId);
+      if (!sessions) return undefined;
+      const session = sessions.find((s) => s.id === sessionId);
+      if (session) {
+        session.completed = true;
+        session.endedAt = new Date().toISOString();
+      }
+      return session;
+    },
+    cancel: (todoId: string, sessionId: string): PomodoroRecord | undefined => {
+      const sessions = pomodoroSessions.get(todoId);
+      if (!sessions) return undefined;
+      const session = sessions.find((s) => s.id === sessionId);
+      if (session) {
+        session.endedAt = new Date().toISOString();
+      }
+      return session;
+    },
+    getByTodo: (todoId: string): PomodoroRecord[] => {
+      return pomodoroSessions.get(todoId) || [];
+    },
+    getAll: (): PomodoroRecord[] => {
+      return Array.from(pomodoroSessions.values()).flat();
+    },
+    addRecord: (record: PomodoroRecord) => {
+      const existing = pomodoroSessions.get(record.todoId) || [];
+      existing.push(record);
+      pomodoroSessions.set(record.todoId, existing);
     },
   },
 };

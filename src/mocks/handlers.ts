@@ -1,5 +1,6 @@
 import { mock, json } from './mock-server';
 import { db } from './db';
+import { seedDummyData } from './seed';
 
 function requireAuth() {
   const session = db.session.get();
@@ -75,6 +76,8 @@ export function registerHandlers() {
 
     const token = `token-${user.id}`;
     db.session.set({ uid: user.id, token });
+
+    seedDummyData(user.id);
 
     return json({
       user: { uid: user.id, email: user.email, displayName: user.username, photoURL: user.avatar },
@@ -281,6 +284,109 @@ export function registerHandlers() {
   mock.delete('/api/timelines/:uid', (_req, params) => {
     db.timelines.deleteTimeline(params.uid);
     return json({ success: true });
+  });
+
+  // ── Pomodoro ───────────────────────────────────────────────
+
+  mock.post('/api/pomodoro/:todoId/start', async (req, params) => {
+    const { type, durationMinutes } = await readBody(req);
+    const session = db.pomodoro.start(params.todoId, type || 'work', durationMinutes || 25);
+    return json(session, { status: 201 });
+  });
+
+  mock.post('/api/pomodoro/:todoId/complete/:sessionId', (_req, params) => {
+    const session = db.pomodoro.complete(params.todoId, params.sessionId);
+    if (!session) return json({ message: 'Session not found' }, { status: 404 });
+    return json(session);
+  });
+
+  mock.post('/api/pomodoro/:todoId/cancel/:sessionId', (_req, params) => {
+    const session = db.pomodoro.cancel(params.todoId, params.sessionId);
+    if (!session) return json({ message: 'Session not found' }, { status: 404 });
+    return json(session);
+  });
+
+  mock.get('/api/pomodoro/:todoId', (_req, params) => {
+    return json(db.pomodoro.getByTodo(params.todoId));
+  });
+
+  mock.get('/api/pomodoro', () => {
+    return json(db.pomodoro.getAll());
+  });
+
+  // ── Retrospective ─────────────────────────────────────────
+
+  mock.get('/api/retro/todo/:todoId', (_req, params) => {
+    const events = db.timelines.getEvents(params.todoId);
+    const sessions = db.pomodoro.getByTodo(params.todoId);
+    const completedWork = sessions.filter((s: any) => s.type === 'work' && s.completed);
+    const completedBreaks = sessions.filter((s: any) => s.type === 'break' && s.completed);
+    const updates = events.filter((e: any) => !e.type || e.type === 'UPDATE');
+
+    return json({
+      todoId: params.todoId,
+      period: 'todo',
+      totalPomodoros: completedWork.length,
+      totalWorkMinutes: completedWork.reduce((sum: number, s: any) => sum + (s.durationMinutes || 0), 0),
+      totalBreakMinutes: completedBreaks.reduce((sum: number, s: any) => sum + (s.durationMinutes || 0), 0),
+      totalUpdates: updates.length,
+      events,
+      pomodoroSessions: sessions,
+    });
+  });
+
+  mock.get('/api/retro/period/:period', (req, params) => {
+    const auth = requireAuth();
+    if (!auth) return unauthorized();
+
+    const url = new URL(req.url, 'http://localhost');
+    const dateParam = url.searchParams.get('date') || new Date().toISOString();
+    const refDate = new Date(dateParam);
+    const period = params.period as 'day' | 'week' | 'month';
+
+    let startDate: Date, endDate: Date;
+    if (period === 'day') {
+      startDate = new Date(refDate.getFullYear(), refDate.getMonth(), refDate.getDate());
+      endDate = new Date(startDate.getTime() + 86400000);
+    } else if (period === 'week') {
+      const dayOfWeek = refDate.getDay();
+      startDate = new Date(refDate.getFullYear(), refDate.getMonth(), refDate.getDate() - dayOfWeek);
+      endDate = new Date(startDate.getTime() + 7 * 86400000);
+    } else {
+      startDate = new Date(refDate.getFullYear(), refDate.getMonth(), 1);
+      endDate = new Date(refDate.getFullYear(), refDate.getMonth() + 1, 1);
+    }
+
+    const allSessions = db.pomodoro.getAll().filter((s: any) => {
+      const t = new Date(s.startedAt).getTime();
+      return t >= startDate.getTime() && t < endDate.getTime();
+    });
+
+    const userTodos = db.todos.getAll(auth.uid);
+    const allEvents: any[] = [];
+    userTodos.forEach((todo: any) => {
+      const events = db.timelines.getEvents(todo.id);
+      events.forEach((e: any) => {
+        const t = new Date(e.timestamp).getTime();
+        if (t >= startDate.getTime() && t < endDate.getTime()) {
+          allEvents.push({ ...e, todoId: todo.id, todoName: todo.todo });
+        }
+      });
+    });
+
+    const completedWork = allSessions.filter((s: any) => s.type === 'work' && s.completed);
+    const completedBreaks = allSessions.filter((s: any) => s.type === 'break' && s.completed);
+    const updates = allEvents.filter((e: any) => !e.type || e.type === 'UPDATE');
+
+    return json({
+      period,
+      totalPomodoros: completedWork.length,
+      totalWorkMinutes: completedWork.reduce((sum: number, s: any) => sum + (s.durationMinutes || 0), 0),
+      totalBreakMinutes: completedBreaks.reduce((sum: number, s: any) => sum + (s.durationMinutes || 0), 0),
+      totalUpdates: updates.length,
+      events: allEvents,
+      pomodoroSessions: allSessions,
+    });
   });
 
   // ── Storage ───────────────────────────────────────────────
