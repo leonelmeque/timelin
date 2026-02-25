@@ -6,6 +6,7 @@ export enum HideTabBarNavigation {
   'Todo/Search' = 'Todo/Search',
   'Todo/ListTodo' = 'Todo/ListTodo',
   'Todo/Timeline' = 'Todo/Timeline',
+  'Todo/Retro' = 'Todo/Retro',
   'Timeline/Default' = 'Timeline/Default',
   'Timeline/Event' = 'Timeline/Event',
 }

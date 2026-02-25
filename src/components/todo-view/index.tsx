@@ -1,6 +1,7 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import React, { useRef, useState } from "react";
 import { ScrollView, View, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { CalendarModalView, CalendarRefProps } from "../calendar-modal-view";
 import { TimelineCompactView } from "../timeline-view/compact-view";
@@ -32,6 +33,7 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
   const clearTimeoutRef = useRef<any>(null);
 
   const { t } = useTranslation();
+  const navigation = useNavigation();
   const [state, setState] = useState<TodoProps | null>(todo);
   const { handleSyncTodoAtom } = useUpdateTodos();
   const { updateLatestChanged } = useLatest();
@@ -211,9 +213,21 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
       <Box
         style={{
           flexDirection: "row",
-          justifyContent: "flex-end",
+          justifyContent: "space-between",
         }}
       >
+        <Button
+          onPress={() => {
+            // @ts-ignore
+            navigation.navigate("Todo/Retro", {
+              todoId: state?.id,
+              todoName: state?.todo,
+            });
+          }}
+          label="Retrospective"
+          variant="tertiary"
+          size="md"
+        />
         <Button
           onPress={() => {
             todoStatusRef.current?.toggleModalVisibility();

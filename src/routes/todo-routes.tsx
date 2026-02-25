@@ -6,6 +6,7 @@ import TodoScreen from '../screens/todo-screen';
 import HomeScreen from '../screens/home-screen';
 import { ListTodoScreen } from '../screens/list-todo-screen';
 import { SearchScreen } from '../screens/search-screen';
+import { RetroScreen } from '../screens/retro/retro-screen';
 import TimelineStack from './timeline.routes';
 import { Stack } from './constants';
 
@@ -31,6 +32,11 @@ const TodoListStack = () => (
       <Stack.Screen
         component={TodoScreen}
         name="Todo/View"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        component={RetroScreen}
+        name="Todo/Retro"
         options={{ headerShown: false }}
       />
     </Stack.Group>
