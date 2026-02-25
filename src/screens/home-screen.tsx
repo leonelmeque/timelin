@@ -67,7 +67,7 @@ export default function HomeScreen() {
         <ScrollView
           contentContainerStyle={{
             flexGrow: 1,
-            marginBottom: 74,
+            paddingBottom: 100,
           }}
         >
           <Spacer size="8" />
