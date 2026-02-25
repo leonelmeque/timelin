@@ -36,8 +36,11 @@ ESLint 8 with `@typescript-eslint/parser` may crash with `AssertionError` on som
 ### Testing
 
 ```
-yarn tests        # runs Jest (4 passing suites, 1 skipped)
+yarn tests                    # Jest unit tests (5 passing suites, 16 tests)
+npx playwright test           # Playwright E2E tests (8 tests against web)
 ```
+
+Jest is configured to ignore the `e2e/` directory. Playwright tests require the Expo web server to be running on port 8081 (auto-started via `playwright.config.ts`).
 
 ### Key caveats
 
