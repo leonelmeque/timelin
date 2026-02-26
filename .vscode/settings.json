@@ -7,11 +7,14 @@
     "typescriptreact"
   ],
   "eslint.lintTask.enable": true,
+  "eslint.workingDirectories": [
+    { "directory": "apps/mobile", "changeProcessCWD": true },
+    { "directory": "apps/web", "changeProcessCWD": true }
+  ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
   "prettier.configPath": ".prettierrc.json",
-  // "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "modifications",
   "[jsonc]": {

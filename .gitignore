@@ -21,3 +21,7 @@ google-services.json
 GoogleService-Info.plist
 *.app
 .yarn
+
+# Next.js
+.next/
+out/
