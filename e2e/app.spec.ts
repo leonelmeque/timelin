@@ -12,7 +12,7 @@ async function login(page: Page) {
 async function openTask(page: Page, taskPattern: RegExp) {
   await page.getByText(taskPattern).first().click();
   await page.getByText('Open task').click();
-  await expect(page.getByText('READY TO FOCUS')).toBeVisible({ timeout: 5000 });
+  await expect(page.getByText('Pomodoro Timer')).toBeVisible({ timeout: 5000 });
 }
 
 test.describe('Authentication', () => {
@@ -33,7 +33,7 @@ test.describe('Task Management', () => {
 
   test('should expand card and open task detail', async ({ page }) => {
     await openTask(page, /Build authentication/);
-    await expect(page.getByText('25:00')).toBeVisible();
+    await expect(page.getByText('Start', { exact: true })).toBeVisible();
   });
 
   test('should show timeline events on task', async ({ page }) => {

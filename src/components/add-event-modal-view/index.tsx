@@ -23,7 +23,7 @@ export const AddEventModalView: FC<AddTodoModalViewProps> = ({
   const withDescriptionRef = useRef(false);
   const [user] = useUserContext();
   const router = useRouter();
-  const { todoUID } = useLocalSearchParams<{ todoUID: string }>();
+  const { id: todoUID } = useLocalSearchParams<{ id: string }>();
   const { handleAddTimeline } = useTimeline();
 
   const onChangeText = (value: string) => {

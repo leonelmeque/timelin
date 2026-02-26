@@ -1,10 +1,7 @@
-import { Modal, GestureResponderEvent, Dimensions } from 'react-native';
-import RNDateTimePicker, {
-  DateTimePickerEvent,
-} from '@react-native-community/datetimepicker';
+import { Modal, GestureResponderEvent, Dimensions, Platform, TextInput } from 'react-native';
 import { ForwardedRef, forwardRef, useImperativeHandle, useState } from 'react';
 import styled from 'styled-components/native';
-import { Box, Button, Spacer } from '../../ui/atoms';
+import { Box, Button, Spacer, Text } from '../../ui/atoms';
 
 type CalendarModalViewProps = {
   onPressCancel: (e?: GestureResponderEvent) => void;
@@ -37,64 +34,83 @@ const PressableOverlay = styled.Pressable`
   background-color: ${(props) => props.theme.colours.greys.G300};
   opacity: 0.2;
   position: absolute;
-  height: ${Dimensions.get('screen').height};
-  width: ${Dimensions.get('screen').width};
+  height: ${Dimensions.get('screen').height}px;
+  width: ${Dimensions.get('screen').width}px;
 `;
+
+function WebDatePicker({ value, onChange }: { value: Date; onChange: (d: Date) => void }) {
+  const formatted = value.toISOString().split('T')[0];
+  return (
+    <Box style={{ padding: 16, alignItems: 'center' }}>
+      <Text size="body" weight="bold">Select Date</Text>
+      <Spacer size="8" />
+      {Platform.OS === 'web' ? (
+        <input
+          type="date"
+          value={formatted}
+          onChange={(e) => {
+            const d = new Date(e.target.value + 'T00:00:00');
+            if (!isNaN(d.getTime())) onChange(d);
+          }}
+          style={{
+            fontSize: 16, padding: 8, borderRadius: 6,
+            border: '1px solid #E3E2DE', width: '100%', maxWidth: 300,
+          }}
+        />
+      ) : (
+        <TextInput
+          value={formatted}
+          onChangeText={(text) => {
+            const d = new Date(text);
+            if (!isNaN(d.getTime())) onChange(d);
+          }}
+          placeholder="YYYY-MM-DD"
+          style={{ fontSize: 16, padding: 8, borderWidth: 1, borderColor: '#E3E2DE', borderRadius: 6 }}
+        />
+      )}
+    </Box>
+  );
+}
+
+function NativeDatePicker({ value, onChange }: { value: Date; onChange: (d: Date) => void }) {
+  const RNDateTimePicker = require('@react-native-community/datetimepicker').default;
+  return (
+    <RNDateTimePicker
+      mode="date"
+      onChange={(_: any, date?: Date) => { if (date) onChange(date); }}
+      value={value}
+      display="inline"
+    />
+  );
+}
 
 const CalendarModalViewComponent = (
   { onPressCancel, onPressSave }: CalendarModalViewProps,
   ref: ForwardedRef<CalendarRefProps>
 ) => {
-  const [_date, _setDate] = useState<Date | undefined>(new Date());
-
+  const [_date, _setDate] = useState<Date>(new Date());
   const [name, setName] = useState<string>('');
   const [modalVisibility, setModalVisibility] = useState<boolean>(false);
 
   useImperativeHandle(ref, () => ({
     date: _date,
-    toggleModal: () => {
-      setModalVisibility(!modalVisibility);
-    },
+    toggleModal: () => setModalVisibility(!modalVisibility),
     visibility: modalVisibility,
-    setFormName: (value: string) => {
-      setName(value);
-    },
+    setFormName: (value: string) => setName(value),
     name,
   }));
 
-  const onChangeDate = (event: DateTimePickerEvent, date?: Date) => {
-    _setDate(date);
-  };
+  const DatePicker = Platform.OS === 'web' ? WebDatePicker : NativeDatePicker;
 
   return (
     <Modal visible={modalVisibility} transparent>
-      <PressableOverlay
-        onPress={() => {
-          setModalVisibility(!modalVisibility);
-        }}
-      ></PressableOverlay>
+      <PressableOverlay onPress={() => setModalVisibility(false)} />
       <CalendarContainer>
-        <RNDateTimePicker
-          mode="date"
-          onChange={onChangeDate}
-          value={_date as Date}
-          display="inline"
-        />
+        <DatePicker value={_date} onChange={_setDate} />
         <Spacer size="4" />
         <ActionsContainer>
-          <Button
-            label="Cancel"
-            size="md"
-            variant="tertiary"
-            onPress={onPressCancel}
-          />
-
-          <Button
-            label="save"
-            size="md"
-            variant="primary"
-            onPress={onPressSave}
-          />
+          <Button label="Cancel" size="md" variant="tertiary" onPress={onPressCancel} />
+          <Button label="Save" size="md" variant="primary" onPress={onPressSave} />
         </ActionsContainer>
       </CalendarContainer>
     </Modal>

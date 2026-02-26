@@ -12,7 +12,7 @@ type TimelineViewProps = {
 
 export const TimelineView: FC<TimelineViewProps> = () => {
   const router = useRouter();
-  const { todoUID } = useLocalSearchParams<{ todoUID: string }>();
+  const { id: todoUID } = useLocalSearchParams<{ id: string }>();
 
   const { timeline } = useTimeline()
   const { todos } = useUpdateTodos()

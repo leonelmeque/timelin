@@ -16,7 +16,9 @@ const BackButton = styled.View`
 `;
 export const EventScreen = () => {
   const router = useRouter();
-  const { todoId, eventId } = useLocalSearchParams<{ todoId: string; eventId: string }>();
+  const params = useLocalSearchParams<{ id: string; eventId: string }>();
+  const todoId = params.id;
+  const eventId = params.eventId;
   const { handleDeleteTimeline } = useTimeline();
 
   const onPressDeleteEvent =

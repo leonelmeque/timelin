@@ -170,7 +170,7 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
         </Box>
         <Spacer size="16" />
         <Box style={{ padding: 0 }}>
-          <PomodoroTimer todoId={state?.id ?? ""} />
+          <PomodoroTimer todoId={state?.id ?? ""} todoName={state?.todo ?? ""} />
         </Box>
         <Spacer size="16" />
         <Box

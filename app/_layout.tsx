@@ -11,6 +11,8 @@ import {
   useUserContext,
   AuthenticatedUserProvider,
 } from "../src/context";
+import { PomodoroProvider, usePomodoroContext } from "../src/context/pomodoro-context";
+import { PomodoroFloatingWidget } from "../src/components/pomodoro-timer/floating-widget";
 import { useInitApplication } from "../src/hooks/useInitApplication";
 import { hooks } from "../src/lib";
 import { theme } from "../src/ui/theme";
@@ -25,6 +27,24 @@ i18next.use(initReactI18next).init({
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
 const store = createStore();
+
+function GlobalPomodoroWidget() {
+  const { state, displayTime, activeTodoId, activeTodoName, pause, resume, stop } = usePomodoroContext();
+
+  if (state === 'idle' || !activeTodoId) return null;
+
+  return (
+    <PomodoroFloatingWidget
+      state={state}
+      displayTime={displayTime}
+      todoId={activeTodoId}
+      todoName={activeTodoName}
+      onPause={pause}
+      onResume={resume}
+      onStop={stop}
+    />
+  );
+}
 
 function AuthRedirect() {
   const [user] = useUserContext();
@@ -41,7 +61,12 @@ function AuthRedirect() {
     }
   }, [user, segments]);
 
-  return <Slot />;
+  return (
+    <>
+      <Slot />
+      <GlobalPomodoroWidget />
+    </>
+  );
 }
 
 function InnerLayout() {
@@ -60,7 +85,9 @@ function InnerLayout() {
           initUser={currentUser}
         >
           <CustomModalProvider>
-            <AuthRedirect />
+            <PomodoroProvider>
+              <AuthRedirect />
+            </PomodoroProvider>
           </CustomModalProvider>
         </AuthenticatedUserProvider>
       </SafeAreaProvider>
