@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useRouter } from "expo-router";
 import { View, Pressable, ScrollView, Keyboard } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -7,6 +8,8 @@ import { useFetchTodos } from "../store";
 import { Text } from "~/components/ui/text";
 import { useResponsive } from "../hooks/use-responsive";
 import { StackedTasks } from "../components/stacked-tasks";
+import { KanbanBoard } from "../components/kanban-board";
+import { ViewModeToggle, ViewMode } from "../components/view-mode-toggle";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -14,6 +17,7 @@ export default function HomeScreen() {
   const [user] = useUserContext();
   const { isMobile, showSidebar } = useResponsive();
   const todos = useFetchTodos();
+  const [viewMode, setViewMode] = useState<ViewMode>('stack');
 
   const onModalDismiss = () => {
     Keyboard.dismiss();
@@ -30,17 +34,16 @@ export default function HomeScreen() {
       {/* Header */}
       <View className="flex-row items-center justify-between px-6 pt-12 pb-4 sm:pt-5">
         <View>
-          <Text className="text-2xl font-bold text-white">
-            Tasks
-          </Text>
+          <Text className="text-2xl font-bold text-white">Tasks</Text>
           <Text className="text-sm text-gray-400 mt-0.5">
-            {todos?.length || 0} tasks · tap to expand
+            {todos?.length || 0} tasks
           </Text>
         </View>
         <View className="flex-row items-center">
+          <ViewModeToggle mode={viewMode} onChange={setViewMode} />
           <Pressable
             onPress={() => router.push("/search")}
-            className="w-9 h-9 items-center justify-center rounded-full active:bg-white/10"
+            className="w-9 h-9 items-center justify-center rounded-full active:bg-white/10 ml-2"
           >
             <MaterialIcons name="search" size={20} color="#9CA3AF" />
           </Pressable>
@@ -54,14 +57,12 @@ export default function HomeScreen() {
         </View>
       </View>
 
-      {/* Task stack */}
+      {/* Content */}
       <ScrollView
         contentContainerStyle={{ paddingBottom: isMobile ? 110 : 40 }}
         className="flex-1 px-4"
       >
-        <StackedTasks tasks={todos || []} />
-
-        {!todos?.length && (
+        {!todos?.length ? (
           <View className="items-center py-16">
             <MaterialIcons name="check-circle-outline" size={48} color="#4B5563" />
             <Text className="text-base text-gray-500 mt-3">No tasks yet</Text>
@@ -72,17 +73,19 @@ export default function HomeScreen() {
               <Text className="text-sm text-gray-300 font-medium">Create your first task</Text>
             </Pressable>
           </View>
-        )}
-
-        {/* Quick links */}
-        {(todos?.length || 0) > 0 && (
-          <Pressable
-            onPress={() => router.push("/list-todos")}
-            className="flex-row items-center justify-center py-4 mt-4"
-          >
-            <Text className="text-sm text-gray-500 font-medium">View all tasks</Text>
-            <MaterialIcons name="chevron-right" size={16} color="#6B7280" />
-          </Pressable>
+        ) : viewMode === 'stack' ? (
+          <>
+            <StackedTasks tasks={todos} />
+            <Pressable
+              onPress={() => router.push("/list-todos")}
+              className="flex-row items-center justify-center py-4 mt-4"
+            >
+              <Text className="text-sm text-gray-500 font-medium">View all tasks</Text>
+              <MaterialIcons name="chevron-right" size={16} color="#6B7280" />
+            </Pressable>
+          </>
+        ) : (
+          <KanbanBoard tasks={todos} />
         )}
       </ScrollView>
     </View>
