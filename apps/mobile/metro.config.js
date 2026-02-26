@@ -9,7 +9,7 @@ module.exports = (() => {
   const config = getDefaultConfig(projectRoot);
   const { transformer, resolver } = config;
 
-  config.watchFolders = [monorepoRoot];
+  config.watchFolders = [...(config.watchFolders || []), monorepoRoot];
 
   config.transformer = {
     ...transformer,
@@ -24,7 +24,6 @@ module.exports = (() => {
       path.resolve(projectRoot, 'node_modules'),
       path.resolve(monorepoRoot, 'node_modules'),
     ],
-    disableHierarchicalLookup: true,
   };
 
   return withNativeWind(config, { input: './global.css' });
