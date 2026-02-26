@@ -1,9 +1,12 @@
 import { ExpoConfig, ConfigContext } from '@expo/config';
 import * as dotenv from 'dotenv';
+import * as path from 'path';
 
 
 dotenv.config({
-  path: process.env.NODE_ENV === "production" ? ".env.production" : "./.env",
+  path: process.env.NODE_ENV === "production"
+    ? path.resolve(__dirname, ".env.production")
+    : path.resolve(__dirname, ".env"),
 });
 
 

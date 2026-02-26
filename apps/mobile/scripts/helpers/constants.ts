@@ -1,1 +1,1 @@
-export const BUILD_TOOL_COMMAND = 'yarn';
+export const BUILD_TOOL_COMMAND = 'bun';
