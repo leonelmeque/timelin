@@ -1,15 +1,12 @@
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
       "name": "timelin-debug",
       "request": "launch",
       "type": "reactnative",
-      "cwd": "${workspaceFolder}",
-      "platform": "exponent",
+      "cwd": "${workspaceFolder}/apps/mobile",
+      "platform": "exponent"
     },
     {
       "type": "node",
@@ -18,9 +15,9 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/index.tsx",
+      "program": "${workspaceFolder}/apps/mobile/index.tsx",
       "outFiles": [
-        "${workspaceFolder}/**/*.js"
+        "${workspaceFolder}/apps/mobile/**/*.js"
       ]
     }
   ]

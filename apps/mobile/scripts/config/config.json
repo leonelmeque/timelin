@@ -1,5 +1,5 @@
 {
-  "packageManager": "yarn",
+  "packageManager": "bun",
   "moduleTag": "workspaces",
   "menu": [
     "Show list of modules",

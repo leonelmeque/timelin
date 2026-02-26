@@ -3,10 +3,13 @@ const { withNativeWind } = require('nativewind/metro');
 const path = require('path');
 
 const projectRoot = __dirname;
+const monorepoRoot = path.resolve(projectRoot, '../..');
 
 module.exports = (() => {
   const config = getDefaultConfig(projectRoot);
   const { transformer, resolver } = config;
+
+  config.watchFolders = [...(config.watchFolders || []), monorepoRoot];
 
   config.transformer = {
     ...transformer,
@@ -17,7 +20,10 @@ module.exports = (() => {
     ...resolver,
     assetExts: resolver.assetExts.filter((ext) => ext !== 'svg'),
     sourceExts: [...resolver.sourceExts, 'svg'],
-    nodeModulesPaths: [path.resolve(projectRoot, 'node_modules')],
+    nodeModulesPaths: [
+      path.resolve(projectRoot, 'node_modules'),
+      path.resolve(monorepoRoot, 'node_modules'),
+    ],
   };
 
   return withNativeWind(config, { input: './global.css' });
