@@ -20,10 +20,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     resizeMode: 'cover',
     backgroundColor: '#ffffff',
   },
-  updates: {
-    fallbackToCacheTimeout: 0,
-  },
-  assetBundlePatterns: ['**/*'],
+  updates: {},
   ios: {
     supportsTablet: false,
     bundleIdentifier: 'com.timelin.mobile',
@@ -49,6 +46,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
           'The app accesses your photos to let you share them with your friends.',
       },
     ],
+    '@react-native-community/datetimepicker',
+    'expo-build-properties',
   ],
   extra: {
     appName: 'timelin-mobile',

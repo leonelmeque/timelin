@@ -1,5 +1,5 @@
 import { Modal, GestureResponderEvent, Dimensions, Platform, TextInput } from 'react-native';
-import { ForwardedRef, forwardRef, useImperativeHandle, useState } from 'react';
+import { Ref, useImperativeHandle, useState } from 'react';
 import styled from 'styled-components/native';
 import { Box, Button, Spacer, Text } from '../../ui/atoms';
 
@@ -84,10 +84,11 @@ function NativeDatePicker({ value, onChange }: { value: Date; onChange: (d: Date
   );
 }
 
-const CalendarModalViewComponent = (
-  { onPressCancel, onPressSave }: CalendarModalViewProps,
-  ref: ForwardedRef<CalendarRefProps>
-) => {
+export const CalendarModalView = ({
+  onPressCancel,
+  onPressSave,
+  ref,
+}: CalendarModalViewProps & { ref?: Ref<CalendarRefProps> }) => {
   const [_date, _setDate] = useState<Date>(new Date());
   const [name, setName] = useState<string>('');
   const [modalVisibility, setModalVisibility] = useState<boolean>(false);
@@ -117,5 +118,4 @@ const CalendarModalViewComponent = (
   );
 };
 
-export const CalendarModalView = forwardRef(CalendarModalViewComponent);
 CalendarModalView.displayName = 'CalendarModalView';

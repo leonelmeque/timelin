@@ -24,23 +24,24 @@ const textVariants = {
 type BadgeProps = React.ComponentPropsWithoutRef<typeof View> & {
   className?: string;
   variant?: keyof typeof badgeVariants;
+  ref?: React.Ref<React.ComponentRef<typeof View>>;
 };
 
-const Badge = React.forwardRef<React.ElementRef<typeof View>, BadgeProps>(
-  ({ className, variant = 'default', ...props }, ref) => (
-      <TextClassContext.Provider value={textVariants[variant]}>
-        <View
-          ref={ref}
-          className={cn(
-            'items-center rounded-full px-3 py-1',
-            badgeVariants[variant],
-            className
-          )}
-          {...props}
-        />
-      </TextClassContext.Provider>
-    )
-);
+function Badge({ className, variant = 'default', ref, ...props }: BadgeProps) {
+  return (
+    <TextClassContext.Provider value={textVariants[variant]}>
+      <View
+        ref={ref}
+        className={cn(
+          'items-center rounded-full px-3 py-1',
+          badgeVariants[variant],
+          className
+        )}
+        {...props}
+      />
+    </TextClassContext.Provider>
+  );
+}
 Badge.displayName = 'Badge';
 
 export { Badge, badgeVariants };

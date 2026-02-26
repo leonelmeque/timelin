@@ -6,20 +6,19 @@ const TextClassContext = React.createContext<string>('');
 
 type TextProps = React.ComponentPropsWithoutRef<typeof RNText> & {
   className?: string;
+  ref?: React.Ref<React.ComponentRef<typeof RNText>>;
 };
 
-const Text = React.forwardRef<React.ElementRef<typeof RNText>, TextProps>(
-  ({ className, ...props }, ref) => {
-    const textClass = React.useContext(TextClassContext);
-    return (
-      <RNText
-        className={cn('text-base text-foreground web:select-text', textClass, className)}
-        ref={ref}
-        {...props}
-      />
-    );
-  }
-);
+function Text({ className, ref, ...props }: TextProps) {
+  const textClass = React.useContext(TextClassContext);
+  return (
+    <RNText
+      className={cn('text-base text-foreground web:select-text', textClass, className)}
+      ref={ref}
+      {...props}
+    />
+  );
+}
 Text.displayName = 'Text';
 
 export { Text, TextClassContext };

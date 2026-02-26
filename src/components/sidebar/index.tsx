@@ -2,7 +2,14 @@ import React from 'react';
 import { View, Pressable } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Text } from '~/components/ui/text';
-import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+
+type BottomTabBarProps = {
+  state: { routes: { key: string; name: string }[]; index: number };
+  navigation: {
+    emit: (e: { type: string; target: string; canPreventDefault: boolean }) => { defaultPrevented: boolean };
+    navigate: (name: string) => void;
+  };
+};
 
 type NavItem = {
   routeName: string;
