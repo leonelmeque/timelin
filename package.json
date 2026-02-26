@@ -1,0 +1,14 @@
+{
+  "name": "timelin",
+  "private": true,
+  "workspaces": ["apps/*"],
+  "scripts": {
+    "mobile:start": "cd apps/mobile && bun run start",
+    "mobile:ios": "cd apps/mobile && bun run ios",
+    "mobile:android": "cd apps/mobile && bun run android",
+    "mobile:web": "cd apps/mobile && bun run web",
+    "mobile:tests": "cd apps/mobile && bun run tests",
+    "web:dev": "cd apps/web && bun run dev",
+    "web:build": "cd apps/web && bun run build"
+  }
+}
