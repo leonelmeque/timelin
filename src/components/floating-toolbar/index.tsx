@@ -3,18 +3,19 @@ import { Animated, Pressable, View, Platform } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 
-const BOTTOM_OFFSET = Platform.OS === 'web' ? 24 : 32;
+const BOTTOM_OFFSET = Platform.OS === 'web' ? 24 : 34;
 
 type TabDef = {
   routeName: string;
   icon: keyof typeof MaterialIcons.glyphMap;
+  label: string;
   isAdd?: boolean;
 };
 
 const TAB_DEFS: TabDef[] = [
-  { routeName: 'index', icon: 'home' },
-  { routeName: 'add', icon: 'add', isAdd: true },
-  { routeName: 'settings', icon: 'settings' },
+  { routeName: 'index', icon: 'home', label: 'Home' },
+  { routeName: 'add', icon: 'add', label: 'New', isAdd: true },
+  { routeName: 'settings', icon: 'settings', label: 'Settings' },
 ];
 
 export const FloatingToolbar: React.FC<BottomTabBarProps> = ({
@@ -31,7 +32,7 @@ export const FloatingToolbar: React.FC<BottomTabBarProps> = ({
 
   useEffect(() => {
     Animated.spring(slideAnim, {
-      toValue: shouldHide ? 120 : 0,
+      toValue: shouldHide ? 140 : 0,
       useNativeDriver: true,
       tension: 65,
       friction: 11,
@@ -50,7 +51,10 @@ export const FloatingToolbar: React.FC<BottomTabBarProps> = ({
         transform: [{ translateY: slideAnim }],
       }}
     >
-      <View className="flex-row items-center justify-center bg-toolbar-bg rounded-[28px] h-14 px-3 shadow-lg">
+      {/* min 48dp height per Material Design, 44pt per Apple HIG */}
+      <View className="flex-row items-center justify-center bg-toolbar-bg rounded-full px-2 py-1.5 shadow-lg"
+        style={{ minHeight: 64 }}
+      >
         {state.routes.map((route, index) => {
           const tab = TAB_DEFS.find((t) => t.routeName === route.name);
           if (!tab) return null;
@@ -73,11 +77,13 @@ export const FloatingToolbar: React.FC<BottomTabBarProps> = ({
               <Pressable
                 key={route.key}
                 onPress={onPress}
-                className="w-12 h-10 rounded-[20px] bg-toolbar-accent items-center justify-center mx-1.5 active:opacity-80 active:scale-95"
+                style={{ minWidth: 56, minHeight: 48 }}
+                className="rounded-full bg-toolbar-accent items-center justify-center mx-1 active:opacity-80 active:scale-95 px-4"
                 accessibilityRole="button"
                 accessibilityLabel="Add todo"
+                hitSlop={8}
               >
-                <MaterialIcons name="add" size={26} color="#FFFFFF" />
+                <MaterialIcons name="add" size={24} color="#FFFFFF" />
               </Pressable>
             );
           }
@@ -86,11 +92,13 @@ export const FloatingToolbar: React.FC<BottomTabBarProps> = ({
             <Pressable
               key={route.key}
               onPress={onPress}
-              className={`w-12 h-10 rounded-[20px] items-center justify-center mx-0.5 active:opacity-70 ${
+              style={{ minWidth: 48, minHeight: 48 }}
+              className={`rounded-full items-center justify-center mx-0.5 active:opacity-70 px-3 ${
                 isFocused ? 'bg-toolbar-active' : ''
               }`}
               accessibilityRole="button"
-              accessibilityLabel={tab.routeName}
+              accessibilityLabel={tab.label}
+              hitSlop={8}
             >
               <MaterialIcons
                 name={tab.icon}
