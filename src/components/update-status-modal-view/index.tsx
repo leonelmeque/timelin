@@ -1,4 +1,4 @@
-import { ForwardedRef, forwardRef, useImperativeHandle, useState } from "react";
+import { Ref, useImperativeHandle, useState } from "react";
 import { Modal, Pressable, View } from "react-native";
 import styled from "styled-components/native";
 import { CustomSafeAreaView } from "../safe-area-view";
@@ -28,10 +28,11 @@ const Container = styled.View`
   z-index: 2;
 `;
 
-const Component = (
-  { initialSelection, onSelect }: UpdateStatusModalProps,
-  ref: ForwardedRef<UpdateStatusModalRefProps>
-) => {
+export const UpdateStatusModalView = ({
+  initialSelection,
+  onSelect,
+  ref,
+}: UpdateStatusModalProps & { ref?: Ref<UpdateStatusModalRefProps> }) => {
   const { t } = useTranslation();
   const [visibility, setVisibility] = useState(false);
   const [selection, setSelection] = useState(initialSelection);
@@ -108,4 +109,4 @@ const Component = (
   );
 };
 
-export const UpdateStatusModalView = forwardRef(Component);
+UpdateStatusModalView.displayName = 'UpdateStatusModalView';

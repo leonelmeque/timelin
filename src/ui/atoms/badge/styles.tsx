@@ -11,16 +11,16 @@ const simppleStatus = css`
   padding: 4px 8px;
 `;
 
-export const StyledBadge = styled.View<{
+type StyledBadgeProps = {
   bg?: string;
   type?: 'colored' | 'simple';
-}>`
+};
+
+export const StyledBadge = styled.View.attrs<StyledBadgeProps>((props) => ({
+  type: props.type ?? 'simple',
+}))<StyledBadgeProps>`
   ${(props) => (props.type === 'colored' ? coloredStatus : simppleStatus)}
   background: ${({ theme, type, bg }) =>
     type === 'colored' ? bg : theme.colours.neutrals.white};
   align-items: center;
 `;
-
-StyledBadge.defaultProps = {
-  type: 'simple',
-};

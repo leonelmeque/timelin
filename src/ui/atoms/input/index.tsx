@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import { Ref } from "react";
 import {
   NativeSyntheticEvent,
   TextInput,
@@ -13,52 +13,51 @@ interface InputProps extends TextInputProps {
   disabled?: boolean;
   hasError?: boolean;
   success?: boolean;
+  ref?: Ref<TextInput>;
 }
 
-export const Input = forwardRef<TextInput, InputProps>(
-  ({ hasError, disabled, success, ...rest }, ref) => {
-    let variant;
+export function Input({ hasError, disabled, success, ref, ...rest }: InputProps) {
+  let variant;
 
-    const onChange = (e: NativeSyntheticEvent<TextInputChangeEventData>) => {
-      if (!hasError) {
-        variant = InputVariant.FOCUS;
-      }
-    };
-
-    const onFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
-      if (rest.onFocus) rest?.onFocus(e);
+  const onChange = (e: NativeSyntheticEvent<TextInputChangeEventData>) => {
+    if (!hasError) {
       variant = InputVariant.FOCUS;
-    };
+    }
+  };
 
-    const onBlur = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
-      if (rest.onBlur) rest.onBlur(e);
-      variant = InputVariant.DEFAULT;
-    };
+  const onFocus = (e: any) => {
+    if (rest.onFocus) rest?.onFocus(e);
+    variant = InputVariant.FOCUS;
+  };
 
-    const setInputVariant = () => {
-      if (hasError) {
-        return InputVariant.ERROR;
-      } else if (disabled) {
-        return InputVariant.DISABLED;
-      } else if (success) {
-        return InputVariant.SUCCESS;
-      }
-      return InputVariant.DEFAULT;
-    };
+  const onBlur = (e: any) => {
+    if (rest.onBlur) rest.onBlur(e);
+    variant = InputVariant.DEFAULT;
+  };
 
-    variant = setInputVariant();
+  const setInputVariant = () => {
+    if (hasError) {
+      return InputVariant.ERROR;
+    } else if (disabled) {
+      return InputVariant.DISABLED;
+    } else if (success) {
+      return InputVariant.SUCCESS;
+    }
+    return InputVariant.DEFAULT;
+  };
 
-    return (
-      <StyledInput
-        ref={ref}
-        variant={variant}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        editable={!disabled}
-        onChange={onChange}
-        placeholderTextColor={Palette.greys.G75}
-        {...rest}
-      />
-    );
-  }
-);
+  variant = setInputVariant();
+
+  return (
+    <StyledInput
+      ref={ref}
+      variant={variant}
+      onFocus={onFocus}
+      onBlur={onBlur}
+      editable={!disabled}
+      onChange={onChange}
+      placeholderTextColor={Palette.greys.G75}
+      {...rest}
+    />
+  );
+}

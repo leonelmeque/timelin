@@ -7,7 +7,9 @@ export const Dot = styled.View`
   background-color: ${(props) => props.theme.colours.primary.P75};
 `;
 
-export const VerticalLine = styled.View<{ height?: number }>`
+export const VerticalLine = styled.View.attrs<{ height?: number }>((props) => ({
+  height: props.height ?? 0,
+}))<{ height?: number }>`
   width: 2px;
   flex: 1;
   align-self: stretch;
@@ -18,10 +20,6 @@ export const VerticalLine = styled.View<{ height?: number }>`
   top: 12px;
   z-index: -1;
 `;
-
-VerticalLine.defaultProps = {
-  height: 0,
-};
 
 export const EventsDates = styled.View`
   flex-direction: row;

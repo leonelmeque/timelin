@@ -1,7 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Pressable, View, Platform } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+
+type BottomTabBarProps = {
+  state: { routes: { key: string; name: string }[]; index: number };
+  descriptors: Record<string, { options: { tabBarStyle?: unknown } }>;
+  navigation: {
+    emit: (e: any) => any;
+    navigate: (name: string) => void;
+  };
+  [key: string]: any;
+};
 
 const BOTTOM_OFFSET = Platform.OS === 'web' ? 24 : 34;
 
@@ -18,11 +27,11 @@ const TAB_DEFS: TabDef[] = [
   { routeName: 'settings', icon: 'settings', label: 'Settings' },
 ];
 
-export const FloatingToolbar: React.FC<BottomTabBarProps> = ({
+export const FloatingToolbar = ({
   state,
   descriptors,
   navigation,
-}) => {
+}: BottomTabBarProps) => {
   const slideAnim = useRef(new Animated.Value(0)).current;
 
   const focusedRoute = state.routes[state.index];

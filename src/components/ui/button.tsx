@@ -32,30 +32,29 @@ type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable> & {
   className?: string;
   variant?: keyof typeof buttonVariants;
   size?: keyof typeof buttonSizes;
+  ref?: React.Ref<React.ComponentRef<typeof Pressable>>;
 };
 
-const Button = React.forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>(
-  ({ className, variant = 'default', size = 'default', children, ...props }, ref) => {
-    return (
-      <TextClassContext.Provider value={textVariants[variant]}>
-        <Pressable
-          className={cn(
-            'flex-row items-center justify-center',
-            buttonVariants[variant],
-            buttonSizes[size],
-            props.disabled && 'opacity-50',
-            className
-          )}
-          ref={ref}
-          role="button"
-          {...props}
-        >
-          {children}
-        </Pressable>
-      </TextClassContext.Provider>
-    );
-  }
-);
+function Button({ className, variant = 'default', size = 'default', children, ref, ...props }: ButtonProps) {
+  return (
+    <TextClassContext.Provider value={textVariants[variant]}>
+      <Pressable
+        className={cn(
+          'flex-row items-center justify-center',
+          buttonVariants[variant],
+          buttonSizes[size],
+          props.disabled && 'opacity-50',
+          className
+        )}
+        ref={ref}
+        role="button"
+        {...props}
+      >
+        {children}
+      </Pressable>
+    </TextClassContext.Provider>
+  );
+}
 Button.displayName = 'Button';
 
 export { Button, buttonVariants };

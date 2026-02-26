@@ -23,8 +23,10 @@ type PhoneNumberForm = {
 
 export const PhoneNumberForm: FC<PhoneNumberFormProps> = ({
   onSubmit = () => { },
-  ...props
+  countryCode: initialCountryCode = "US",
+  number: initialNumber = "",
 }) => {
+  const props = { countryCode: initialCountryCode, number: initialNumber };
 
   const validation: ValidationFunction<PhoneNumberForm> = (values) => {
     const newErrors: ValidationErrors<PhoneNumberForm> = {};
@@ -70,7 +72,3 @@ export const PhoneNumberForm: FC<PhoneNumberFormProps> = ({
   );
 };
 
-PhoneNumberForm.defaultProps = {
-  countryCode: "US",
-  number: "",
-};
