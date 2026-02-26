@@ -1,70 +1,12 @@
 import { useRouter } from "expo-router";
 import { View, Pressable, ScrollView, Keyboard } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Text } from "~/components/ui/text";
 import { AddTodoModalView } from "../components/add-todo-modal-view";
 import { useCustomModal, useUserContext } from "../context";
 import { useFetchTodos } from "../store";
+import { Text } from "~/components/ui/text";
 import { useResponsive } from "../hooks/use-responsive";
-import { TodoProps } from "../lib";
-import { dateFormatter } from "../lib/utils";
-
-function TaskRow({ todo, onPress }: { todo: TodoProps; onPress: () => void }) {
-  const statusColors: Record<string, string> = {
-    TODO: 'bg-tag-gray',
-    ON_GOING: 'bg-tag-blue',
-    ON_HOLD: 'bg-tag-orange',
-    COMPLETED: 'bg-tag-green',
-  };
-
-  const statusLabels: Record<string, string> = {
-    TODO: 'Todo',
-    ON_GOING: 'In Progress',
-    ON_HOLD: 'On Hold',
-    COMPLETED: 'Done',
-  };
-
-  return (
-    <Pressable
-      onPress={onPress}
-      className="flex-row items-center py-2.5 px-3 border-b border-border active:bg-bg-secondary"
-    >
-      <View className="flex-1 mr-3">
-        <Text className="text-sm font-medium text-fg" numberOfLines={1}>
-          {todo.todo}
-        </Text>
-        {todo.description ? (
-          <Text className="text-xs text-fg-tertiary mt-0.5" numberOfLines={1}>
-            {todo.description}
-          </Text>
-        ) : null}
-      </View>
-      <View className={`px-2 py-0.5 rounded ${statusColors[todo.status] || 'bg-tag-gray'}`}>
-        <Text className="text-2xs text-fg-secondary font-medium">
-          {statusLabels[todo.status] || todo.status}
-        </Text>
-      </View>
-      <Text className="text-xs text-fg-tertiary ml-3 hidden sm:flex">
-        {dateFormatter(todo.timestamp)}
-      </Text>
-    </Pressable>
-  );
-}
-
-function SectionTitle({ title, action, onAction }: { title: string; action?: string; onAction?: () => void }) {
-  return (
-    <View className="flex-row items-center justify-between mb-1.5">
-      <Text className="text-xs font-semibold text-fg-tertiary uppercase tracking-wider">
-        {title}
-      </Text>
-      {action && (
-        <Pressable onPress={onAction}>
-          <Text className="text-xs text-accent font-medium">{action}</Text>
-        </Pressable>
-      )}
-    </View>
-  );
-}
+import { StackedTasks } from "../components/stacked-tasks";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -78,70 +20,70 @@ export default function HomeScreen() {
     setModalVisibility(!modalVisibility);
   };
 
-  const navigateToTodo = (id: string) => {
-    router.push(`/todo/${id}`);
-  };
-
   return (
-    <View className="flex-1 bg-bg">
+    <View className="flex-1 bg-[#191919]">
       <AddTodoModalView
         visibility={modalVisibility}
         onModalDismiss={onModalDismiss}
       />
 
       {/* Header */}
-      <View className="flex-row items-center justify-between px-6 pt-12 pb-3 sm:pt-4">
-        <Text className="text-xl font-bold text-fg">
-          {user?.fullname ? `Hi, ${user.fullname}` : 'Home'}
-        </Text>
+      <View className="flex-row items-center justify-between px-6 pt-12 pb-4 sm:pt-5">
+        <View>
+          <Text className="text-2xl font-bold text-white">
+            Tasks
+          </Text>
+          <Text className="text-sm text-gray-400 mt-0.5">
+            {todos?.length || 0} tasks · tap to expand
+          </Text>
+        </View>
         <View className="flex-row items-center">
           <Pressable
             onPress={() => router.push("/search")}
-            className="w-8 h-8 items-center justify-center rounded active:bg-bg-secondary"
+            className="w-9 h-9 items-center justify-center rounded-full active:bg-white/10"
           >
-            <MaterialIcons name="search" size={20} color="#787774" />
+            <MaterialIcons name="search" size={20} color="#9CA3AF" />
           </Pressable>
-          {showSidebar && (
-            <Pressable
-              onPress={() => setModalVisibility(true)}
-              className="ml-2 flex-row items-center px-3 py-1.5 bg-accent rounded active:opacity-90"
-            >
-              <MaterialIcons name="add" size={16} color="white" />
-              <Text className="text-sm text-fg-inverse font-medium ml-1">New</Text>
-            </Pressable>
-          )}
+          <Pressable
+            onPress={() => setModalVisibility(true)}
+            className="ml-2 flex-row items-center border border-gray-600 px-3.5 py-1.5 rounded-full active:bg-white/10"
+          >
+            <MaterialIcons name="add" size={16} color="#E5E7EB" />
+            <Text className="text-sm text-gray-200 font-medium ml-1">Add</Text>
+          </Pressable>
         </View>
       </View>
 
+      {/* Task stack */}
       <ScrollView
-        contentContainerStyle={{ paddingBottom: isMobile ? 100 : 32 }}
-        className="flex-1 px-6"
+        contentContainerStyle={{ paddingBottom: isMobile ? 110 : 40 }}
+        className="flex-1 px-4"
       >
-        {/* Tasks */}
-        <SectionTitle
-          title="Tasks"
-          action="View all"
-          onAction={() => router.push("/list-todos")}
-        />
-        <View className="rounded-lg border border-border overflow-hidden mb-6">
-          {!todos?.length ? (
-            <View className="py-10 items-center">
-              <MaterialIcons name="check-circle-outline" size={32} color="#B4B4B0" />
-              <Text className="text-sm text-fg-tertiary mt-2">No tasks yet</Text>
-              <Pressable onPress={() => setModalVisibility(true)} className="mt-2">
-                <Text className="text-sm text-accent font-medium">Create your first task</Text>
-              </Pressable>
-            </View>
-          ) : (
-            todos.map((todo: TodoProps) => (
-              <TaskRow
-                key={todo.id}
-                todo={todo}
-                onPress={() => navigateToTodo(todo.id)}
-              />
-            ))
-          )}
-        </View>
+        <StackedTasks tasks={todos || []} />
+
+        {!todos?.length && (
+          <View className="items-center py-16">
+            <MaterialIcons name="check-circle-outline" size={48} color="#4B5563" />
+            <Text className="text-base text-gray-500 mt-3">No tasks yet</Text>
+            <Pressable
+              onPress={() => setModalVisibility(true)}
+              className="mt-3 px-4 py-2 bg-white/10 rounded-full active:bg-white/20"
+            >
+              <Text className="text-sm text-gray-300 font-medium">Create your first task</Text>
+            </Pressable>
+          </View>
+        )}
+
+        {/* Quick links */}
+        {(todos?.length || 0) > 0 && (
+          <Pressable
+            onPress={() => router.push("/list-todos")}
+            className="flex-row items-center justify-center py-4 mt-4"
+          >
+            <Text className="text-sm text-gray-500 font-medium">View all tasks</Text>
+            <MaterialIcons name="chevron-right" size={16} color="#6B7280" />
+          </Pressable>
+        )}
       </ScrollView>
     </View>
   );
