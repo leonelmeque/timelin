@@ -22,7 +22,7 @@ function getPhaseDisplay(phase: PomodoroPhase) {
 export const PomodoroTimer: React.FC<Props> = ({ todoId, todoName }) => {
   const {
     phase, displayTime, pomodoroCount, activeTodoId,
-    startWork, pause, resume, stop, skipBreak,
+    startWork, pause, resume, stop, skipBreak, takeBreak,
   } = usePomodoroContext();
 
   const isThisTodo = activeTodoId === todoId;
@@ -64,6 +64,12 @@ export const PomodoroTimer: React.FC<Props> = ({ todoId, todoName }) => {
         </View>
 
         <View className="flex-row items-center ml-2">
+          {isActive && (phase === 'working' || phase === 'paused') && (
+            <Pressable onPress={takeBreak} className="h-8 px-2.5 rounded-full bg-white/60 items-center justify-center mr-1.5 flex-row">
+              <MaterialIcons name="free-breakfast" size={14} color={display.color} />
+              <Text style={{ color: display.color, fontSize: 11, fontWeight: '600', marginLeft: 3 }}>Break</Text>
+            </Pressable>
+          )}
           {isActive && phase === 'working' && (
             <Pressable onPress={pause} className="w-8 h-8 rounded-full bg-white/60 items-center justify-center mr-1.5">
               <MaterialIcons name="pause" size={16} color={display.color} />

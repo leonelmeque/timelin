@@ -15,6 +15,7 @@ type Props = {
   onResume: () => void;
   onStop: () => void;
   onSkipBreak: () => void;
+  onTakeBreak: () => void;
 };
 
 function getPhaseInfo(phase: PomodoroPhase) {
@@ -29,37 +30,41 @@ function getPhaseInfo(phase: PomodoroPhase) {
 
 export const PomodoroFloatingWidget: React.FC<Props> = ({
   phase, displayTime, todoId, todoName, pomodoroCount,
-  onPause, onResume, onStop, onSkipBreak,
+  onPause, onResume, onStop, onSkipBreak, onTakeBreak,
 }) => {
   const router = useRouter();
+  const isMobile = Platform.OS !== 'web';
 
   if (phase === 'idle') return null;
 
   const { label, color, icon } = getPhaseInfo(phase);
   const isBreak = phase === 'shortBreak' || phase === 'longBreak';
+  const isWorking = phase === 'working';
+  const isPaused = phase === 'paused';
 
   return (
     <View
       style={{
         position: 'absolute',
-        bottom: Platform.OS === 'web' ? 90 : 100,
+        bottom: isMobile ? 100 : 90,
+        left: isMobile ? 16 : undefined,
         right: 16,
         zIndex: 999,
         backgroundColor: color,
         borderRadius: 16,
         padding: 12,
-        minWidth: 200,
+        minWidth: isMobile ? undefined : 220,
         ...(Platform.OS === 'web'
           ? { boxShadow: '0 4px 20px rgba(0,0,0,0.3)' }
           : { shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 10, elevation: 12 }),
       }}
     >
-      {/* Top row: task name */}
-      <Pressable onPress={() => router.push(`/todo/${todoId}`)} className="mb-1.5">
+      {/* Task name */}
+      <Pressable onPress={() => router.push(`/todo/${todoId}`)} className="mb-1">
         <Text className="text-xs text-white/60" numberOfLines={1}>{todoName}</Text>
       </Pressable>
 
-      {/* Main row: phase + time + controls */}
+      {/* Phase + time */}
       <View className="flex-row items-center">
         <MaterialIcons name={icon} size={18} color="rgba(255,255,255,0.7)" />
         <View className="flex-1 ml-2">
@@ -67,20 +72,32 @@ export const PomodoroFloatingWidget: React.FC<Props> = ({
             {label} · {displayTime}
           </Text>
           <Text className="text-2xs text-white/50">
-            {pomodoroCount}/4 pomodoros
+            {pomodoroCount % 4}/4 pomodoros
           </Text>
         </View>
 
         <View className="flex-row items-center ml-2">
-          {phase === 'working' && (
-            <Pressable onPress={onPause} className="w-7 h-7 rounded-full bg-white/20 items-center justify-center mr-1">
-              <MaterialIcons name="pause" size={16} color="white" />
-            </Pressable>
+          {isWorking && (
+            <>
+              <Pressable onPress={onTakeBreak} className="h-7 px-2 rounded-full bg-white/20 items-center justify-center mr-1 flex-row">
+                <MaterialIcons name="free-breakfast" size={12} color="white" />
+                <Text className="text-2xs text-white font-medium ml-1">Break</Text>
+              </Pressable>
+              <Pressable onPress={onPause} className="w-7 h-7 rounded-full bg-white/20 items-center justify-center mr-1">
+                <MaterialIcons name="pause" size={16} color="white" />
+              </Pressable>
+            </>
           )}
-          {phase === 'paused' && (
-            <Pressable onPress={onResume} className="w-7 h-7 rounded-full bg-white/20 items-center justify-center mr-1">
-              <MaterialIcons name="play-arrow" size={16} color="white" />
-            </Pressable>
+          {isPaused && (
+            <>
+              <Pressable onPress={onTakeBreak} className="h-7 px-2 rounded-full bg-white/20 items-center justify-center mr-1 flex-row">
+                <MaterialIcons name="free-breakfast" size={12} color="white" />
+                <Text className="text-2xs text-white font-medium ml-1">Break</Text>
+              </Pressable>
+              <Pressable onPress={onResume} className="w-7 h-7 rounded-full bg-white/20 items-center justify-center mr-1">
+                <MaterialIcons name="play-arrow" size={16} color="white" />
+              </Pressable>
+            </>
           )}
           {isBreak && (
             <Pressable onPress={onSkipBreak} className="w-7 h-7 rounded-full bg-white/20 items-center justify-center mr-1">

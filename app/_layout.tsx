@@ -29,7 +29,7 @@ SplashScreen.preventAutoHideAsync().catch(() => {});
 const store = createStore();
 
 function GlobalPomodoroWidget() {
-  const { phase, displayTime, activeTodoId, activeTodoName, pomodoroCount, pause, resume, stop, skipBreak } = usePomodoroContext();
+  const { phase, displayTime, activeTodoId, activeTodoName, pomodoroCount, pause, resume, stop, skipBreak, takeBreak } = usePomodoroContext();
 
   if (phase === 'idle' || !activeTodoId) return null;
 
@@ -44,6 +44,7 @@ function GlobalPomodoroWidget() {
       onResume={resume}
       onStop={stop}
       onSkipBreak={skipBreak}
+      onTakeBreak={takeBreak}
     />
   );
 }

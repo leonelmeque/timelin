@@ -22,6 +22,7 @@ type PomodoroContextType = {
   resume: () => void;
   stop: () => void;
   skipBreak: () => void;
+  takeBreak: () => void;
 };
 
 const PomodoroContext = createContext<PomodoroContextType | null>(null);
@@ -174,13 +175,37 @@ export function PomodoroProvider({ children }: { children: React.ReactNode }) {
     setSecondsLeft(WORK_MINUTES * 60);
   }, [phase, clearTimer, currentSession, activeTodoId]);
 
+  const takeBreak = useCallback(async () => {
+    if (phase !== 'working' && phase !== 'paused') return;
+    clearTimer();
+
+    if (currentSession && activeTodoId) {
+      try { await api.pomodoro.complete(activeTodoId, currentSession.id); } catch {}
+    }
+
+    const newCount = pomodoroCount + 1;
+    setPomodoroCount(newCount);
+
+    const isLong = newCount % SESSIONS_BEFORE_LONG_BREAK === 0;
+    const breakMinutes = isLong ? LONG_BREAK_MINUTES : SHORT_BREAK_MINUTES;
+    const breakPhase: PomodoroPhase = isLong ? 'longBreak' : 'shortBreak';
+
+    try {
+      const s = await api.pomodoro.start(activeTodoId!, 'break', breakMinutes);
+      setCurrentSession(s);
+    } catch {}
+
+    setPhase(breakPhase);
+    runTimer(breakMinutes * 60);
+  }, [phase, clearTimer, currentSession, activeTodoId, pomodoroCount, runTimer]);
+
   const isBreak = phase === 'shortBreak' || phase === 'longBreak';
 
   return (
     <PomodoroContext.Provider value={{
       phase, secondsLeft, displayTime: formatTime(secondsLeft),
       pomodoroCount, activeTodoId, activeTodoName, isBreak,
-      startWork, pause, resume, stop, skipBreak,
+      startWork, pause, resume, stop, skipBreak, takeBreak,
     }}>
       {children}
     </PomodoroContext.Provider>
