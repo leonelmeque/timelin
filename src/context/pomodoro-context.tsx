@@ -1,20 +1,27 @@
 import React, { createContext, useContext, useState, useRef, useCallback, useEffect } from 'react';
-import { DEFAULT_POMODORO_SETTINGS, PomodoroSession, PomodoroSettings } from '../lib/shared-types';
+import { PomodoroSession } from '../lib/shared-types';
 import { api } from '../lib';
-import { PomodoroState } from '../components/pomodoro-timer/use-pomodoro';
+
+export type PomodoroPhase = 'idle' | 'working' | 'shortBreak' | 'longBreak' | 'paused';
+
+const WORK_MINUTES = 25;
+const SHORT_BREAK_MINUTES = 5;
+const LONG_BREAK_MINUTES = 20;
+const SESSIONS_BEFORE_LONG_BREAK = 4;
 
 type PomodoroContextType = {
-  state: PomodoroState;
+  phase: PomodoroPhase;
   secondsLeft: number;
   displayTime: string;
-  sessionCount: number;
+  pomodoroCount: number;
   activeTodoId: string | null;
   activeTodoName: string;
+  isBreak: boolean;
   startWork: (todoId: string, todoName: string) => void;
   pause: () => void;
   resume: () => void;
   stop: () => void;
-  skip: () => void;
+  skipBreak: () => void;
 };
 
 const PomodoroContext = createContext<PomodoroContextType | null>(null);
@@ -25,19 +32,25 @@ export function usePomodoroContext() {
   return ctx;
 }
 
+function formatTime(totalSeconds: number): string {
+  const m = Math.floor(totalSeconds / 60);
+  const s = totalSeconds % 60;
+  return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+}
+
 export function PomodoroProvider({ children }: { children: React.ReactNode }) {
-  const settings = DEFAULT_POMODORO_SETTINGS;
-  const [state, setState] = useState<PomodoroState>('idle');
-  const [secondsLeft, setSecondsLeft] = useState(settings.workMinutes * 60);
-  const [sessionCount, setSessionCount] = useState(0);
+  const [phase, setPhase] = useState<PomodoroPhase>('idle');
+  const [secondsLeft, setSecondsLeft] = useState(WORK_MINUTES * 60);
+  const [pomodoroCount, setPomodoroCount] = useState(0);
   const [activeTodoId, setActiveTodoId] = useState<string | null>(null);
   const [activeTodoName, setActiveTodoName] = useState('');
   const [currentSession, setCurrentSession] = useState<PomodoroSession | null>(null);
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const pausedSecondsRef = useRef(0);
-  const stateRef = useRef(state);
-  stateRef.current = state;
+  const pausedPhaseRef = useRef<PomodoroPhase>('working');
+  const phaseRef = useRef(phase);
+  phaseRef.current = phase;
 
   const clearTimer = useCallback(() => {
     if (intervalRef.current) {
@@ -60,35 +73,47 @@ export function PomodoroProvider({ children }: { children: React.ReactNode }) {
     }, 1000);
   }, [clearTimer]);
 
-  const handleComplete = useCallback(async () => {
+  const handleTimerEnd = useCallback(async () => {
     clearTimer();
+
     if (currentSession && activeTodoId) {
       try { await api.pomodoro.complete(activeTodoId, currentSession.id); } catch {}
     }
 
-    if (stateRef.current === 'working') {
-      const newCount = sessionCount + 1;
-      setSessionCount(newCount);
-      const isLong = newCount % settings.sessionsBeforeLongBreak === 0;
-      const breakMin = isLong ? settings.longBreakMinutes : settings.shortBreakMinutes;
+    const currentPhase = phaseRef.current;
+
+    if (currentPhase === 'working') {
+      const newCount = pomodoroCount + 1;
+      setPomodoroCount(newCount);
+
+      const isLongBreak = newCount % SESSIONS_BEFORE_LONG_BREAK === 0;
+      const breakMinutes = isLongBreak ? LONG_BREAK_MINUTES : SHORT_BREAK_MINUTES;
+      const breakPhase: PomodoroPhase = isLongBreak ? 'longBreak' : 'shortBreak';
+
       try {
-        const s = await api.pomodoro.start(activeTodoId!, 'break', breakMin);
+        const s = await api.pomodoro.start(activeTodoId!, 'break', breakMinutes);
         setCurrentSession(s);
       } catch {}
-      setState('break');
-      runTimer(breakMin * 60);
-    } else if (stateRef.current === 'break') {
-      setState('idle');
+
+      setPhase(breakPhase);
+      runTimer(breakMinutes * 60);
+    } else if (currentPhase === 'shortBreak') {
+      setPhase('idle');
+      setCurrentSession(null);
+      setSecondsLeft(WORK_MINUTES * 60);
+    } else if (currentPhase === 'longBreak') {
+      setPomodoroCount(0);
+      setPhase('idle');
       setCurrentSession(null);
       setActiveTodoId(null);
       setActiveTodoName('');
-      setSecondsLeft(settings.workMinutes * 60);
+      setSecondsLeft(WORK_MINUTES * 60);
     }
-  }, [currentSession, activeTodoId, sessionCount, settings, clearTimer, runTimer]);
+  }, [currentSession, activeTodoId, pomodoroCount, clearTimer, runTimer]);
 
   useEffect(() => {
-    if (secondsLeft === 0 && state !== 'idle') {
-      handleComplete();
+    if (secondsLeft === 0 && phase !== 'idle') {
+      handleTimerEnd();
     }
   }, [secondsLeft]);
 
@@ -96,62 +121,66 @@ export function PomodoroProvider({ children }: { children: React.ReactNode }) {
 
   const startWork = useCallback(async (todoId: string, todoName: string) => {
     try {
-      const s = await api.pomodoro.start(todoId, 'work', settings.workMinutes);
+      const s = await api.pomodoro.start(todoId, 'work', WORK_MINUTES);
       setCurrentSession(s);
       setActiveTodoId(todoId);
       setActiveTodoName(todoName);
-      setState('working');
-      runTimer(settings.workMinutes * 60);
+      setPhase('working');
+      runTimer(WORK_MINUTES * 60);
     } catch (e) { console.error(e); }
-  }, [settings, runTimer]);
+  }, [runTimer]);
 
   const pause = useCallback(() => {
     clearTimer();
     pausedSecondsRef.current = secondsLeft;
-    setState('paused');
-  }, [secondsLeft, clearTimer]);
+    pausedPhaseRef.current = phase as PomodoroPhase;
+    setPhase('paused');
+  }, [secondsLeft, phase, clearTimer]);
 
   const resume = useCallback(() => {
-    setState(currentSession?.type === 'work' ? 'working' : 'break');
+    setPhase(pausedPhaseRef.current);
     runTimer(pausedSecondsRef.current);
-  }, [currentSession, runTimer]);
+  }, [runTimer]);
 
   const stop = useCallback(async () => {
     clearTimer();
     if (currentSession && activeTodoId) {
       try { await api.pomodoro.cancel(activeTodoId, currentSession.id); } catch {}
     }
-    setState('idle');
+    setPhase('idle');
     setCurrentSession(null);
+    setPomodoroCount(0);
     setActiveTodoId(null);
     setActiveTodoName('');
-    setSecondsLeft(settings.workMinutes * 60);
-  }, [clearTimer, currentSession, activeTodoId, settings]);
+    setSecondsLeft(WORK_MINUTES * 60);
+  }, [clearTimer, currentSession, activeTodoId]);
 
-  const skip = useCallback(async () => {
-    if (state !== 'break') return;
+  const skipBreak = useCallback(async () => {
+    if (phase !== 'shortBreak' && phase !== 'longBreak') return;
     clearTimer();
     if (currentSession && activeTodoId) {
       try { await api.pomodoro.complete(activeTodoId, currentSession.id); } catch {}
     }
-    setState('idle');
-    setCurrentSession(null);
-    setActiveTodoId(null);
-    setActiveTodoName('');
-    setSecondsLeft(settings.workMinutes * 60);
-  }, [state, clearTimer, currentSession, activeTodoId, settings]);
+    if (phase === 'longBreak') {
+      setPomodoroCount(0);
+      setPhase('idle');
+      setCurrentSession(null);
+      setActiveTodoId(null);
+      setActiveTodoName('');
+    } else {
+      setPhase('idle');
+      setCurrentSession(null);
+    }
+    setSecondsLeft(WORK_MINUTES * 60);
+  }, [phase, clearTimer, currentSession, activeTodoId]);
 
-  const formatTime = (s: number) => {
-    const m = Math.floor(s / 60);
-    const sec = s % 60;
-    return `${m.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
-  };
+  const isBreak = phase === 'shortBreak' || phase === 'longBreak';
 
   return (
     <PomodoroContext.Provider value={{
-      state, secondsLeft, displayTime: formatTime(secondsLeft),
-      sessionCount, activeTodoId, activeTodoName,
-      startWork, pause, resume, stop, skip,
+      phase, secondsLeft, displayTime: formatTime(secondsLeft),
+      pomodoroCount, activeTodoId, activeTodoName, isBreak,
+      startWork, pause, resume, stop, skipBreak,
     }}>
       {children}
     </PomodoroContext.Provider>

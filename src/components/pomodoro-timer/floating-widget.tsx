@@ -3,33 +3,40 @@ import { View, Pressable, Platform } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Text } from '~/components/ui/text';
-import { PomodoroState } from './use-pomodoro';
+import { PomodoroPhase } from '~/context/pomodoro-context';
 
 type Props = {
-  state: PomodoroState;
+  phase: PomodoroPhase;
   displayTime: string;
   todoId: string;
   todoName: string;
+  pomodoroCount: number;
   onPause: () => void;
   onResume: () => void;
   onStop: () => void;
+  onSkipBreak: () => void;
 };
 
+function getPhaseInfo(phase: PomodoroPhase) {
+  switch (phase) {
+    case 'working': return { label: 'Focusing', color: '#3D3868', icon: 'timer' as const };
+    case 'shortBreak': return { label: 'Short Break', color: '#386d36', icon: 'free-breakfast' as const };
+    case 'longBreak': return { label: 'Long Break', color: '#2383E2', icon: 'self-improvement' as const };
+    case 'paused': return { label: 'Paused', color: '#84712e', icon: 'pause' as const };
+    default: return { label: '', color: '#666', icon: 'timer' as const };
+  }
+}
+
 export const PomodoroFloatingWidget: React.FC<Props> = ({
-  state,
-  displayTime,
-  todoId,
-  todoName,
-  onPause,
-  onResume,
-  onStop,
+  phase, displayTime, todoId, todoName, pomodoroCount,
+  onPause, onResume, onStop, onSkipBreak,
 }) => {
   const router = useRouter();
 
-  if (state === 'idle') return null;
+  if (phase === 'idle') return null;
 
-  const bgColor = state === 'working' ? '#3D3868' : state === 'break' ? '#386d36' : '#84712e';
-  const label = state === 'working' ? 'Focusing' : state === 'break' ? 'Break' : 'Paused';
+  const { label, color, icon } = getPhaseInfo(phase);
+  const isBreak = phase === 'shortBreak' || phase === 'longBreak';
 
   return (
     <View
@@ -38,40 +45,52 @@ export const PomodoroFloatingWidget: React.FC<Props> = ({
         bottom: Platform.OS === 'web' ? 90 : 100,
         right: 16,
         zIndex: 999,
-        backgroundColor: bgColor,
+        backgroundColor: color,
         borderRadius: 16,
-        paddingHorizontal: 14,
-        paddingVertical: 10,
-        flexDirection: 'row',
-        alignItems: 'center',
+        padding: 12,
+        minWidth: 200,
         ...(Platform.OS === 'web'
-          ? { boxShadow: '0 4px 20px rgba(0,0,0,0.25)' }
-          : { shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.25, shadowRadius: 10, elevation: 10 }),
+          ? { boxShadow: '0 4px 20px rgba(0,0,0,0.3)' }
+          : { shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 10, elevation: 12 }),
       }}
     >
-      <Pressable onPress={() => router.push(`/todo/${todoId}`)} className="flex-row items-center flex-1 mr-2">
-        <View className="mr-2">
-          <Text className="text-xs text-white/70">{label}</Text>
-          <Text className="text-base font-bold text-white" style={{ fontVariant: ['tabular-nums'] }}>
-            {displayTime}
-          </Text>
-        </View>
+      {/* Top row: task name */}
+      <Pressable onPress={() => router.push(`/todo/${todoId}`)} className="mb-1.5">
+        <Text className="text-xs text-white/60" numberOfLines={1}>{todoName}</Text>
       </Pressable>
 
+      {/* Main row: phase + time + controls */}
       <View className="flex-row items-center">
-        {state === 'working' && (
-          <Pressable onPress={onPause} className="w-8 h-8 rounded-full bg-white/20 items-center justify-center mr-1.5">
-            <MaterialIcons name="pause" size={18} color="white" />
+        <MaterialIcons name={icon} size={18} color="rgba(255,255,255,0.7)" />
+        <View className="flex-1 ml-2">
+          <Text className="text-sm font-bold text-white" style={{ fontVariant: ['tabular-nums'] }}>
+            {label} · {displayTime}
+          </Text>
+          <Text className="text-2xs text-white/50">
+            {pomodoroCount}/4 pomodoros
+          </Text>
+        </View>
+
+        <View className="flex-row items-center ml-2">
+          {phase === 'working' && (
+            <Pressable onPress={onPause} className="w-7 h-7 rounded-full bg-white/20 items-center justify-center mr-1">
+              <MaterialIcons name="pause" size={16} color="white" />
+            </Pressable>
+          )}
+          {phase === 'paused' && (
+            <Pressable onPress={onResume} className="w-7 h-7 rounded-full bg-white/20 items-center justify-center mr-1">
+              <MaterialIcons name="play-arrow" size={16} color="white" />
+            </Pressable>
+          )}
+          {isBreak && (
+            <Pressable onPress={onSkipBreak} className="w-7 h-7 rounded-full bg-white/20 items-center justify-center mr-1">
+              <MaterialIcons name="skip-next" size={16} color="white" />
+            </Pressable>
+          )}
+          <Pressable onPress={onStop} className="w-7 h-7 rounded-full bg-white/10 items-center justify-center">
+            <MaterialIcons name="close" size={14} color="white" />
           </Pressable>
-        )}
-        {state === 'paused' && (
-          <Pressable onPress={onResume} className="w-8 h-8 rounded-full bg-white/20 items-center justify-center mr-1.5">
-            <MaterialIcons name="play-arrow" size={18} color="white" />
-          </Pressable>
-        )}
-        <Pressable onPress={onStop} className="w-8 h-8 rounded-full bg-white/10 items-center justify-center">
-          <MaterialIcons name="close" size={16} color="white" />
-        </Pressable>
+        </View>
       </View>
     </View>
   );
