@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.3](https://github.com/leonelmeque/timelin/compare/mobile-v0.6.2...mobile-v0.6.3) (2026-02-27)
+
+
+### Features
+
+* **mobile:** add spring animations to kanban and stacked task cards ([f148f49](https://github.com/leonelmeque/timelin/commit/f148f49847332c2bfc9c438a2dcced83813b7f88))
+
 ## [0.6.2](https://github.com/leonelmeque/timelin/compare/mobile-v0.6.1...mobile-v0.6.2) (2026-02-27)
 
 
