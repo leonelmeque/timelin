@@ -1,0 +1,4 @@
+[install]
+# Metro/Babel require a flat node_modules structure to resolve plugins.
+# Bun defaults to "isolated" for workspaces which breaks resolution.
+linker = "hoisted"
