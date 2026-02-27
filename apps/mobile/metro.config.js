@@ -24,6 +24,10 @@ module.exports = (() => {
       path.resolve(projectRoot, 'node_modules'),
       path.resolve(monorepoRoot, 'node_modules'),
     ],
+    // Prefer CJS builds over ESM to avoid import.meta in classic scripts.
+    // Libraries like jotai ship ESM with import.meta.env which crashes
+    // when Metro serves the bundle as a non-module <script>.
+    unstable_conditionNames: ['require', 'react-native', 'default'],
   };
 
   return withNativeWind(config, { input: './global.css' });
