@@ -1,7 +1,7 @@
 {
   "name": "@timelin/mobile",
   "private": true,
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "A React Native Todo App",
   "main": "index.tsx",
   "author": "Leonel Meque",
