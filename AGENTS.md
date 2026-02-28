@@ -103,11 +103,39 @@ bun run web:dev            # Next.js dev server (localhost:3000)
 bun run web:build          # Production build
 ```
 
-## Testing
+## Testing strategy
+
+This project uses a layered testing approach — each tool covers a distinct scope.
+
+| Layer | Tool | Scope | Location |
+|-------|------|-------|----------|
+| **Unit tests** | Jest | Pure logic, utilities, hooks, stores, reducers — anything without UI | `apps/mobile/tests/` |
+| **Component tests** | Storybook play functions | Interactive component behavior: user events, visual states, callback assertions | `apps/mobile/src/**/*.stories.tsx` |
+| **Web E2E** | Playwright | Full user flows on Expo web: auth, navigation, routing, responsive layout | `apps/mobile/e2e/` |
+| **Mobile E2E** | Maestro | Full user flows on iOS/Android: native gestures, device-specific behavior | `apps/mobile/.maestro/` |
+
+### When to use what
+
+- **Jest** — business logic, data transformations, custom hooks with `renderHook`, anything that doesn't need a visible UI. Do **not** write Jest tests for component interactions — use Storybook instead.
+- **Storybook** — component rendering, `play` functions for simulating clicks/typing/assertions, visual debugging, `fn()` spies for callback props. Replaces Jest for all component-level interaction testing. Stories double as living documentation.
+- **Playwright** — end-to-end flows that require the full Expo web app running (real routing, auth redirects, mock server, cross-screen navigation). Runs against `localhost:8081`.
+- **Maestro** — end-to-end flows on real/simulated iOS and Android devices. Covers native-only behavior (gestures, push notifications, deep links, platform-specific UI) that Playwright cannot test.
+
+### Running tests
 
 ```bash
-bun run mobile:tests                         # Jest unit tests
-cd apps/mobile && npx playwright test        # Playwright E2E (requires web server on port 8081)
+# Unit tests (Jest)
+bun run mobile:tests
+
+# Component tests (Storybook)
+cd apps/mobile && bun run storybook          # launch Storybook dev server
+cd apps/mobile && bun run test-storybook     # run play functions headless
+
+# Web E2E (Playwright) — requires Expo web server on port 8081
+cd apps/mobile && npx playwright test
+
+# Mobile E2E (Maestro) — requires running simulator/device
+cd apps/mobile && maestro test .maestro/
 ```
 
 ## Key caveats

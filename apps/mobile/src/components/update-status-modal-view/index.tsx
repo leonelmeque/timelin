@@ -1,11 +1,11 @@
 import { Ref, useImperativeHandle, useState } from "react";
 import { Modal, Pressable, View } from "react-native";
-import styled from "styled-components/native";
 import { CustomSafeAreaView } from "../safe-area-view";
-import { tokens } from "../../ui/tokens";
-import { Badge, Spacer } from "../../ui/atoms";
+import { Badge } from "@/components/ui/badge";
+import { Text } from "@/components/ui/text";
 import { useTranslation } from "react-i18next";
 import { TodoStatusTranslation } from "../../lib";
+import { cn } from "@/lib/cn";
 
 export interface UpdateStatusModalRefProps {
   visibility: boolean;
@@ -17,16 +17,26 @@ type UpdateStatusModalProps = {
   onSelect: (value: string) => void;
 };
 
-const Container = styled.View`
-  background-color: ${({ theme }) => theme.colours.neutrals.white};
-  border-radius: ${({ theme }) => theme.spacing.size8}px;
-  align-self: flex-end;
-  padding: 10px;
-  margin-bottom: 48px;
-  box-shadow: ${({ theme }) => theme.shadow.L4};
-  position: relative;
-  z-index: 2;
-`;
+const BadgeBGColor: Record<string, string> = {
+  ON_GOING: '#F2F1FC',
+  COMPLETED: '#E6FAE6',
+  ON_HOLD: '#F4F2D9',
+  TODO: '#FBF8ED',
+};
+
+const BadgeTextColor: Record<string, string> = {
+  ON_GOING: '#645CAA',
+  COMPLETED: '#5EAB5C',
+  ON_HOLD: '#AAA25C',
+  TODO: '#645CAA',
+};
+
+function formatStatus(status: string): string {
+  return (
+    status.substring(0, 1).toUpperCase() +
+    status.substring(1).toLocaleLowerCase()
+  ).replace(/_/g, ' ');
+}
 
 export const UpdateStatusModalView = ({
   initialSelection,
@@ -64,18 +74,20 @@ export const UpdateStatusModalView = ({
         }}
       >
         <View key={_status}>
-          {index !== 0 && <Spacer size="8" />}
+          {index !== 0 && <View className="h-4" />}
           <Badge
-            status={_status as any}
-            label={
-              t(
+            variant="default"
+            className="rounded rounded-br-none border-transparent p-2"
+            style={{ backgroundColor: BadgeBGColor[_status] }}
+          >
+            <Text style={{ color: BadgeTextColor[_status] }} className="text-xs font-medium">
+              {t(
                 TodoStatusTranslation[
                 _status as keyof typeof TodoStatusTranslation
                 ]
-              ) as string
-            }
-            type="colored"
-          />
+              ) as string}
+            </Text>
+          </Badge>
         </View>
       </Pressable>
     ));
@@ -93,16 +105,20 @@ export const UpdateStatusModalView = ({
           onPress={() => {
             toggleModalVisibility();
           }}
-          style={{
-            position: "relative",
-            flexDirection: "row",
-            zIndex: 2,
-            flex: 1,
-            justifyContent: "flex-end",
-            paddingHorizontal: tokens.spacing.size16,
-          }}
+          className={cn("relative flex-row z-[2] flex-1 justify-end px-4")}
         >
-          <Container>{renderStatus()}</Container>
+          <View
+            className={cn("self-end rounded-lg p-2.5 mb-12 relative z-[2] bg-neutrals-white")}
+            style={{
+              shadowColor: '#9F9FA1',
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 1,
+              shadowRadius: 16,
+              elevation: 8,
+            }}
+          >
+            {renderStatus()}
+          </View>
         </Pressable>
       </CustomSafeAreaView>
     </Modal>

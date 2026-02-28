@@ -4,8 +4,8 @@ import { RenderTimelineEvent } from "./render-timeline-event";
 import { useRouter } from "expo-router";
 import { eventsDateSorter } from "../../lib/utils";
 import { useFetchTimeline, useTimeline } from "../../store";
-import { Spacer, Palette, Text } from "../../ui/atoms";
-import { Skeleton } from "../../ui/molecules/skeleton";
+import { Text } from '@/components/ui/text';
+import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslation } from "react-i18next";
 
 export const TimelineCompactView = ({ id }: { id: string }) => {
@@ -39,33 +39,15 @@ export const TimelineCompactView = ({ id }: { id: string }) => {
 
   if (value.state === "loading")
     return (
-      <>
-        <View>
-          <Skeleton>
-            <Skeleton.Placeholder
-              width={"80%"}
-              height={15}
-              variant="rectangle"
-            />
-            <Spacer size="8" />
-            <Skeleton.Placeholder
-              width={"70%"}
-              height={15}
-              variant="rectangle"
-            />
-            <Spacer size="8" />
-            <Skeleton.Placeholder
-              width={"50%"}
-              height={15}
-              variant="rectangle"
-            />
-          </Skeleton>
-        </View>
-      </>
+      <View className="gap-4">
+        <Skeleton style={{ width: "80%", height: 15 }} />
+        <Skeleton style={{ width: "70%", height: 15 }} />
+        <Skeleton style={{ width: "50%", height: 15 }} />
+      </View>
     );
 
   if (value.state === "hasError")
-    return <Text size="body">{t("general.loading_data.error")}</Text>;
+    return <Text>{t("general.loading_data.error")}</Text>;
 
   return (
     <>
@@ -82,17 +64,17 @@ export const TimelineCompactView = ({ id }: { id: string }) => {
               compact
               showVerticalLine={ref.current !== index + 1}
             />
-            {ref.current !== index + 1 && <Spacer size="8" />}
+            {ref.current !== index + 1 && <View className="h-4" />}
           </Fragment>
         ))}
       </Pressable>
-      {normalizeData.length !== 0 && <Spacer size="8" />}
+      {normalizeData.length !== 0 && <View className="h-4" />}
       <Pressable
         onPress={() => {
           router.push(`/timeline/${id}/add-event`);
         }}
       >
-        <Text size="body" weight="medium" colour={Palette.primary.P300}>
+        <Text className="font-medium text-primary-300">
           {t("todo.button.add_timeline_event")}
         </Text>
       </Pressable>

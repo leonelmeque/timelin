@@ -1,8 +1,7 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import React, { useRef, useState } from "react";
-import { ScrollView, View, Pressable } from "react-native";
+import { ScrollView, View, Pressable, TextInput } from "react-native";
 import { useRouter } from "expo-router";
-import styled from "styled-components/native";
 import { CalendarModalView, CalendarRefProps } from "../calendar-modal-view";
 import { TimelineCompactView } from "../timeline-view/compact-view";
 import { PomodoroTimer } from "../pomodoro-timer";
@@ -10,24 +9,35 @@ import {
   UpdateStatusModalRefProps,
   UpdateStatusModalView,
 } from "../update-status-modal-view";
-import {
-  Badge,
-  Box,
-  Chip,
-  Palette,
-  PlainTextInput,
-  Spacer,
-  Button,
-} from "../../ui/atoms";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/cn";
+import { Button } from "@/components/ui/button";
+import { Text } from "@/components/ui/text";
 import { TodoProps, TodoStatus, TodoStatusTranslation, api } from "../../lib";
 import { useLatest, useUpdateTodos } from "../../store";
 import { dateFormatter } from "../../lib/utils";
-import { TimeStatus } from "../../ui/molecules";
+import { TimeStatus } from "@/components/time-status";
 import { useTranslation } from "react-i18next";
 
-const DateChip = styled(Chip) <{ colour: string }>`
-  background-color: ${(props) => props.colour};
-`;
+const BadgeBGColor: Record<string, string> = {
+  ON_GOING: '#F2F1FC',
+  COMPLETED: '#E6FAE6',
+  ON_HOLD: '#F4F2D9',
+  TODO: '#FBF8ED',
+};
+
+const BadgeTextColor: Record<string, string> = {
+  ON_GOING: '#645CAA',
+  COMPLETED: '#5EAB5C',
+  ON_HOLD: '#AAA25C',
+  TODO: '#645CAA',
+};
+
+const DateChip = ({ colour, label, isActive }: { colour: string; label: string; isActive: boolean }) => (
+  <Pressable className={cn("p-2.5 items-center justify-center rounded-lg")} style={{ backgroundColor: colour }}>
+    <Text className="text-sm font-medium text-gray-500">{label}</Text>
+  </Pressable>
+);
 
 export const TodoView = ({ todo }: { todo: TodoProps }) => {
   const clearTimeoutRef = useRef<any>(null);
@@ -95,36 +105,31 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
         initialSelection={state?.status ?? ""}
       />
       <ScrollView>
-        <Spacer size="8" />
-        <Box
-          style={{
-            paddingLeft: 56,
-          }}
+        <View className="h-4" />
+        <View
+          className={cn("px-4 pl-14")}
         >
           {showDate && (
             <TimeStatus endDate={state.endDate} status={state.status} />
           )}
-          <PlainTextInput
-            size="large"
-            weight="500"
+          <TextInput
+            className={cn("py-3 border border-transparent text-2xl")}
+            style={{ fontWeight: '500' }}
             multiline
             value={state?.todo}
             onChangeText={(value) => onFormChange(value, "todo")}
             scrollEnabled={false}
           />
-        </Box>
-        <Spacer size="4" />
-        <Box
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-          }}
+        </View>
+        <View className="h-2" />
+        <View
+          className={cn("px-4 flex-row items-center")}
         >
           <MaterialIcons name="description" size={24} />
-          <Box>
-            <PlainTextInput
-              size="body"
-              weight="500"
+          <View className={cn("px-4")}>
+            <TextInput
+              className={cn("py-3 border border-transparent text-sm")}
+              style={{ fontWeight: '500' }}
               multiline
               textAlignVertical="top"
               placeholder={t("todo.text_input.placeholder") ?? undefined}
@@ -132,107 +137,95 @@ export const TodoView = ({ todo }: { todo: TodoProps }) => {
               scrollEnabled={false}
               onChangeText={(value) => onFormChange(value, "description")}
             />
-          </Box>
-        </Box>
-        <Spacer size="16" />
-        <Box
-          style={{
-            padding: 0,
-            flexDirection: "row",
-            alignItems: "center",
-          }}
+          </View>
+        </View>
+        <View className="h-8" />
+        <View
+          className={cn("px-4 p-0 flex-row items-center")}
         >
           <MaterialIcons name="calendar-today" size={24} />
-          <Spacer size="8" />
+          <View className="w-4" />
           <Pressable onPress={() => onPressToggleModalVisibility("startDate")}>
             <DateChip
               label={dateStartLabel}
               isActive
               colour={
-                !state?.startDate ? Palette.primary.P50 : Palette.success.S50
+                !state?.startDate ? '#F0EFF7' : '#eff7ee'
               }
             />
           </Pressable>
-        </Box>
-        <Spacer size="16" />
-        <Box
-          style={{
-            padding: 0,
-            flexDirection: "row",
-            alignItems: "center",
-          }}
+        </View>
+        <View className="h-8" />
+        <View
+          className={cn("px-4 p-0 flex-row items-center")}
         >
           <MaterialIcons name="timeline" size={24} />
-          <Spacer size="8" />
+          <View className="w-4" />
           <View style={{ flex: 1 }}>
             <TimelineCompactView id={state?.id ?? ""} />
           </View>
-        </Box>
-        <Spacer size="16" />
-        <Box style={{ padding: 0 }}>
+        </View>
+        <View className="h-8" />
+        <View className={cn("px-4 p-0")}>
           <PomodoroTimer todoId={state?.id ?? ""} todoName={state?.todo ?? ""} />
-        </Box>
-        <Spacer size="16" />
-        <Box
-          style={{
-            padding: 0,
-            flexDirection: "row",
-            alignItems: "center",
-          }}
+        </View>
+        <View className="h-8" />
+        <View
+          className={cn("px-4 p-0 flex-row items-center")}
         >
           <MaterialIcons name="calendar-today" size={24} />
-          <Spacer size="8" />
+          <View className="w-4" />
           <Pressable onPress={() => onPressToggleModalVisibility("endDate")}>
             <DateChip
               label={dateEndLabel}
               isActive
               colour={
-                !state?.endDate ? Palette.primary.P50 : Palette.warning.W50
+                !state?.endDate ? '#F0EFF7' : '#fbf8ed'
               }
             />
           </Pressable>
-        </Box>
-        <Spacer size="8" />
-        <Box
-          style={{
-            flexDirection: "row",
-            paddingLeft: 56,
-          }}
+        </View>
+        <View className="h-4" />
+        <View
+          className={cn("px-4 flex-row pl-14")}
         >
           <Badge
-            type="colored"
-            status={state?.status ?? TodoStatus.ON_HOLD}
-            label={t(
-              TodoStatusTranslation[
-                state?.status as keyof typeof TodoStatusTranslation
-              ]
-            )}
-          />
-        </Box>
+            variant="default"
+            className="rounded rounded-br-none border-transparent p-2"
+            style={{ backgroundColor: BadgeBGColor[state?.status ?? TodoStatus.ON_HOLD] }}
+          >
+            <Text style={{ color: BadgeTextColor[state?.status ?? TodoStatus.ON_HOLD] }} className="text-xs font-medium">
+              {t(
+                TodoStatusTranslation[
+                  state?.status as keyof typeof TodoStatusTranslation
+                ]
+              )}
+            </Text>
+          </Badge>
+        </View>
       </ScrollView>
-      <Box
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
+      <View
+        className={cn("px-4 flex-row justify-between")}
       >
         <Button
           onPress={() => {
             router.push(`/retro/${state?.id}?name=${encodeURIComponent(state?.todo || '')}`);
           }}
-          label="Retrospective"
-          variant="tertiary"
-          size="md"
-        />
+          variant="ghost"
+          size="default"
+        >
+          <Text>Retrospective</Text>
+        </Button>
         <Button
           onPress={() => {
             todoStatusRef.current?.toggleModalVisibility();
           }}
-          label={t("general.update_progress") ?? undefined}
-          variant="tertiary"
-          size="md"
-        />
-      </Box>
+          variant="ghost"
+          size="default"
+        >
+          <Text>{t("general.update_progress")}</Text>
+        </Button>
+      </View>
     </>
   );
 };

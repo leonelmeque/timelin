@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { TodoListView } from '../todo-list-view';
 import { Section, SectionHeader, SectionContent } from './styles';
 import { useFetchTodos } from '../../store';
-import { Palette, Spacer, Box, Text } from '../../ui/atoms';
+import { Text } from '@/components/ui/text';
+import { View } from 'react-native';
+import { cn } from '@/lib/cn';
 
 export const ProjectList = () => {
   const { t } = useTranslation();
@@ -15,27 +17,27 @@ export const ProjectList = () => {
     router.push("/list-todos");
   };
 
-  if (!todos) return <Text size="body">Loading Projects</Text>;
+  if (!todos) return <Text>Loading Projects</Text>;
 
   return (
     <Section accessibilityLabel="Projects">
       <SectionHeader>
-        <Text size="body" weight="medium">
+        <Text className="font-medium">
           {t('home.project_list.heading')}
         </Text>
         <Pressable onPress={nagivateToTodoList}>
-          <Text size="small" weight="medium" colour={Palette.primary.P300}>
+          <Text className="text-sm font-medium text-primary-300">
             {t('general.more')}
           </Text>
         </Pressable>
       </SectionHeader>
-      <Spacer size="4" />
+      <View className="h-2" />
       <SectionContent>
-        <Box>
+        <View className={cn("px-4")}>
           {!todos.length && (
-            <Text size="small">Looks like you don't have any projects</Text>
+            <Text className="text-sm">Looks like you don't have any projects</Text>
           )}
-        </Box>
+        </View>
         {todos && <TodoListView horizontal data={todos} />}
       </SectionContent>
     </Section>

@@ -55,6 +55,7 @@ export const SignInScreen = () => {
           <View className="mb-4">
             <Text className="text-sm font-medium text-fg mb-1.5">Email</Text>
             <Input
+              testID="email_input"
               placeholder="you@example.com"
               value={username}
               onChangeText={setUsername}
@@ -67,6 +68,7 @@ export const SignInScreen = () => {
           <View className="mb-6">
             <Text className="text-sm font-medium text-fg mb-1.5">Password</Text>
             <Input
+              testID="password_input"
               placeholder="Enter your password"
               value={password}
               onChangeText={setPassword}
@@ -77,6 +79,7 @@ export const SignInScreen = () => {
           </View>
 
           <Button
+            testID="signin_button"
             onPress={handleSignIn}
             disabled={isLoggingIn || !username || !password}
             className="mb-4"

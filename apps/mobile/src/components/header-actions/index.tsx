@@ -2,7 +2,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { GestureResponderEvent, Pressable } from 'react-native';
 import { Container } from './styles';
 import { FC } from 'react';
-import { Spacer } from '../../ui/atoms';
+import { View } from 'react-native';
 
 type HeaderActionsProps = {
   onPressDelete?: (e: GestureResponderEvent) => void;
@@ -18,7 +18,7 @@ export const HeaderActions: FC<HeaderActionsProps> = ({
       <Pressable onPress={onPressShare}>
         <MaterialIcons name="ios-share" size={24} />
       </Pressable>
-      <Spacer size="8" />
+      <View className="w-4" />
       <Pressable onPress={onPressDelete}>
         <MaterialIcons name="delete-outline" size={24} />
       </Pressable>

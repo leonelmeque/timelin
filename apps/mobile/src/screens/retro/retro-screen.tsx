@@ -5,7 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Text } from '~/components/ui/text';
 import { CustomSafeAreaView } from '../../components/safe-area-view';
 import { RetroView } from '../../components/retro-view';
-import { Header } from '../../ui/organisms';
+import { Header } from '@/components/header';
 import { RetroSummary, api } from '../../lib';
 
 type Period = 'todo' | 'day' | 'week' | 'month';
@@ -77,7 +77,7 @@ export const RetroScreen = () => {
             </View>
           </Pressable>
         )}
-        renderRigthContent={() => null}
+        renderRightContent={() => null}
       />
 
       <View className="flex-row px-4 py-2">

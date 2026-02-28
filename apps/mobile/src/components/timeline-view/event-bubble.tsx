@@ -1,32 +1,31 @@
-import { View } from 'react-native';
-import styled from 'styled-components/native';
-import { Spacer, Text } from '../../ui/atoms';
+import { View, ViewProps } from 'react-native';
+import { Text } from '@/components/ui/text';
+import { cn } from '@/lib/cn';
 
-export const EventBubble = styled(
-  ({
-    title,
-    description,
-    colour,
-    ...rest
-  }: {
-    title: string;
-    description: string;
-    colour?: string;
-  }) => {
-    return (
-      <View {...rest}>
-        <Text size="small" weight="medium">
-          {title}
-        </Text>
-        <Spacer size="4" />
-        <Text size="small" weight="regular" numberOfLines={4}>
-          {description}
-        </Text>
-      </View>
-    );
-  }
-)`
-  padding: ${(props) => props.theme.spacing.size8}px;
-  border-radius: ${(props) => props.theme.spacing.size8}px;
-  background-color: ${(props) => props.colour};
-`;
+export const EventBubble = ({
+  title,
+  description,
+  colour,
+  className,
+  ...rest
+}: {
+  title: string;
+  description: string;
+  colour?: string;
+} & ViewProps) => {
+  return (
+    <View
+      className={cn('p-2 rounded-lg', className)}
+      style={{ backgroundColor: colour }}
+      {...rest}
+    >
+      <Text className="text-sm font-medium">
+        {title}
+      </Text>
+      <View className="h-2" />
+      <Text className="text-sm" numberOfLines={4}>
+        {description}
+      </Text>
+    </View>
+  );
+};

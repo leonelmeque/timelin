@@ -1,5 +1,7 @@
-import { Button, Spacer } from '../../ui/atoms';
-import { FormInput } from '../../ui/molecules';
+import { View } from 'react-native';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
+import { FormInput } from '@/components/form-input';
 import { FC } from 'react';
 import {
   ValidationErrors,
@@ -46,15 +48,16 @@ export const ProfileFullNameForm: FC<ProfileFullNameFormProps> = ({
         errorText={errors.fullName}
       />
 
-      <Spacer size="64" />
+      <View className="h-32" />
       <Button
-        label="Update"
-        variant="primary"
+        variant="default"
         size="lg"
         onPress={() => {
           onSubmit && onSubmit(fullName);
         }}
-      />
+      >
+        <Text>Update</Text>
+      </Button>
     </>
   );
 };

@@ -9,6 +9,12 @@
     "mobile:web": "cd apps/mobile && bun run web",
     "mobile:tests": "cd apps/mobile && bun run tests",
     "web:dev": "cd apps/web && bun run dev",
-    "web:build": "cd apps/web && bun run build"
-  }
+    "web:build": "cd apps/web && bun run build",
+    "mobile:storybook": "cd apps/mobile && bun run storybook",
+    "mobile:storybook:web": "cd apps/mobile && bun run storybook:web"
+  },
+  "trustedDependencies": [
+    "@swc/core",
+    "unrs-resolver"
+  ]
 }

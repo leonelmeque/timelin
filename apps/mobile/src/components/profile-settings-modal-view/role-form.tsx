@@ -1,6 +1,7 @@
 import { FC } from 'react';
-import { Button } from '../../ui/atoms';
-import { FormInput } from '../../ui/molecules';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
+import { FormInput } from '@/components/form-input';
 import {
   ValidationErrors,
   ValidationFunction,
@@ -46,11 +47,12 @@ export const RoleForm: FC<RoleForm> = (props) => {
         errorText={errors.role}
       />
       <Button
-        label="Update role"
-        variant="primary"
+        variant="default"
         size="lg"
         onPress={handleUpdateFormField}
-      />
+      >
+        <Text>Update role</Text>
+      </Button>
     </>
   );
 };

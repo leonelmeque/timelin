@@ -2,8 +2,9 @@ import React from "react"
 import { Section, SectionContent, SectionHeader } from './styles';
 import { withOptionsModal } from '../with-options-modal';
 import { usePinnedTodo, useUpdateTodos } from '../../store';
-import { Spacer, Text } from '../../ui/atoms';
-import { TodoCard } from '../../ui/organisms';
+import { Text } from '@/components/ui/text';
+import { View } from 'react-native';
+import { TodoCard } from '@/components/todo-card';
 import { useTranslation } from "react-i18next";
 
 const TodoCardEnhanced = withOptionsModal(TodoCard);
@@ -18,14 +19,14 @@ export const PinnedTodo = () => {
   return (
     <Section accessibilityLabel="Pinned">
       <SectionHeader>
-        <Text size="body" weight="medium">
+        <Text className="font-medium">
           {t("home.pinned_todo.heading")}
         </Text>
       </SectionHeader>
-      <Spacer size="4" />
+      <View className="h-2" />
       <SectionContent>
         {!pinned ? (
-          <Text size="small">{t("home.pinned_todo.empty_state")}</Text>
+          <Text className="text-sm">{t("home.pinned_todo.empty_state")}</Text>
         ) : (
             <TodoCardEnhanced {...pinned} badgeType="colored" />
         )}

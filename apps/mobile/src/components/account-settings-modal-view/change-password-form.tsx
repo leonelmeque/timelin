@@ -4,8 +4,10 @@ import {
   ValidationFunction,
   useForm,
 } from '../../hooks/use-form';
-import { FormInput } from '../../ui/molecules';
-import { Button, Spacer } from '../../ui/atoms';
+import { FormInput } from '@/components/form-input';
+import { View } from 'react-native';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 import { Alert } from 'react-native';
 import { useUpdateProfile } from '../../lib/api/users/use-update-profile';
 import { useRouter } from 'expo-router';
@@ -80,7 +82,7 @@ export const ChangePasswordForm = () => {
 
   return (
     <>
-      <Spacer size="24" />
+      <View className="h-12" />
       {!isCurrentPasswordValid && (
         <FormInput
           secureTextEntry
@@ -100,7 +102,7 @@ export const ChangePasswordForm = () => {
             captionText={errors.newPassword}
             variant={errors.newPassword ? 'error' : 'caption'}
           />
-          <Spacer size="8" />
+          <View className="h-4" />
           <FormInput
             secureTextEntry
             label="Confirm Password"
@@ -111,22 +113,25 @@ export const ChangePasswordForm = () => {
           />
         </>
       )}
-      <Spacer size="64" />
+      <View className="h-32" />
 
       {!isCurrentPasswordValid ? (
         <Button
-          label="Submit current password"
-          variant={currentPassword ? 'primary' : 'disabled'}
+          variant="default"
           size="lg"
+          disabled={!currentPassword}
           onPress={handleSubmitCurrentPassword}
-        />
+        >
+          <Text>Submit current password</Text>
+        </Button>
       ) : (
         <Button
-          label="Update password"
-          variant="primary"
+          variant="default"
           size="lg"
           onPress={handleSubmitNewPassword}
-        />
+        >
+          <Text>Update password</Text>
+        </Button>
       )}
     </>
   );

@@ -1,7 +1,8 @@
-import { Modal, GestureResponderEvent, Dimensions, Platform, TextInput } from 'react-native';
+import { Modal, GestureResponderEvent, Dimensions, Platform, TextInput, Pressable, View } from 'react-native';
 import { Ref, useImperativeHandle, useState } from 'react';
-import styled from 'styled-components/native';
-import { Box, Button, Spacer, Text } from '../../ui/atoms';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
+import { cn } from '@/lib/cn';
 
 type CalendarModalViewProps = {
   onPressCancel: (e?: GestureResponderEvent) => void;
@@ -16,34 +17,12 @@ export type CalendarRefProps = {
   name: string;
 };
 
-const CalendarContainer = styled(Box)`
-  background-color: ${(props) => props.theme.colours.neutrals.white};
-  justify-content: flex-end;
-  margin-top: auto;
-  padding-bottom: 64px;
-  border-top-left-radius: 24px;
-  border-top-right-radius: 24px;
-`;
-
-const ActionsContainer = styled(Box)`
-  justify-content: space-between;
-  flex-direction: row;
-`;
-
-const PressableOverlay = styled.Pressable`
-  background-color: ${(props) => props.theme.colours.greys.G300};
-  opacity: 0.2;
-  position: absolute;
-  height: ${Dimensions.get('screen').height}px;
-  width: ${Dimensions.get('screen').width}px;
-`;
-
 function WebDatePicker({ value, onChange }: { value: Date; onChange: (d: Date) => void }) {
   const formatted = value.toISOString().split('T')[0];
   return (
-    <Box style={{ padding: 16, alignItems: 'center' }}>
-      <Text size="body" weight="bold">Select Date</Text>
-      <Spacer size="8" />
+    <View className={cn("px-4 p-4 items-center")}>
+      <Text className="font-bold">Select Date</Text>
+      <View className="h-4" />
       {Platform.OS === 'web' ? (
         <input
           type="date"
@@ -68,7 +47,7 @@ function WebDatePicker({ value, onChange }: { value: Date; onChange: (d: Date) =
           style={{ fontSize: 16, padding: 8, borderWidth: 1, borderColor: '#E3E2DE', borderRadius: 6 }}
         />
       )}
-    </Box>
+    </View>
   );
 }
 
@@ -105,15 +84,28 @@ export const CalendarModalView = ({
 
   return (
     <Modal visible={modalVisibility} transparent>
-      <PressableOverlay onPress={() => setModalVisibility(false)} />
-      <CalendarContainer>
+      <Pressable
+        onPress={() => setModalVisibility(false)}
+        className={cn("absolute opacity-20 bg-grey-300")}
+        style={{
+          height: Dimensions.get('screen').height,
+          width: Dimensions.get('screen').width,
+        }}
+      />
+      <View
+        className={cn("justify-end mt-auto pb-16 rounded-t-3xl px-4 bg-neutrals-white")}
+      >
         <DatePicker value={_date} onChange={_setDate} />
-        <Spacer size="4" />
-        <ActionsContainer>
-          <Button label="Cancel" size="md" variant="tertiary" onPress={onPressCancel} />
-          <Button label="Save" size="md" variant="primary" onPress={onPressSave} />
-        </ActionsContainer>
-      </CalendarContainer>
+        <View className="h-2" />
+        <View className={cn("justify-between flex-row px-4")}>
+          <Button size="default" variant="ghost" onPress={onPressCancel}>
+            <Text>Cancel</Text>
+          </Button>
+          <Button size="default" variant="default" onPress={onPressSave}>
+            <Text>Save</Text>
+          </Button>
+        </View>
+      </View>
     </Modal>
   );
 };

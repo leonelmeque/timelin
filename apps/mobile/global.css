@@ -1,3 +1,149 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@import 'uniwind';
+
+@theme {
+  /* Notion-inspired minimal palette */
+  --color-bg: #FFFFFF;
+  --color-bg-secondary: #F7F6F3;
+  --color-bg-tertiary: #EDECE9;
+  --color-bg-hover: #E8E7E4;
+  --color-bg-dark: #191919;
+
+  --color-fg: #37352F;
+  --color-fg-secondary: #787774;
+  --color-fg-tertiary: #B4B4B0;
+  --color-fg-inverse: #FFFFFF;
+
+  --color-accent: #2383E2;
+  --color-accent-light: #E8F0FE;
+  --color-accent-hover: #1B6EC2;
+
+  --color-border: #E3E2DE;
+  --color-border-strong: #D3D1CB;
+
+  --color-status-todo: #E3E2DE;
+  --color-status-ongoing: #D3E5EF;
+  --color-status-onhold: #FADEC9;
+  --color-status-completed: #DBEDDB;
+
+  --color-tag-blue: #D3E5EF;
+  --color-tag-green: #DBEDDB;
+  --color-tag-orange: #FADEC9;
+  --color-tag-pink: #F5E0E9;
+  --color-tag-purple: #E8DEEE;
+  --color-tag-red: #FFE2DD;
+  --color-tag-yellow: #FDECC8;
+  --color-tag-gray: #E3E2DE;
+
+  /* Legacy colors */
+  --color-primary-50: #F0EFF7;
+  --color-primary-100: #A5A0CE;
+  --color-primary-200: #7E78B8;
+  --color-primary-300: #645CAA;
+  --color-primary-400: #464077;
+  --color-primary-500: #3D3868;
+  --color-primary: #3D3868;
+
+  --color-success-50: #eff7ee;
+  --color-success-100: #a0d29f;
+  --color-success-200: #77bf75;
+  --color-success-300: #5bb259;
+  --color-success-400: #407d3e;
+  --color-success-500: #386d36;
+
+  --color-warning-50: #fbf8ed;
+  --color-warning-100: #e9d797;
+  --color-warning-200: #dfc66a;
+  --color-warning-300: #d9ba4c;
+  --color-warning-400: #988235;
+  --color-warning-500: #84712e;
+
+  --color-danger-50: #fbedef;
+  --color-danger-100: #e997a1;
+  --color-danger-200: #df6a79;
+  --color-danger-300: #d94c5d;
+  --color-danger-400: #983541;
+  --color-danger-500: #842e39;
+
+  --color-grey-50: #e8e8e8;
+  --color-grey-75: #9f9fa1;
+  --color-grey-100: #77777a;
+  --color-grey-200: #3d3c41;
+  --color-grey-300: #15141a;
+  --color-grey-400: #0f0e12;
+  --color-grey-500: #0d0c10;
+
+  --color-neutrals-dark: #15141A;
+  --color-neutrals-white: #FFFFFF;
+
+  --color-toolbar-bg: #191919;
+  --color-toolbar-active: #2F2F2F;
+  --color-toolbar-accent: #2383E2;
+
+  /* Font family */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Font sizes */
+  --text-2xs: 11px;
+  --text-2xs--line-height: 16px;
+  --text-xs: 12px;
+  --text-xs--line-height: 16px;
+  --text-sm: 14px;
+  --text-sm--line-height: 20px;
+  --text-base: 16px;
+  --text-base--line-height: 24px;
+  --text-lg: 18px;
+  --text-lg--line-height: 28px;
+  --text-xl: 20px;
+  --text-xl--line-height: 28px;
+  --text-2xl: 24px;
+  --text-2xl--line-height: 32px;
+  --text-3xl: 30px;
+  --text-3xl--line-height: 36px;
+
+  /* shadcn/ui semantic colors (used by RNR components) */
+  --color-background: #FFFFFF;
+  --color-foreground: #37352F;
+  --color-card: #FFFFFF;
+  --color-card-foreground: #37352F;
+  --color-popover: #FFFFFF;
+  --color-popover-foreground: #37352F;
+  --color-primary-foreground: #FFFFFF;
+  --color-secondary: #F7F6F3;
+  --color-secondary-foreground: #37352F;
+  --color-muted: #EDECE9;
+  --color-muted-foreground: #787774;
+  --color-destructive: #d94c5d;
+  --color-destructive-foreground: #FFFFFF;
+  --color-input: #E3E2DE;
+  --color-ring: #645CAA;
+
+  /* Border radius scale */
+  --radius: 6px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-full: 9999px;
+
+  /* Todo palette (for card backgrounds) */
+  --color-todo-blue: #E0EEFD;
+  --color-todo-green: #E9FBF3;
+  --color-todo-orange: #FDEEE0;
+  --color-todo-pink: #FDE7F0;
+  --color-todo-yellow: #FAFBE9;
+
+  /* Badge status colors */
+  --color-badge-ongoing-bg: #F2F1FC;
+  --color-badge-ongoing-text: #645CAA;
+  --color-badge-completed-bg: #E6FAE6;
+  --color-badge-completed-text: #5EAB5C;
+  --color-badge-onhold-bg: #F4F2D9;
+  --color-badge-onhold-text: #AAA25C;
+  --color-badge-todo-bg: #FBF8ED;
+  --color-badge-todo-text: #645CAA;
+
+  /* Max width */
+  --max-width-content: 900px;
+}

@@ -1,21 +1,17 @@
+import { cn } from '@/lib/cn';
 import { FC } from 'react';
-import { GestureResponderEvent, Pressable } from 'react-native';
-import styled from 'styled-components/native';
-import { Chip } from '../../ui/atoms';
+import { GestureResponderEvent, Pressable, View, Text } from 'react-native';
 
 interface StatusListProps {
   onPress?: (e: GestureResponderEvent, name: string) => void;
   activeStatus?: string;
+  className?: string;
 }
-
-const StatusListContainer = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-`;
 
 export const StatusList: FC<StatusListProps> = ({
   onPress,
   activeStatus = 'TODO',
+  className,
 }) => {
   const status = ['TODO', 'ON_GOING', 'ON_HOLD', 'COMPLETED'];
 
@@ -25,18 +21,21 @@ export const StatusList: FC<StatusListProps> = ({
 
   const renderStatusList = () =>
     status.map((value, index) => (
-      <Pressable key={index} onPress={(e) => onPress(e, value)}>
-        <Chip
-          isActive={value === activeStatus}
-          label={(
+      <Pressable
+        key={index}
+        onPress={(e) => onPress(e, value)}
+        className={cn("p-2.5 items-center justify-center rounded-lg", value === activeStatus && "bg-primary-50")}
+      >
+        <Text className={cn("text-sm font-medium", value === activeStatus ? "text-primary-300" : "text-gray-500")}>
+          {(
             value.substring(0, 1) +
             value.substring(1, value.length).toLocaleLowerCase()
           ).replace(/_/g, ' ')}
-        />
+        </Text>
       </Pressable>
     ));
 
-  return <StatusListContainer>{renderStatusList()}</StatusListContainer>;
+  return <View className={cn('flex-row justify-between', className)}>{renderStatusList()}</View>;
 };
 
 StatusList.displayName = 'StatusList';

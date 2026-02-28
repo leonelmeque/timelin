@@ -1,28 +1,32 @@
-import * as React from 'react';
-import { TextInput } from 'react-native';
-import { cn } from '~/lib/cn';
+import { cn } from '@/lib/cn';
+import { Platform, TextInput, type TextInputProps } from 'react-native';
 
-type InputProps = React.ComponentPropsWithoutRef<typeof TextInput> & {
-  className?: string;
-  ref?: React.Ref<React.ComponentRef<typeof TextInput>>;
-};
-
-function Input({ className, placeholderTextColor, ref, ...props }: InputProps) {
+function Input({
+  className,
+  ...props
+}: TextInputProps & React.RefAttributes<TextInput>) {
   return (
     <TextInput
-      ref={ref}
       className={cn(
-        'h-12 rounded-xl border border-gray-200 bg-white px-4 text-base text-gray-900',
-        'placeholder:text-gray-400',
-        'focus:border-primary-300',
-        props.editable === false && 'opacity-50',
+        'dark:bg-input/30 border-input bg-background text-foreground flex h-10 w-full min-w-0 flex-row items-center rounded-md border px-3 py-1 text-base leading-5 shadow-sm shadow-black/5 sm:h-9',
+        props.editable === false &&
+          cn(
+            'opacity-50',
+            Platform.select({ web: 'disabled:pointer-events-none disabled:cursor-not-allowed' })
+          ),
+        Platform.select({
+          web: cn(
+            'placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground outline-none transition-[color,box-shadow] md:text-sm',
+            'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]',
+            'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive'
+          ),
+          native: 'placeholder:text-muted-foreground/50',
+        }),
         className
       )}
-      placeholderTextColor={placeholderTextColor ?? '#9CA3AF'}
       {...props}
     />
   );
 }
-Input.displayName = 'Input';
 
 export { Input };

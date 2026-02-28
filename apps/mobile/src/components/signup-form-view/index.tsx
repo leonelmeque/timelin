@@ -1,8 +1,10 @@
 import { FC } from "react";
 import { TouchableWithoutFeedback } from "react-native";
-import { tokens } from "../../lib";
-import { Box, Spacer, Text, Button } from "../../ui/atoms";
-import { FormInput } from "../../ui/molecules";
+import { View } from "react-native";
+import { cn } from "@/lib/cn";
+import { Button } from "@/components/ui/button";
+import { Text } from "@/components/ui/text";
+import { FormInput } from "@/components/form-input";
 import { SignupFormViewProps } from "./types";
 import { useSignUpForm } from "./use-signup-form";
 
@@ -20,7 +22,7 @@ export const SignupFormView: FC<SignupFormViewProps> = ({
   } = useSignUpForm({ onSubmit });
 
   return (
-    <Box>
+    <View className={cn("px-4")}>
       <FormInput
         placeholder="mail@domain.com"
         value={state.email}
@@ -35,7 +37,7 @@ export const SignupFormView: FC<SignupFormViewProps> = ({
             : "Your email address is valid"
         }
       />
-      <Spacer size="8" />
+      <View className="h-4" />
       <FormInput
         label="Username"
         placeholder="jhon.doe.123"
@@ -46,7 +48,7 @@ export const SignupFormView: FC<SignupFormViewProps> = ({
         captionText="Choose a username that is at least 3 characters long."
         variant={!errors.username ? "caption" : "error"}
       />
-      <Spacer size="8" />
+      <View className="h-4" />
       <FormInput
         label="Password"
         placeholder="o%42pe"
@@ -58,7 +60,7 @@ export const SignupFormView: FC<SignupFormViewProps> = ({
         variant={!errors.password ? "caption" : "error"}
         captionText="User passwords must be at least 8 characters long and contain at least one number, one uppercase letter, and one lowercase letter."
       />
-      <Spacer size="8" />
+      <View className="h-4" />
       <FormInput
         label="Confirm Password"
         value={state.confirmPassword}
@@ -69,33 +71,29 @@ export const SignupFormView: FC<SignupFormViewProps> = ({
         variant={!errors.confirmPassword ? "caption" : "error"}
         captionText="Use the same password as before, for verification."
       />
-      <Spacer size="16" />
+      <View className="h-8" />
       <Button
-        label="Create account"
         size="lg"
-        variant={!enableSubmit ? "disabled" : "primary"}
-        disabled={!enableSubmit}
+        variant="default"
+        disabled={!enableSubmit || isSubmiting}
         onPress={handleSubmitAfterValidation}
-        isLoading={isSubmiting}
         accessibilityLabel="Create account"
-      />
-      <Spacer size="8" />
+      >
+        <Text>{isSubmiting ? "Loading..." : "Create account"}</Text>
+      </Button>
+      <View className="h-4" />
       <Text
-        size="body"
-        colour={tokens.colours.light.greys.G200}
-        style={{ textAlign: "center" }}
+        className="text-grey-200 text-center"
       >
         Already have an account?{" "}
         <TouchableWithoutFeedback onPress={() => goToLogin()}>
           <Text
-            size="body"
-            colour={tokens.colours.light.primary.P300}
-            weight="bold"
+            className="text-primary-300 font-bold"
           >
             Login
           </Text>
         </TouchableWithoutFeedback>
       </Text>
-    </Box>
+    </View>
   );
 };

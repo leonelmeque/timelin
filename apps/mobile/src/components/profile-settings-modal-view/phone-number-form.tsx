@@ -4,9 +4,11 @@ import {
   ValidationFunction,
   useForm,
 } from "../../hooks/use-form";
-import { PhoneInput } from "../../ui/molecules";
+import { PhoneInput } from "../phone-input";
 import { normalizedCountries } from "../../lib/utils/normalized-countries";
-import { Button, Spacer } from "../../ui/atoms";
+import { View } from "react-native";
+import { Button } from "@/components/ui/button";
+import { Text } from "@/components/ui/text";
 import { KeyboardAvoidingView } from "react-native";
 import { utils } from "../../lib";
 
@@ -59,15 +61,16 @@ export const PhoneNumberForm: FC<PhoneNumberFormProps> = ({
         onSelectCountryCode={onFormChange("countryCode")}
         onNumberChange={onFormChange("number")}
       />
-      <Spacer size="64" />
+      <View className="h-32" />
 
       <Button
-        label="Submit"
-        variant={!errors.number ? "primary" : "disabled"}
+        variant="default"
         size="lg"
         onPress={() => onSubmit(countryCode, number)}
         disabled={errors.number !== undefined}
-      />
+      >
+        <Text>Submit</Text>
+      </Button>
     </KeyboardAvoidingView>
   );
 };

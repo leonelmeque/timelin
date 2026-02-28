@@ -5,8 +5,10 @@ import {
   useForm,
 } from '../../hooks/use-form';
 import { validateUsername } from '../../lib/utils';
-import { FormInput } from '../../ui/molecules';
-import { Button, Spacer } from '../../ui/atoms';
+import { FormInput } from '@/components/form-input';
+import { View } from 'react-native';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 import { useRouter } from 'expo-router';
 
 type UsernameForm = {
@@ -67,7 +69,7 @@ export const UsernameForm: FC<UsernameForm> = ({ username, onSubmit }) => {
         onChangeText={onFormChange('currentUsername')}
         autoCapitalize="none"
       />
-      <Spacer size="8" />
+      <View className="h-4" />
       <FormInput
         label="New username"
         value={newUsername}
@@ -77,15 +79,16 @@ export const UsernameForm: FC<UsernameForm> = ({ username, onSubmit }) => {
         onChangeText={onFormChange('newUsername')}
         autoCapitalize="none"
       />
-      <Spacer size="64" />
+      <View className="h-32" />
       <Button
-        label="Update username"
-        variant="primary"
+        variant="default"
         size="lg"
         onPress={() => {
           onSubmit(newUsername);
         }}
-      />
+      >
+        <Text>Update username</Text>
+      </Button>
     </>
   );
 };

@@ -1,28 +1,22 @@
-import styled from 'styled-components/native';
+import { View, ViewProps } from 'react-native';
+import { cn } from '@/lib/cn';
 
-export const Dot = styled.View`
-  width: 10px;
-  height: 10px;
-  border-radius: 99999px;
-  background-color: ${(props) => props.theme.colours.primary.P75};
-`;
+export const Dot = ({ className, ...props }: ViewProps) => (
+  <View
+    className={cn('w-2.5 h-2.5 rounded-full', className)}
+    style={{ backgroundColor: '#BFBCDC' }}
+    {...props}
+  />
+);
 
-export const VerticalLine = styled.View.attrs<{ height?: number }>((props) => ({
-  height: props.height ?? 0,
-}))<{ height?: number }>`
-  width: 2px;
-  flex: 1;
-  align-self: stretch;
-  height: ${(props) => props.height}px;
-  background-color: ${(props) => props.theme.colours.primary.P50};
-  position: absolute;
-  left: 4px;
-  top: 12px;
-  z-index: -1;
-`;
+export const VerticalLine = ({ height, className, ...props }: ViewProps & { height?: number }) => (
+  <View
+    className={cn('w-0.5 flex-1 self-stretch absolute left-1 top-3 -z-10 bg-primary-50', className)}
+    style={{ height: height ?? 0 }}
+    {...props}
+  />
+);
 
-export const EventsDates = styled.View`
-  flex-direction: row;
-  align-items: center;
-  margin-top: 14px;
-`;
+export const EventsDates = ({ className, ...props }: ViewProps) => (
+  <View className={cn('flex-row items-center mt-3.5', className)} {...props} />
+);

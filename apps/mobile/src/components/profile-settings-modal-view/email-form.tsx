@@ -4,8 +4,10 @@ import {
   ValidationFunction,
   useForm,
 } from '../../hooks/use-form';
-import { FormInput } from '../../ui/molecules';
-import { Button, Spacer } from '../../ui/atoms';
+import { FormInput } from '@/components/form-input';
+import { View } from 'react-native';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 import { validateEmail } from '../../lib/utils';
 
 type EmailFormValues = {
@@ -58,7 +60,7 @@ export const EmailForm: FC<{
         errorText={errors.currentEmail}
         disabled
       />
-      <Spacer size="8" />
+      <View className="h-4" />
       <FormInput
         label="New email"
         placeholder="johndoejunior@domain.com"
@@ -68,7 +70,7 @@ export const EmailForm: FC<{
         errorText={errors.newEmail}
         autoCapitalize="none"
       />
-      <Spacer size="8" />
+      <View className="h-4" />
       <FormInput
         label="Confirm email"
         placeholder="Same as new email"
@@ -78,16 +80,15 @@ export const EmailForm: FC<{
         errorText={errors.confirmEmail}
         autoCapitalize="none"
       />
-      <Spacer size="64" />
+      <View className="h-32" />
       <Button
-        label="Change email address"
-        variant={
-          errors.newEmail || errors.confirmEmail ? 'disabled' : 'primary'
-        }
+        variant="default"
         size="lg"
         onPress={() => onSubmit && onSubmit(values.newEmail)}
-        disabled={!!errors.newEmail && !!errors.confirmEmail}
-      />
+        disabled={!!(errors.newEmail || errors.confirmEmail)}
+      >
+        <Text>Change email address</Text>
+      </Button>
     </>
   );
 };

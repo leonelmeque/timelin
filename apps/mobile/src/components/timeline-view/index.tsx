@@ -3,7 +3,9 @@ import { FC } from 'react';
 import { View } from 'react-native';
 import { TimelineDefaultView } from './default-view';
 import { useTimeline, useUpdateTodos } from '../../store/hooks';
-import { Box, Button, Text } from '../../ui/atoms';
+import { cn } from '@/lib/cn';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 import { normalizeTimeline } from '../../lib/utils';
 
 type TimelineViewProps = {
@@ -24,10 +26,8 @@ export const TimelineView: FC<TimelineViewProps> = () => {
   };
 
   return (
-    <Box
-      style={{
-        flex: 1,
-      }}
+    <View
+      className={cn("px-4 flex-1")}
     >
       <View
         style={{
@@ -35,7 +35,7 @@ export const TimelineView: FC<TimelineViewProps> = () => {
           paddingBottom: 16,
         }}
       >
-        <Text size="large" weight="medium" numberOfLines={3}>
+        <Text className="text-lg font-medium" numberOfLines={3}>
           {todoName}
         </Text>
       </View>
@@ -47,7 +47,7 @@ export const TimelineView: FC<TimelineViewProps> = () => {
           paddingBottom: 16,
         }}
       >
-        <Text size="small" weight="medium">
+        <Text className="text-sm font-medium">
           Timeline
         </Text>
         <View
@@ -55,7 +55,7 @@ export const TimelineView: FC<TimelineViewProps> = () => {
             paddingRight: 50,
           }}
         />
-        <Text size="small" weight="medium">
+        <Text className="text-sm font-medium">
           Events
         </Text>
       </View>
@@ -73,12 +73,13 @@ export const TimelineView: FC<TimelineViewProps> = () => {
         }}
       >
         <Button
-          variant="tertiary"
-          size="md"
-          label="+ add new event"
+          variant="ghost"
+          size="default"
           onPress={addNewEvent}
-        />
+        >
+          <Text>+ add new event</Text>
+        </Button>
       </View>
-    </Box>
+    </View>
   );
 };

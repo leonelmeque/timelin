@@ -1,12 +1,14 @@
 import { FC } from "react";
 import { Alert, Pressable, ScrollView } from "react-native";
-import { useTheme } from "styled-components/native";
 import { useRouter } from "expo-router";
-import { Header } from "../../ui/organisms";
-import { Avatar, Box, Spacer, Text } from "../../ui/atoms";
+import { Header } from "@/components/header";
+import { Text } from '@/components/ui/text';
+import { View } from "react-native";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/cn";
 import { CustomSafeAreaView } from "../../components/safe-area-view";
 import { LeftArrowWithTextButton } from "../../components/back-button";
-import { TextLabelPresentation } from "../../ui/molecules/text-label-presentation";
+import { TextLabelPresentation } from "@/components/text-label-presentation";
 import { useUserContext } from "../../context";
 import { User, utils } from "../../lib";
 import { useImagePicker } from "../../lib/hooks/use-image-picker";
@@ -16,7 +18,6 @@ import { useImageUpload } from "../../lib/hooks/use-image-upload";
 
 
 export const ProfileSettingsScreen: FC = () => {
-  const theme = useTheme();
   const router = useRouter();
   const [user] = useUserContext();
   const { openImagePicker } = useImagePicker();
@@ -58,51 +59,51 @@ export const ProfileSettingsScreen: FC = () => {
         renderLeftContent={() => (
           <LeftArrowWithTextButton
             onPress={() => router.back()}
-            colour={theme.colours.greys.G300}
+            colour="#15141a"
             text="Back"
           />
         )}
-        renderRigthContent={() => (
-          <Text size="body" weight="bold" colour={theme.colours.greys.G300}>
+        renderRightContent={() => (
+          <Text className="font-bold text-grey-300">
             Profile
           </Text>
         )}
       />
       <ScrollView>
-        <Box>
+        <View className={cn("px-4")}>
           <Pressable onPress={handleProfileImage}>
             <Avatar
-              style={{ alignSelf: "center" }}
-              size={124}
-              radius={8}
-              source={{ uri: avatar }}
-            />
+              alt="profile"
+              style={{ width: 124, height: 124, borderRadius: 8, alignSelf: "center" }}
+            >
+              <AvatarImage source={{ uri: avatar }} />
+            </Avatar>
           </Pressable>
-          <Spacer size="16" />
+          <View className="h-8" />
           <Pressable onPress={() => navigateToEditProfileModal("name")}>
             <TextLabelPresentation label="Full name" value={fullname} />
           </Pressable>
-          <Spacer size="8" />
+          <View className="h-4" />
           <Pressable onPress={() => navigateToEditProfileModal("username")}>
             <TextLabelPresentation label="Username" value={username} />
           </Pressable>
-          <Spacer size="8" />
+          <View className="h-4" />
           <Pressable onPress={() => navigateToEditProfileModal("dateOfBirth")}>
             <TextLabelPresentation
               label="Date of birth"
               value={birthDate}
             />
           </Pressable>
-          <Spacer size="8" />
+          <View className="h-4" />
           <Pressable onPress={() => navigateToEditProfileModal("email")}>
             <TextLabelPresentation label="Email" value={email} />
           </Pressable>
-          <Spacer size="8" />
+          <View className="h-4" />
           <Pressable onPress={() => navigateToEditProfileModal("phonenumber")}>
             <TextLabelPresentation label="Phone" value={phoneNumber} />
           </Pressable>
-        </Box>
-        <Spacer size="8" />
+        </View>
+        <View className="h-4" />
       </ScrollView>
     </CustomSafeAreaView>
   );

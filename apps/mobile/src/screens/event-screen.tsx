@@ -1,19 +1,14 @@
-import { GestureResponderEvent, Pressable } from 'react-native';
+import { GestureResponderEvent, Pressable, View } from 'react-native';
 import { CustomSafeAreaView } from '../components/safe-area-view';
-import styled from 'styled-components/native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import { EventView } from '../components/event-view';
 import { HeaderActions } from '../components/header-actions';
 import { api } from '../lib';
 import { useTimeline } from '../store';
-import { Spacer, Text } from '../ui/atoms';
-import { Header } from '../ui/organisms';
+import { Text } from '@/components/ui/text';
+import { Header } from '@/components/header';
 
-const BackButton = styled.View`
-  align-items: center;
-  flex-direction: row;
-`;
 export const EventScreen = () => {
   const router = useRouter();
   const params = useLocalSearchParams<{ id: string; eventId: string }>();
@@ -37,20 +32,20 @@ export const EventScreen = () => {
       <Header
         renderLeftContent={() => (
           <Pressable onPress={() => router.back()}>
-            <BackButton>
+            <View className="items-center flex-row">
               <MaterialIcons name="arrow-back" size={24} />
-              <Spacer size="4" />
-              <Text size="body" weight="medium">
+              <View className="w-2" />
+              <Text className="font-medium">
                 Back
               </Text>
-            </BackButton>
+            </View>
           </Pressable>
         )}
-        renderRigthContent={() => (
+        renderRightContent={() => (
           <HeaderActions onPressDelete={onPressDeleteEvent(eventId ?? "")} />
         )}
       />
-      <Spacer size="8" />
+      <View className="h-4" />
       <EventView event={null} todoUID={todoId} />
     </CustomSafeAreaView>
   );

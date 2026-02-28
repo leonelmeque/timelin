@@ -1,7 +1,9 @@
-import { Dimensions, Modal } from 'react-native';
+import { Dimensions, Modal, View } from 'react-native';
 import { FC } from 'react';
 import { ActionsContainer, Container, Overlay } from './styles';
-import { Box, Spacer, Button, Text } from '../../ui/atoms';
+import { cn } from '@/lib/cn';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 interface ConfirmModalViewProps {
   title: string;
@@ -30,26 +32,28 @@ export const ConfirmModalView: FC<ConfirmModalViewProps> = ({
         height={Dimensions.get('screen').height}
       />
       <Container>
-        <Box>
-          <Text size="heading">{title}</Text>
-          <Spacer size="4" />
-          <Text size="body">{message}</Text>
-        </Box>
-        <Spacer size="16" />
+        <View className={cn("px-4")}>
+          <Text className="text-2xl font-semibold tracking-tight">{title}</Text>
+          <View className="h-2" />
+          <Text>{message}</Text>
+        </View>
+        <View className="h-8" />
         <ActionsContainer>
           <Button
             onPress={onCancel}
-            label={cancelText}
-            size="md"
-            variant="tertiary"
-          />
-          <Spacer size="16" />
+            size="default"
+            variant="ghost"
+          >
+            <Text>{cancelText}</Text>
+          </Button>
+          <View className="w-8" />
           <Button
             onPress={onConfirm}
-            label={confirmText}
-            size="md"
-            variant="danger"
-          />
+            size="default"
+            variant="destructive"
+          >
+            <Text>{confirmText}</Text>
+          </Button>
         </ActionsContainer>
       </Container>
     </Modal>

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { SafeAreaView as SafeArea } from 'react-native';
 import { SafeAreaViewProps } from 'react-native-safe-area-context';
-import { Palette } from '../../ui/atoms';
+import { cn } from '@/lib/cn';
 
 export const CustomSafeAreaView: FC<SafeAreaViewProps> = ({
   style,
@@ -9,7 +9,8 @@ export const CustomSafeAreaView: FC<SafeAreaViewProps> = ({
   ...rest
 }) => (
   <SafeArea
-    style={[{ backgroundColor: Palette.neutrals.white, flex: 1 }, style]}
+    className={cn("bg-neutrals-white flex-1")}
+    style={style}
     {...rest}
   >
     {children}

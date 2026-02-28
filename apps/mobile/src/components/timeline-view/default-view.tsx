@@ -4,7 +4,7 @@ import { FlatList } from 'react-native';
 import { RenderTimelineEvent } from './render-timeline-event';
 import { TimelineEventProps } from '../../lib';
 import { eventsDateSorter } from '../../lib/utils';
-import { Spacer } from '../../ui/atoms';
+import { View } from 'react-native';
 
 type TimelineDefaultViewProps = {
   data: { [x: string]: TimelineEventProps[] };
@@ -32,7 +32,7 @@ export const TimelineDefaultView: FC<TimelineDefaultViewProps> = ({ data }) => {
       data={memoizedTimeline}
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
-      ItemSeparatorComponent={() => <Spacer size="8" />}
+      ItemSeparatorComponent={() => <View className="h-4" />}
       renderItem={renderItem}
     />
   );

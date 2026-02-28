@@ -1,11 +1,11 @@
 import { FlatList, Pressable } from 'react-native';
-import styled from 'styled-components/native';
 import { EventBubble } from './event-bubble';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { TimelineEventProps } from '../../lib';
-import { Palette, Spacer } from '../../ui/atoms';
+import { View } from 'react-native';
+import { cn } from '@/lib/cn';
 
-export const ListEvents = styled(({ data, ...rest }: { data: any }) => {
+export const ListEvents = ({ data, ...rest }: { data: any }) => {
   const router = useRouter();
   const { todoUID } = useLocalSearchParams<{ todoUID: string }>();
 
@@ -14,9 +14,9 @@ export const ListEvents = styled(({ data, ...rest }: { data: any }) => {
   };
   const bgBasedOnPosition = (index: number) => {
     if (index === 0) {
-      return Palette.success.S50;
+      return '#eff7ee';
     }
-    return Palette.primary.P50;
+    return '#F0EFF7';
   };
 
   const renderItem = ({ item, index }: any) => (
@@ -35,14 +35,13 @@ export const ListEvents = styled(({ data, ...rest }: { data: any }) => {
   return (
     <FlatList
       data={data}
-      ItemSeparatorComponent={() => <Spacer size="8" />}
+      ItemSeparatorComponent={() => <View className="h-4" />}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
       scrollEnabled={false}
       renderItem={renderItem}
+      className={cn('flex-1')}
       {...rest}
     />
   );
-})`
-  flex: 1;
-`;
+};

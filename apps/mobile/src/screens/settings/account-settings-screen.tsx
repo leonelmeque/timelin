@@ -1,9 +1,9 @@
-import styled, { useTheme } from "styled-components/native";
 import { LeftArrowWithTextButton } from "../../components/back-button";
 import { CustomSafeAreaView } from "../../components/safe-area-view";
-import { Box, Spacer } from "../../ui/atoms";
-import { Header } from "../../ui/organisms";
-import { SettingsButton } from "../../ui/organisms/settings-button";
+import { View } from "react-native";
+import { cn } from "@/lib/cn";
+import { Header } from "@/components/header";
+import { SettingsButton } from "@/components/settings-button";
 import { useRouter } from "expo-router";
 import { Pressable } from "react-native";
 import { useUserContext } from "../../context";
@@ -11,12 +11,7 @@ import { useConfirmation } from "../../hooks/use-confirmation";
 import { useTranslation } from "react-i18next";
 import { api } from "../../lib";
 
-const RemoveAccountButton = styled(SettingsButton)`
-  background-color: ${({ theme }) => theme.colours.danger.D50};
-`;
-
 export const AccountSettingsScreen = () => {
-  const theme = useTheme();
   const [, dispatch] = useUserContext();
   const router = useRouter();
   const { t } = useTranslation();
@@ -40,12 +35,12 @@ export const AccountSettingsScreen = () => {
           <LeftArrowWithTextButton
             text="Back"
             onPress={() => router.back()}
-            colour={theme.colours.neutrals.dark}
+            colour="#15141A"
           />
         )}
       />
-      <Spacer size="16" />
-      <Box>
+      <View className="h-8" />
+      <View className={cn("px-4")}>
         <Pressable
           onPress={() =>
             router.push("/(tabs)/settings/account/change-password")
@@ -57,20 +52,21 @@ export const AccountSettingsScreen = () => {
             description="Update your current password"
           />
         </Pressable>
-        <Spacer size="16" />
+        <View className="h-8" />
         <Pressable
           onPress={() =>
             //@ts-ignore
             handleConfirm()
           }
         >
-          <RemoveAccountButton
+          <SettingsButton
             iconName="delete"
             settingName="Delete account"
             description="Permanently delete your account"
+            className="bg-danger-50"
           />
         </Pressable>
-      </Box>
+      </View>
     </CustomSafeAreaView>
   );
 };

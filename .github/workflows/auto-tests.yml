@@ -13,17 +13,47 @@ on:
     branches: ['main']
 
 jobs:
-  run_tests:
-    name: tests
+  unit-tests:
+    name: unit tests (jest)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
-
       - name: Install dependencies
         run: bun install
-
-      - name: Running jest tests (mobile)
+      - name: Run Jest tests
         run: cd apps/mobile && bun run tests
+
+  storybook-tests:
+    name: component tests (storybook)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: bun install
+      - name: Run Storybook tests
+        run: |
+          cd apps/mobile
+          npx concurrently -k -s first -t 120000 \
+            "storybook dev -p 6006 --no-open --ci" \
+            "npx wait-on http://localhost:6006 && test-storybook --url http://localhost:6006"
+
+  e2e-web:
+    name: e2e tests (playwright)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: bun install
+      - name: Install Playwright browsers
+        run: cd apps/mobile && npx playwright install --with-deps chromium
+      - name: Run Playwright E2E tests
+        run: cd apps/mobile && npx playwright test

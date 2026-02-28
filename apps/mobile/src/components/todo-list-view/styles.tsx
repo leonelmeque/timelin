@@ -1,10 +1,11 @@
-import { FlatList } from 'react-native';
-import styled from 'styled-components/native';
+import { cn } from '@/lib/cn';
+import { FlatList, FlatListProps } from 'react-native';
 
-export const TodoList = styled(FlatList)`
-  flex: 1;
-  max-height: ${(props) => (props.horizontal ? `200px` : 'auto')};
-  border-radius: 19px;
-  margin: 14px 14px;
-  padding: 2px 2px;
-`;
+export const TodoList = ({ horizontal, className, ...rest }: FlatListProps<any>) => (
+  <FlatList
+    horizontal={horizontal}
+    className={cn('flex-1 rounded-[19px] m-3.5 p-0.5', className)}
+    style={horizontal ? { maxHeight: 200 } : undefined}
+    {...rest}
+  />
+);

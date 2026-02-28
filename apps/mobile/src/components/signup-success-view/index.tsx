@@ -3,7 +3,8 @@ import ObjectTopImg from '../../../assets/object-top.svg';
 import ObjectBottomImg from '../../../assets/object-bottom.svg';
 import { Container } from './styles';
 import { View } from 'react-native';
-import { Spacer, Button, Text } from '../../ui/atoms';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 type SignupSuccessProps = {
   onContinue: () => void;
@@ -14,20 +15,21 @@ export const SignupSuccessView: FC<SignupSuccessProps> = ({ onContinue }) => {
     <Container>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <ObjectTopImg />
-        <Spacer size="16" />
-        <Text size="heading" weight="bold">
+        <View className="h-8" />
+        <Text className="text-2xl font-bold tracking-tight">
           Welcome to timelin
         </Text>
-        <Text size="body">You have successfully signed up!</Text>
-        <Spacer size="16" />
+        <Text>You have successfully signed up!</Text>
+        <View className="h-8" />
         <ObjectBottomImg />
       </View>
       <Button
         onPress={onContinue}
-        variant="primary"
+        variant="default"
         size="lg"
-        label="Continue"
-      />
+      >
+        <Text>Continue</Text>
+      </Button>
     </Container>
   );
 };

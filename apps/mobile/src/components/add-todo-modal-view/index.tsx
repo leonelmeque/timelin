@@ -1,12 +1,15 @@
 import { useRouter } from 'expo-router';
 import { FC, useRef, useState } from 'react';
-import { Modal, TouchableWithoutFeedback, Platform } from 'react-native';
+import { Modal, TouchableWithoutFeedback, Platform, View, TextInput } from 'react-native';
 import { useUserContext } from '../../context';
 import { CustomSafeAreaView } from '../safe-area-view';
 import { ModalOverLay, StyledKeyboardAvoidingView } from './styles';
 import { useUpdateTodos } from '../../store';
 import { TodoProps, TodoStatus, api } from '../../lib';
-import { Box, Button, Palette, PlainTextInput, Spacer } from '../../ui/atoms';
+
+import { cn } from '@/lib/cn';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 type AddTodoModalViewProps = {
   visibility: boolean;
@@ -36,7 +39,7 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
       status: TodoStatus.TODO,
       //@ts-ignore
       timestamp: Date.now(),
-      color: Object.keys(Palette.todoPalette).map((key) => key)[randomPalette],
+      color: ['blue', 'green', 'orange', 'pink', 'yellow'][randomPalette],
       participants: [],
       endDate: '',
       startDate: '',
@@ -71,47 +74,43 @@ export const AddTodoModalView: FC<AddTodoModalViewProps> = ({
         <StyledKeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
-          <Box
-            style={{
-              paddingTop: 12,
-              paddingBottom: 12,
-            }}
+          <View
+            className={cn("px-4 pt-3 pb-3")}
           >
-            <PlainTextInput
-              size="body"
-              weight="500"
+            <TextInput
+              className={cn("py-3 border border-transparent text-sm")}
+              style={{ fontWeight: '500' }}
               placeholder="What is the task about?"
               value={todoName}
               onChangeText={onChangeText}
               autoFocus
             />
-            <Spacer size="4" />
-            <Box
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-              }}
+            <View className="h-2" />
+            <View
+              className={cn("px-4 flex-row justify-end")}
             >
               {!!todoName && (
                 <Button
-                  label="Add description"
-                  size="md"
-                  variant="tertiary"
+                  size="default"
+                  variant="ghost"
                   onPress={(e) => {
                     withDescriptionRef.current = true;
                     onPressSave(e);
                   }}
-                />
+                >
+                  <Text>Add description</Text>
+                </Button>
               )}
               <Button
-                label="save"
-                size="md"
-                variant={!todoName ? 'disabled' : 'primary'}
+                size="default"
+                variant="default"
                 onPress={onPressSave}
                 disabled={!todoName}
-              />
-            </Box>
-          </Box>
+              >
+                <Text>save</Text>
+              </Button>
+            </View>
+          </View>
         </StyledKeyboardAvoidingView>
       </CustomSafeAreaView>
     </Modal>

@@ -2,7 +2,10 @@ import { Pressable } from 'react-native';
 import { TodoListView } from '../todo-list-view';
 import { SearchViewDefault, SearchViewResultsView } from './styles';
 import { useSearchTodos } from '../../store';
-import { Box, Input, Spacer, Palette, Text } from '../../ui/atoms';
+import { Text } from '@/components/ui/text';
+import { View } from 'react-native';
+import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/cn';
 
 
 export const SearchView = () => {
@@ -11,17 +14,17 @@ export const SearchView = () => {
 
   return (
     <>
-      <Box>
+      <View className={cn("px-4")}>
         <Input
           placeholder="Type something awesome..."
           onChangeText={onSearch}
           value={query}
         />
-      </Box>
-      <Spacer size="8" />
+      </View>
+      <View className="h-4" />
       {!query && (
         <SearchViewDefault>
-          <Text size="large" weight="bold">
+          <Text className="text-lg font-bold">
             Nothing to Display
           </Text>
         </SearchViewDefault>
@@ -35,7 +38,7 @@ export const SearchView = () => {
               padding: 0,
             }}
           >
-            <Text size="body" weight="medium" colour={Palette.greys.G100}>
+            <Text className="font-medium text-grey-100">
               {!numberOfResults && query && (
                 <>Found {numberOfResults} results</>
               )}
@@ -44,12 +47,12 @@ export const SearchView = () => {
               )}
             </Text>
             <Pressable onPress={onClearSearch}>
-              <Text size="body" weight="medium" colour={Palette.primary.P300}>
+              <Text className="font-medium text-primary-300">
                 Clear
               </Text>
             </Pressable>
           </SearchViewResultsView>
-          <Spacer size="8" />
+          <View className="h-4" />
         </>
       )}
       <TodoListView showDescription showStatus data={searchResults} />

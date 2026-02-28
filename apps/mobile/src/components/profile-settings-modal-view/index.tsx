@@ -1,5 +1,7 @@
 import { useRouter, useLocalSearchParams } from "expo-router";
-import { Box, Spacer, Text } from "../../ui/atoms";
+import { Text } from '@/components/ui/text';
+import { View } from "react-native";
+import { cn } from "@/lib/cn";
 import { MaterialIcons } from "@expo/vector-icons";
 import { DateOfBirthForm } from "./date-of-birth-form";
 import { EmailForm } from "./email-form";
@@ -136,26 +138,26 @@ export const ProfileSettingsModalView = () => {
   }, []);
 
   return (
-    <Box>
-      <Spacer size="8" />
+    <View className={cn("px-4")}>
+      <View className="h-4" />
       <MaterialIcons
         name="close"
         size={24}
         color="black"
         onPress={() => router.back()}
       />
-      <Spacer size="8" />
-      <Text size="heading" weight="bold">
+      <View className="h-4" />
+      <Text className="text-2xl font-bold tracking-tight">
         {headingTitle[value as keyof typeof headingTitle]}
       </Text>
       <ScrollView bounces={false}>
-        <Spacer size="8" />
+        <View className="h-4" />
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
           <RenderFormFields />
         </KeyboardAvoidingView>
       </ScrollView>
-    </Box>
+    </View>
   );
 };

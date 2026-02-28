@@ -3,7 +3,7 @@ import { FC, useState } from 'react';
 import { View } from 'react-native';
 import { ListEvents } from './list-events';
 import { EventsDates, Dot, VerticalLine } from './styles';
-import { Spacer, Text } from '../../ui/atoms';
+import { Text } from '@/components/ui/text';
 import { dateFormatter } from '../../lib/utils';
 
 type RenderItemProps = {
@@ -39,8 +39,8 @@ export const RenderTimelineEvent: FC<RenderItemProps> = ({
       <EventsDates>
         <Dot />
         {showVerticalLine && <VerticalLine height={state} />}
-        <Spacer size="4" />
-        <Text size="small" weight="regular">
+        <View className="h-2" />
+        <Text className="text-sm">
           {dateFormatter(date, {
             month: 'short',
             day: '2-digit',
@@ -49,13 +49,13 @@ export const RenderTimelineEvent: FC<RenderItemProps> = ({
         </Text>
         {compact && (
           <>
-            <Spacer size="4" />
-            <Text size="small">{description}</Text>
+            <View className="h-2" />
+            <Text className="text-sm">{description}</Text>
           </>
         )}
       </EventsDates>
 
-      <Spacer size="8" />
+      <View className="w-4" />
       {!compact && <ListEvents data={events} />}
     </View>
   );

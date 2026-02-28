@@ -8,9 +8,9 @@ import { useConfirmation } from "../hooks/use-confirmation";
 import { onShare } from "../utils/utils";
 import { api } from "../lib";
 import { useUpdateTodos, useFetchTodo } from "../store";
-import { Spacer, Text } from "../ui/atoms";
-import { Header } from "../ui/organisms";
-import { TodoScreenTemplate } from "../ui/templates/todo-screen.template";
+import { Text } from '@/components/ui/text';
+import { Header } from "@/components/header";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslation } from "react-i18next";
 
 const TodoScreen = () => {
@@ -63,14 +63,14 @@ const TodoScreen = () => {
             >
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <MaterialIcons name="arrow-back" size={24} />
-                <Spacer size="4" />
-                <Text size="body" weight="medium">
+                <View className="w-2" />
+                <Text className="font-medium">
                   Back
                 </Text>
               </View>
             </Pressable>
           )}
-          renderRigthContent={() => (
+          renderRightContent={() => (
             <HeaderActions
               onPressDelete={onPressDeleteTodo(todoId)}
               onPressShare={async () =>
@@ -83,7 +83,17 @@ const TodoScreen = () => {
         />
 
         {state.state === "loading" ? (
-          <TodoScreenTemplate />
+          <View className="px-4 gap-4">
+            <Skeleton style={{ height: 20, width: 200 }} />
+            <Skeleton style={{ height: 30, width: "90%" }} />
+            <Skeleton style={{ height: 15, width: "80%" }} />
+            <Skeleton style={{ height: 15, width: "90%" }} />
+            <Skeleton style={{ height: 15, width: "60%" }} />
+            <Skeleton style={{ height: 30, width: 200 }} />
+            <Skeleton style={{ height: 15, width: "80%" }} />
+            <Skeleton style={{ height: 15, width: "90%" }} />
+            <Skeleton style={{ height: 15, width: "60%" }} />
+          </View>
         ) : (
           <TodoView todo={(state as typeof state & { data: any })?.data} />
         )}

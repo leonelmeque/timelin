@@ -1,8 +1,9 @@
 import { FC, useState } from 'react';
-import { TouchableWithoutFeedback } from 'react-native';
-import { Box, Spacer, Button, Text } from '../../ui/atoms';
-import { FormInput } from '../../ui/molecules';
-import { tokens } from '../../lib';
+import { TouchableWithoutFeedback, View } from 'react-native';
+import { cn } from '@/lib/cn';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
+import { FormInput } from '@/components/form-input';
 
 interface SignInFormViewProps {
   onSignin: ({ username, password }: LoginProps) => void;
@@ -33,7 +34,7 @@ export const SignInFormView: FC<SignInFormViewProps> = ({
 
   return (
     <>
-      <Box>
+      <View className={cn("px-4")}>
         <FormInput
           label="Username"
           placeholder='e.g. "john.doe"'
@@ -44,7 +45,7 @@ export const SignInFormView: FC<SignInFormViewProps> = ({
           variant={!errors.username ? 'caption' : 'error'}
           captionText={errors.username && 'Username might not be correct'}
         />
-        <Spacer size="8" />
+        <View className="h-4" />
         <FormInput
           label="Password"
           autoCapitalize="none"
@@ -53,34 +54,31 @@ export const SignInFormView: FC<SignInFormViewProps> = ({
           value={state.password}
           onChangeText={(value) => handleChange('password', value)}
         />
-        <Spacer size="16" />
+        <View className="h-8" />
         <Button
-          label="Login"
           size="lg"
-          variant={isLoggingIn ? 'disabled' : 'primary'}
+          variant="default"
           disabled={isLoggingIn}
           onPress={() =>
             onSignin({ username: state.username, password: state.password })
           }
-        />
-        <Spacer size="8" />
+        >
+          <Text>{isLoggingIn ? "Loading..." : "Login"}</Text>
+        </Button>
+        <View className="h-4" />
         <Text
-          size="body"
-          colour={tokens.colours.light.greys.G200}
-          style={{ textAlign: 'center' }}
+          className="text-grey-200 text-center"
         >
           Don't have an account?{' '}
           <TouchableWithoutFeedback onPress={goToSignup}>
             <Text
-              size="body"
-              colour={tokens.colours.light.primary.P300}
-              weight="bold"
+              className="text-primary-300 font-bold"
             >
               Create account
             </Text>
           </TouchableWithoutFeedback>
         </Text>
-      </Box>
+      </View>
     </>
   );
 };

@@ -1,13 +1,8 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { GestureResponderEvent } from 'react-native';
-import { Spacer, Text } from '../../ui/atoms';
-import styled from 'styled-components/native';
+import { GestureResponderEvent, Pressable, View } from 'react-native';
+import { Text } from '@/components/ui/text';
 import { FC } from 'react';
-
-const StyledBackButton = styled.Pressable`
-  align-items: center;
-  flex-direction: row;
-`;
+import { cn } from '@/lib/cn';
 
 type BackButtonProps = {
   colour: string;
@@ -20,11 +15,11 @@ export const LeftArrowWithTextButton: FC<BackButtonProps> = ({
   colour,
   text,
 }) => (
-  <StyledBackButton onPress={onPress}>
+  <Pressable onPress={onPress} className={cn('items-center flex-row')}>
     <MaterialIcons name="arrow-back" size={24} color={colour} />
-    <Spacer size="4" />
-    <Text size="body" weight="bold" colour={colour}>
+    <View className="w-2" />
+    <Text className="font-bold" style={{ color: colour }}>
       {text}
     </Text>
-  </StyledBackButton>
+  </Pressable>
 );

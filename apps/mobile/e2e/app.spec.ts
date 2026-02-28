@@ -1,5 +1,10 @@
 import { test, expect, Page } from '@playwright/test';
 
+/** Dismiss Expo dev-mode LogBox toasts that overlay the UI. */
+async function dismissDevToasts(page: Page) {
+  await page.evaluate(() => document.getElementById('error-toast')?.remove());
+}
+
 async function login(page: Page) {
   await page.goto('/');
   await page.waitForURL('**/sign-in', { timeout: 10000 }).catch(() => {});
@@ -47,6 +52,7 @@ test.describe('Retrospective', () => {
 
   test('should show retro stats for a task', async ({ page }) => {
     await openTask(page, /Build authentication/);
+    await dismissDevToasts(page);
     await page.getByText('Retrospective', { exact: true }).click();
     await expect(page.getByText('Pomodoros', { exact: true })).toBeVisible({ timeout: 5000 });
     await expect(page.getByText('Focus Time', { exact: true })).toBeVisible();
@@ -54,6 +60,7 @@ test.describe('Retrospective', () => {
 
   test('should switch retro periods', async ({ page }) => {
     await openTask(page, /Build authentication/);
+    await dismissDevToasts(page);
     await page.getByText('Retrospective', { exact: true }).click();
     await expect(page.getByText('Pomodoros', { exact: true })).toBeVisible({ timeout: 5000 });
     await page.getByText('Week', { exact: true }).click();

@@ -1,39 +1,23 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { Dimensions, Image, Platform, Pressable, ScrollView } from "react-native";
-import styled from "styled-components/native";
+import { Dimensions, Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, View } from "react-native";
 import { CustomSafeAreaView } from "../../components/safe-area-view";
 import { SignupFormView } from "../../components/signup-form-view";
 import { useState } from "react";
 import { SignupSuccessView } from "../../components/signup-success-view";
 import { useUserContext } from "../../context";
 import { User, api } from "../../lib";
-import { Spacer, Text } from "../../ui/atoms";
-import { Header } from "../../ui/organisms";
-import { useTheme } from "styled-components";
+import { Text } from '@/components/ui/text';
+import { Header } from "@/components/header";
+import { cn } from '@/lib/cn';
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 
-const Container = styled.KeyboardAvoidingView`
-  flex: 1;
-  padding-top: ${props => props.theme.spacing.size32}px;
-  width: ${WIDTH}px;
-  border-top-right-radius: ${(props) => props.theme.spacing.size32}px;
-  border-top-left-radius: ${(props) => props.theme.spacing.size32}px;
-  background-color: ${(props) => props.theme.colours.neutrals.white};
-`;
-
 const bg = require("../../../assets/bg-login.jpg");
-
-const BackButton = styled.View`
-  align-items: center;
-  flex-direction: row;
-`;
 
 export const SignupScreen = () => {
   const router = useRouter();
-  const theme = useTheme();
   const [signInSuccess, setSignInSuccess] = useState(false);
 
   const [newUser, setNewUser] = useState<User<{}> | null>(null);
@@ -55,9 +39,7 @@ export const SignupScreen = () => {
 
   return (
     <CustomSafeAreaView
-      style={{
-        backgroundColor: theme.colours.neutrals.white,
-      }}
+      className={cn("bg-neutrals-white")}
     >
       {signInSuccess ? (
         <SignupSuccessView onContinue={handleOnContinue} />
@@ -68,11 +50,9 @@ export const SignupScreen = () => {
               style={{ width: WIDTH, height: HEIGHT / 2, position: "absolute" }}
           />
           <Header
-            renderRigthContent={() => (
+            renderRightContent={() => (
               <Text
-                size="body"
-                weight="bold"
-                  colour={theme.colours.neutrals.white}
+                className="font-bold text-neutrals-white"
               >
                 Timeline
               </Text>
@@ -80,29 +60,38 @@ export const SignupScreen = () => {
             renderLeftContent={() => (
               <>
                 <Pressable onPress={() => router.back()}>
-                  <BackButton>
+                  <View className="items-center flex-row">
                     <MaterialIcons
                       name="arrow-back"
                       size={24}
-                      color={theme.colours.neutrals.white}
+                      color="#FFFFFF"
                     />
-                    <Spacer size="4" />
-                    <Text size="body" colour={theme.colours.neutrals.white}>
+                    <View className="w-2" />
+                    <Text className="text-neutrals-white">
                       Back
                     </Text>
-                  </BackButton>
+                  </View>
                 </Pressable>
               </>
             )}
           />
-            <Container behavior={Platform.OS === "ios" ? "padding" : "height"}>
+            <KeyboardAvoidingView
+              behavior={Platform.OS === "ios" ? "padding" : "height"}
+              className="flex-1 bg-neutrals-white"
+              style={{
+                paddingTop: 32,
+                width: WIDTH,
+                borderTopRightRadius: 32,
+                borderTopLeftRadius: 32,
+              }}
+            >
               <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
                 <SignupFormView
                   onSubmit={handleSignup}
                   goToLogin={() => router.back()}
                 />
               </ScrollView>
-          </Container>
+          </KeyboardAvoidingView>
         </>
       )}
     </CustomSafeAreaView>

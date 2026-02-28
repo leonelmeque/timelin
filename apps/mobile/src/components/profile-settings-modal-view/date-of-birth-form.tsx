@@ -1,6 +1,8 @@
 import { FC } from 'react';
 import { useForm } from '../../hooks/use-form';
-import { Button, Caption, Spacer, Text } from '../../ui/atoms';
+import { View } from 'react-native';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 import RNDateTimePicker, {
   DateTimePickerEvent,
 } from '@react-native-community/datetimepicker';
@@ -28,24 +30,25 @@ export const DateOfBirthForm: FC<{
 
   return (
     <>
-      <Text size="body" weight="medium">
+      <Text className="font-medium">
         <>{dateFormatter(values.dateOfBirth, { dateStyle: 'short' })}</>
       </Text>
-      <Spacer size="16" />
+      <View className="h-8" />
       <RNDateTimePicker
         mode="date"
         onChange={onChangeDate}
         value={new Date(values.dateOfBirth)}
         display="inline"
       />
-      <Caption variant="caption" caption="The day your were born" />
-      <Spacer size="64" />
+      <Text className="text-sm text-grey-200">The day your were born</Text>
+      <View className="h-32" />
       <Button
-        label="Update birthday"
-        variant="primary"
+        variant="default"
         size="lg"
         onPress={() => onSubmit(Number(values.dateOfBirth))}
-      />
+      >
+        <Text>Update birthday</Text>
+      </Button>
     </>
   );
 };

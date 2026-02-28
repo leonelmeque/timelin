@@ -1,8 +1,8 @@
-import styled from 'styled-components/native';
-import { Avatar, Spacer, Text } from '../../ui/atoms';
+import { Text } from '@/components/ui/text';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { tokens } from '../../ui/tokens';
+import { cn } from '@/lib/cn';
 
 type AvatarWithTextProps = {
   name: string;
@@ -10,20 +10,15 @@ type AvatarWithTextProps = {
   profilePicture?: string;
 };
 
-const Container = styled.View`
-  flex-direction: row;
-`;
-
 const styles = StyleSheet.create({
   boxShadow: {
-    shadowColor: tokens.colours.dark.greys.G300,
+    shadowColor: '#15141a',
     shadowOffset: {
       width: 0,
       height: 0,
     },
     shadowOpacity: 0.3,
     shadowRadius: 4,
-    border: '1px soild green',
   },
 });
 
@@ -33,28 +28,24 @@ export const AvatarWithText: FC<AvatarWithTextProps> = ({
   profilePicture = 'https://picsum.photos/200',
 }) => {
   return (
-    <Container testID='component.avatar-with-text' >
+    <View testID='component.avatar-with-text' className={cn('flex-row')}>
       <View style={styles.boxShadow}>
         <Avatar
-          size={48}
-          radius={4}
-          source={{ uri: profilePicture, cache: 'force-cache' }}
-        />
+          alt="user"
+          style={{ width: 48, height: 48, borderRadius: 4 }}
+        >
+          <AvatarImage source={{ uri: profilePicture, cache: 'force-cache' }} />
+        </Avatar>
       </View>
-      <Spacer size="8" />
-      <View
-        style={{
-          justifyContent: 'center',
-          alignContent: 'center',
-        }}
-      >
-        <Text size="body" weight="bold">
+      <View className="w-4" />
+      <View className={cn('justify-center content-center')}>
+        <Text className="font-bold">
           {name}
         </Text>
-        <Text size="small" colour={tokens.colours.dark.greys.G100}>
+        <Text className="text-sm text-grey-100">
           {role}
         </Text>
       </View>
-    </Container>
+    </View>
   );
 };

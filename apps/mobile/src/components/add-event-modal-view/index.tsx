@@ -1,12 +1,14 @@
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { FC, useRef, useState } from 'react';
-import { TouchableWithoutFeedback, Platform } from 'react-native';
+import { TouchableWithoutFeedback, Platform, View, TextInput } from 'react-native';
 import { useUserContext } from '../../context';
 import { CustomSafeAreaView } from '../safe-area-view';
 import { ModalOverLay, StyledKeyboardAvoidingView } from './styles';
 import { TimelineEventProps, api } from '../../lib';
 import { useTimeline } from '../../store';
-import { Box, PlainTextInput, Spacer, Button } from '../../ui/atoms';
+import { cn } from '@/lib/cn';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 
 
@@ -67,47 +69,43 @@ export const AddEventModalView: FC<AddTodoModalViewProps> = ({
       <StyledKeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <Box
-          style={{
-            paddingTop: 12,
-            paddingBottom: 12,
-          }}
+        <View
+          className={cn("px-4 pt-3 pb-3")}
         >
-          <PlainTextInput
-            size="body"
-            weight="500"
+          <TextInput
+            className={cn("py-3 border border-transparent text-sm")}
+            style={{ fontWeight: '500' }}
             placeholder="What is the event name?"
             value={eventName}
             onChangeText={onChangeText}
             autoFocus
           />
-          <Spacer size="4" />
-          <Box
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-            }}
+          <View className="h-2" />
+          <View
+            className={cn("px-4 flex-row justify-end")}
           >
             {!!eventName && (
               <Button
-                label="Add description"
-                size="md"
-                variant="tertiary"
+                size="default"
+                variant="ghost"
                 onPress={(e) => {
                   withDescriptionRef.current = true;
                   onPressSave(e);
                 }}
-              />
+              >
+                <Text>Add description</Text>
+              </Button>
             )}
             <Button
-              label="save"
-              size="md"
-              variant={!eventName ? 'disabled' : 'primary'}
+              size="default"
+              variant="default"
               onPress={onPressSave}
               disabled={!eventName}
-            />
-          </Box>
-        </Box>
+            >
+              <Text>save</Text>
+            </Button>
+          </View>
+        </View>
       </StyledKeyboardAvoidingView>
     </CustomSafeAreaView>
     // </Modal>

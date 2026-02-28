@@ -2,8 +2,9 @@ import React from 'react'
 import { Section, SectionContent, SectionHeader } from './styles';
 import { withOptionsModal } from '../with-options-modal';
 import { useLatest, useUpdateTodos } from '../../store';
-import { Spacer, Text } from '../../ui/atoms';
-import { TodoCard } from '../../ui/organisms';
+import { Text } from '@/components/ui/text';
+import { View } from 'react-native';
+import { TodoCard } from '@/components/todo-card';
 import { useTranslation } from 'react-i18next';
 
 
@@ -19,14 +20,14 @@ export const LatestList = () => {
   return (
     <Section accessibilityLabel="Latest">
       <SectionHeader>
-        <Text size="body" weight="medium">
+        <Text className="font-medium">
           {t("home.latest.heading")}
         </Text>
       </SectionHeader>
-      <Spacer size="4" />
+      <View className="h-2" />
       <SectionContent>
         {!pinned ? (
-          <Text size="small">{t("home.latest.empty_state")}</Text>
+          <Text className="text-sm">{t("home.latest.empty_state")}</Text>
         ) : (
           <TodoCardEnhanced {...pinned} badgeType="colored" />
         )}

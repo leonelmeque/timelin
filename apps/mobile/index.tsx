@@ -5,4 +5,8 @@ if (process.env.NODE_ENV !== 'production') {
   setupMocks();
 }
 
-import "expo-router/entry";
+if (process.env.EXPO_PUBLIC_STORYBOOK_ENABLED === 'true') {
+  require('./.rnstorybook');
+} else {
+  require('expo-router/entry');
+}

@@ -1,5 +1,7 @@
 import { useRouter, useLocalSearchParams } from "expo-router";
-import { Box, Spacer, Text } from "../../ui/atoms";
+import { Text } from '@/components/ui/text';
+import { View } from "react-native";
+import { cn } from "@/lib/cn";
 import { CustomSafeAreaView } from "../safe-area-view";
 import { MaterialIcons } from "@expo/vector-icons";
 import { ChangePasswordForm } from "./change-password-form";
@@ -22,16 +24,16 @@ export const AccountSettingsModalView = () => {
 
   return (
     <CustomSafeAreaView>
-      <Box style={{ backgroundColor: "white", flex: 1 }}>
-        <Spacer size="8" />
+      <View className={cn("px-4 bg-white flex-1")}>
+        <View className="h-4" />
         <MaterialIcons
           name="close"
           size={24}
           color="black"
           onPress={() => router.back()}
         />
-        <Spacer size="8" />
-        <Text size="heading" weight="bold">
+        <View className="h-4" />
+        <Text className="text-2xl font-bold tracking-tight">
           Change password
         </Text>
         <ScrollView>
@@ -41,7 +43,7 @@ export const AccountSettingsModalView = () => {
             <RenderFrom />
           </KeyboardAvoidingView>
         </ScrollView>
-      </Box>
+      </View>
     </CustomSafeAreaView>
   );
 };

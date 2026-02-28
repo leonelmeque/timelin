@@ -4,8 +4,8 @@ import { GestureResponderEvent } from 'react-native';
 import { TodoList } from './styles';
 import { withOptionsModal } from '../with-options-modal';
 import { TodoProps } from '../../lib';
-import { TodoCard } from '../../ui/organisms';
-import { Spacer } from '../../ui/atoms';
+import { TodoCard } from '@/components/todo-card';
+import { View } from 'react-native';
 
 type TodoListViewProps = {
   data: TodoProps[] | null | undefined;
@@ -50,7 +50,7 @@ export const TodoListView: FC<TodoListViewProps> = ({
       horizontal={horizontal}
       data={data}
       keyExtractor={(item: any) => item.id.toString()}
-      ItemSeparatorComponent={() => <Spacer size="8" />}
+      ItemSeparatorComponent={() => <View className="h-4" />}
       renderItem={_renderItem}
     />
   );
