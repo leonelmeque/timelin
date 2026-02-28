@@ -1,99 +1,160 @@
-import { atom } from 'jotai';
-import { atomFamily } from 'jotai/utils';
+import { create } from 'zustand';
 import { TodoProps, TodoStatus } from '../../lib/shared-types';
 import { api } from '../../lib/api';
 
-export const todosState = atom<TodoProps[]>([]);
-export const currentTodoIdAtom = atom<string>('');
-export const pinnedTodo = atom<string | null>(null);
-export const todoFilterState = atom<TodoStatus>(TodoStatus.ON_GOING);
-export const latestChanged = atom<string | null>(null);
+type TodosState = {
+  todos: TodoProps[];
+  filter: TodoStatus;
+  pinnedTodoId: string | null;
+  latestChangedId: string | null;
+  todoCache: Record<string, { state: 'loading' | 'hasData' | 'hasError'; data?: any }>;
 
-export const readWriteCurrentTodoIdAtom = atom(
-  (get) => get(currentTodoIdAtom),
-  (get, set, id: string) => {
-    set(currentTodoIdAtom, id);
-  }
-);
+  fetchTodos: () => Promise<void>;
+  addTodo: (todo: TodoProps) => void;
+  deleteTodo: (id: string) => void;
+  syncTodo: (id: string, update: TodoProps) => void;
 
-export const readWriteTodosAtom = atom(
-  (get) => get(todosState),
-  (get, set, update: TodoProps) => {
-    const newTodos = get(todosState);
-    newTodos.push(update);
-    set(todosState, newTodos);
-  }
-);
+  setFilter: (status: TodoStatus) => void;
+  getFilteredTodos: () => TodoProps[];
 
-export const removeExistingFromTodoAtom = atom(null, (get, set, id: string) => {
-  const newTodos = get(todosState);
-  const index = newTodos.findIndex((item) => item.id === id);
-  newTodos.splice(index, 1);
-  set(todosState, newTodos);
-});
+  fetchPinnedTodo: () => Promise<void>;
+  setPinnedTodo: (id: string) => void;
+  removePinnedTodo: () => void;
 
-export const readWriteFilterState = atom(
-  (get) => get(todoFilterState),
-  (get, set, newStatus: TodoStatus) => {
-    set(todoFilterState, newStatus);
-  }
-);
+  fetchLatestChanged: () => Promise<void>;
+  setLatestChanged: (id: string) => void;
 
-export const getAsyncTodo = atomFamily((id: string) =>
-  atom(async (get) => {
-    return await api.todo.getTodo(id);
-  })
-);
+  fetchTodo: (id: string) => Promise<void>;
+  clearTodoCache: (id: string) => void;
 
-export const filterTodosByStatus = atom<TodoProps[]>((get) => {
-  const list = get(todosState);
-  const filter = get(readWriteFilterState);
+  searchTodos: (query: string) => TodoProps[];
+};
 
-  function filteredData() {
+export const useTodosStore = create<TodosState>((set, get) => ({
+  todos: [],
+  filter: TodoStatus.ON_GOING,
+  pinnedTodoId: null,
+  latestChangedId: null,
+  todoCache: {},
+
+  fetchTodos: async () => {
+    try {
+      const data = await api.todo.getTodos();
+      set({ todos: data });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  addTodo: (todo) => {
+    set((state) => ({ todos: state.todos.concat(todo) }));
+  },
+
+  deleteTodo: (id) => {
+    set((state) => ({ todos: state.todos.filter((item) => item.id !== id) }));
+  },
+
+  syncTodo: (id, update) => {
+    set((state) => {
+      const newTodos = [...state.todos];
+      const index = newTodos.findIndex((item) => item.id === id);
+      newTodos[index] = update;
+      return { todos: newTodos };
+    });
+  },
+
+  setFilter: (status) => {
+    set({ filter: status });
+  },
+
+  getFilteredTodos: () => {
+    const { todos, filter } = get();
     switch (filter) {
       case TodoStatus.ON_GOING:
-        return list.filter((item) => item.status === TodoStatus.ON_GOING);
+        return todos.filter((item) => item.status === TodoStatus.ON_GOING);
       case TodoStatus.COMPLETED:
-        return list.filter((item) => item.status === TodoStatus.COMPLETED);
+        return todos.filter((item) => item.status === TodoStatus.COMPLETED);
       case TodoStatus.TODO:
-        return list.filter((item) => item.status === TodoStatus.TODO);
+        return todos.filter((item) => item.status === TodoStatus.TODO);
       case TodoStatus.ON_HOLD:
-        return list.filter((item) => item.status === TodoStatus.ON_HOLD);
+        return todos.filter((item) => item.status === TodoStatus.ON_HOLD);
       default:
         return [];
     }
-  }
+  },
 
-  return filteredData();
-});
+  fetchPinnedTodo: async () => {
+    try {
+      const { pinned: pinnedTodo = null } =
+        (await api.todo.getPinnedTodo()) ||
+        ({} as { pinned: string });
 
-export const filterTodosByQuery = (param: string) =>
-  atom<TodoProps[]>((get) => {
-    const list = get(readWriteTodosAtom);
+      if (!pinnedTodo) {
+        return;
+      }
+      set({ pinnedTodoId: pinnedTodo });
+    } catch (err) {
+      console.error('Could not find a pinned todo');
+    }
+  },
 
-    if (!param) return [];
+  setPinnedTodo: (id) => {
+    set({ pinnedTodoId: id });
+  },
 
-    return list.filter(
+  removePinnedTodo: () => {
+    set({ pinnedTodoId: '' });
+  },
+
+  fetchLatestChanged: async () => {
+    try {
+      const data = (await api.todo.getLastestChanged()) as {
+        latestChanged: string;
+      };
+
+      if (data?.latestChanged) {
+        set({ latestChangedId: data.latestChanged });
+      }
+    } catch (err) {
+      console.error('Could not find latest changed');
+    }
+  },
+
+  setLatestChanged: (id) => {
+    set({ latestChangedId: id });
+  },
+
+  fetchTodo: async (id) => {
+    set((state) => ({
+      todoCache: { ...state.todoCache, [id]: { state: 'loading' } },
+    }));
+    try {
+      const data = await api.todo.getTodo(id);
+      set((state) => ({
+        todoCache: { ...state.todoCache, [id]: { state: 'hasData', data } },
+      }));
+    } catch (err) {
+      set((state) => ({
+        todoCache: { ...state.todoCache, [id]: { state: 'hasError' } },
+      }));
+    }
+  },
+
+  clearTodoCache: (id) => {
+    set((state) => {
+      const newCache = { ...state.todoCache };
+      delete newCache[id];
+      return { todoCache: newCache };
+    });
+  },
+
+  searchTodos: (query) => {
+    const { todos } = get();
+    if (!query) return [];
+    return todos.filter(
       (item: TodoProps) =>
-        item.todo.toLocaleLowerCase().indexOf(param.toLowerCase()) > -1 ||
-        item.description.toLowerCase().indexOf(param.toLowerCase()) > -1
+        item.todo.toLocaleLowerCase().indexOf(query.toLowerCase()) > -1 ||
+        item.description.toLowerCase().indexOf(query.toLowerCase()) > -1
     );
-  });
-
-export const readWritePinnedTodo = atom(
-  (get) => {
-    return get(pinnedTodo);
   },
-  (get, set, update: string) => {
-    set(pinnedTodo, update);
-  }
-);
-
-export const readWriteLatestChanged = atom(
-  (get) => {
-    return get(latestChanged);
-  },
-  (_, set, update: string) => {
-    set(latestChanged, update);
-  }
-);
+}));

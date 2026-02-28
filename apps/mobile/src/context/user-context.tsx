@@ -3,6 +3,7 @@ import {
   FC,
   PropsWithChildren,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
@@ -20,6 +21,10 @@ const Context = createContext<UserContextProps>({
 
 const Provider: FC<PropsWithChildren & { initUser: User<{}> | null }> = ({ children, initUser }) => {
   const [state, setState] = useState<User | null>(initUser);
+
+  useEffect(() => {
+    setState(initUser);
+  }, [initUser]);
 
   const value: UserContextProps = useMemo(
     () => ({ user: state, dispatch: setState }),

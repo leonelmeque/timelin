@@ -1,11 +1,10 @@
-import { Slot, useRouter, useSegments } from "expo-router";
-import { ThemeProvider } from "styled-components/native";
+import { useEffect } from "react";
+import { Slot, useSegments, useRouter } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { initReactI18next } from "react-i18next";
-import { createStore, Provider as JotaiProvider } from "jotai";
+
 import * as SplashScreen from "expo-splash-screen";
 import i18next from "i18next";
-import { useEffect } from "react";
 import {
   CustomModalProvider,
   useUserContext,
@@ -14,8 +13,6 @@ import {
 import { PomodoroProvider, usePomodoroContext } from "../src/context/pomodoro-context";
 import { PomodoroFloatingWidget } from "../src/components/pomodoro-timer/floating-widget";
 import { useInitApplication } from "../src/hooks/useInitApplication";
-import { hooks } from "../src/lib";
-import { theme } from "../src/ui/theme";
 import translations from "../public/translations/translations.json";
 
 i18next.use(initReactI18next).init({
@@ -25,8 +22,6 @@ i18next.use(initReactI18next).init({
 });
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
-
-const store = createStore();
 
 function GlobalPomodoroWidget() {
   const { phase, displayTime, activeTodoId, activeTodoName, pomodoroCount, pause, resume, stop, skipBreak, takeBreak } = usePomodoroContext();
@@ -49,12 +44,14 @@ function GlobalPomodoroWidget() {
   );
 }
 
-function AuthRedirect() {
+function AuthGate({ appIsReady }: { appIsReady: boolean }) {
   const [user] = useUserContext();
   const segments = useSegments();
   const router = useRouter();
 
   useEffect(() => {
+    if (!appIsReady) return;
+
     const inAuthGroup = segments[0] === "(auth)";
 
     if (!user && !inAuthGroup) {
@@ -62,46 +59,29 @@ function AuthRedirect() {
     } else if (user && inAuthGroup) {
       router.replace("/(tabs)");
     }
-  }, [user, segments]);
+  }, [user, segments[0], appIsReady]);
 
-  return (
-    <>
-      <Slot />
-      <GlobalPomodoroWidget />
-    </>
-  );
+  return null;
 }
 
 function InnerLayout() {
-  const [activeTheme] = hooks.useThemeSwitcher();
   const { appIsReady, onLayoutRootView, currentUser } = useInitApplication();
 
-  if (!appIsReady) {
-    return null;
-  }
-
   return (
-    <ThemeProvider theme={theme[activeTheme]}>
-      <SafeAreaProvider onLayout={onLayoutRootView}>
-        <AuthenticatedUserProvider
-          key={currentUser ? 1 : 0}
-          initUser={currentUser}
-        >
-          <CustomModalProvider>
-            <PomodoroProvider>
-              <AuthRedirect />
-            </PomodoroProvider>
-          </CustomModalProvider>
-        </AuthenticatedUserProvider>
-      </SafeAreaProvider>
-    </ThemeProvider>
+    <SafeAreaProvider onLayout={appIsReady ? onLayoutRootView : undefined}>
+      <AuthenticatedUserProvider initUser={currentUser}>
+        <CustomModalProvider>
+          <PomodoroProvider>
+            <AuthGate appIsReady={appIsReady} />
+            <Slot />
+            {appIsReady && <GlobalPomodoroWidget />}
+          </PomodoroProvider>
+        </CustomModalProvider>
+      </AuthenticatedUserProvider>
+    </SafeAreaProvider>
   );
 }
 
 export default function RootLayout() {
-  return (
-    <JotaiProvider store={store}>
-      <InnerLayout />
-    </JotaiProvider>
-  );
+  return <InnerLayout />;
 }

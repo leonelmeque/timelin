@@ -1,29 +1,23 @@
-import { useAtom } from 'jotai';
-import { useCallback, useEffect, useState } from 'react';
-import { timelineState } from '../todos/timeline.store';
-import { TimelineEventProps } from '../../lib/shared-types';
-import { api } from '../../lib/api';
+import { useCallback, useEffect } from 'react';
+import { useTimelineStore } from '../todos/timeline.store';
 
 export const useFetchTimeline = (uid: string) => {
-  const [loading, setLoading] = useState('loading');
-  const [timeline, setTimeline] = useAtom(timelineState);
-  const resetCacheData = useCallback(() => { }, []);
+  const timeline = useTimelineStore((s) => s.timeline);
+  const loadingState = useTimelineStore((s) => s.loadingState);
+  const fetchTimeline = useTimelineStore((s) => s.fetchTimeline);
+  const resetTimeline = useTimelineStore((s) => s.resetTimeline);
+
+  const resetCacheData = useCallback(() => {
+    resetTimeline();
+  }, []);
 
   useEffect(() => {
-    api.timeline
-      .getTimeline(uid)
-      .then((data) => {
-        setLoading('hasData');
-        setTimeline(data as TimelineEventProps[]);
-      })
-      .catch(() => {
-        setLoading('hasError');
-      });
+    fetchTimeline(uid);
   }, []);
 
   return {
     value: {
-      state: loading,
+      state: loadingState,
       data: timeline,
     },
     resetCacheData,

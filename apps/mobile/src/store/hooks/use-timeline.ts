@@ -1,28 +1,22 @@
-import { useAtom } from 'jotai';
-import { timelineState } from '../todos/timeline.store';
+import { useTimelineStore } from '../todos/timeline.store';
 import { TimelineEventProps } from '../../lib/shared-types';
 
 export const useTimeline = () => {
-  const [timeline, setTimeline] = useAtom(timelineState);
+  const timeline = useTimelineStore((s) => s.timeline);
+  const addEvent = useTimelineStore((s) => s.addEvent);
+  const deleteEvent = useTimelineStore((s) => s.deleteEvent);
+  const syncEvent = useTimelineStore((s) => s.syncEvent);
 
   const handleAddTimeline = (newEvent: TimelineEventProps) => {
-    setTimeline((prev) => prev.concat(newEvent));
+    addEvent(newEvent);
   };
 
   const handleDeleteTimeline = (id: string) => {
-    setTimeline((prev) => {
-      const newTimeline = prev.filter((item) => item.id !== id);
-      return newTimeline;
-    });
+    deleteEvent(id);
   };
 
   const handleSyncTimeline = (id: string, update: TimelineEventProps) => {
-    setTimeline((prev) => {
-      const index = prev.findIndex((item) => item.id === id);
-      const freshData = prev;
-      freshData[index] = update;
-      return freshData;
-    });
+    syncEvent(id, update);
   };
 
   return {

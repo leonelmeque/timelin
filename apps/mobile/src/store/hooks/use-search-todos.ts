@@ -1,11 +1,18 @@
-import { useAtomValue } from 'jotai';
 import { useMemo, useState } from 'react';
-import { filterTodosByQuery, todosState } from '../todos/todos.store';
+import { useTodosStore } from '../todos/todos.store';
 
 export const useSearchTodos = () => {
   const [query, setQuery] = useState('');
-  const currentTodosState = useAtomValue(todosState)
-  const todos = useAtomValue(useMemo(() => filterTodosByQuery(query), [query, currentTodosState]));
+  const todos = useTodosStore((s) => s.todos);
+
+  const searchResults = useMemo(() => {
+    if (!query) return [];
+    return todos.filter(
+      (item) =>
+        item.todo.toLocaleLowerCase().indexOf(query.toLowerCase()) > -1 ||
+        item.description.toLowerCase().indexOf(query.toLowerCase()) > -1
+    );
+  }, [todos, query]);
 
   const onSearch = (value: string) => {
     setQuery(value);
@@ -19,7 +26,7 @@ export const useSearchTodos = () => {
     query,
     onSearch,
     onClearSearch,
-    searchResults: todos,
-    numberOfResults: todos?.length,
+    searchResults,
+    numberOfResults: searchResults?.length,
   };
 };

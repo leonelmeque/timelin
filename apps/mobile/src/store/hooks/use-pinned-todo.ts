@@ -1,37 +1,17 @@
-import { useAtom } from 'jotai';
-import { readWritePinnedTodo } from '../todos/todos.store';
 import { useEffect } from 'react';
-import { api } from '../../lib/api';
+import { useTodosStore } from '../todos/todos.store';
 
 export const usePinnedTodo = () => {
-  const [pinned, setPinned] = useAtom(readWritePinnedTodo);
+  const pinned = useTodosStore((s) => s.pinnedTodoId);
+  const setPinnedTodo = useTodosStore((s) => s.setPinnedTodo);
+  const removePinnedTodo = useTodosStore((s) => s.removePinnedTodo);
+  const fetchPinnedTodo = useTodosStore((s) => s.fetchPinnedTodo);
 
   const addOrUpdatePinnedTodo = (id: string) => {
-    setPinned(id);
-  };
-
-  const removePinnedTodo = () => {
-    setPinned('');
+    setPinnedTodo(id);
   };
 
   useEffect(() => {
-    const fetchPinnedTodo = async () => {
-      try {
-        const { pinned: pinnedTodo = null } =
-          (await api.todo.getPinnedTodo()) ||
-          ({} as {
-            pinned: string;
-          });
-
-        if (!pinnedTodo) {
-          return;
-        }
-        setPinned(pinnedTodo);
-      } catch (err) {
-        console.error('Could not find a pinned todo');
-      }
-    };
-
     fetchPinnedTodo();
   }, []);
 

@@ -1,36 +1,21 @@
-import { useEffect } from "react"
-import { useAtom } from "jotai"
-import { readWriteLatestChanged } from "../todos/todos.store";
-import { api } from "../../lib";
+import { useEffect } from 'react';
+import { useTodosStore } from '../todos/todos.store';
 
 export const useLatest = () => {
-  const [latestChanged, setLatestChanged] = useAtom(readWriteLatestChanged)
+  const latestChanged = useTodosStore((s) => s.latestChangedId);
+  const setLatestChanged = useTodosStore((s) => s.setLatestChanged);
+  const fetchLatestChanged = useTodosStore((s) => s.fetchLatestChanged);
+
   const updateLatestChanged = (id: string) => {
-    setLatestChanged(id)
+    setLatestChanged(id);
   };
 
   useEffect(() => {
-    const fetchLatestChanged = async () => {
-      try {
-        const data = await api.todo.getLastestChanged() as {
-          latestChanged: string
-        }
-
-        if (data?.latestChanged) {
-          setLatestChanged(data.latestChanged);
-        }
-      } catch (err) {
-        console.error("Could not find latest changed")
-      }
-    };
-
     fetchLatestChanged();
-
-    return () => { };
   }, []);
 
   return {
     latestChanged,
     updateLatestChanged,
-  }
+  };
 };
