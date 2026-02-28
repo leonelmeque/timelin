@@ -1,0 +1,8 @@
+appId: com.timelin.mobile
+---
+- launchApp:
+    clearState: true
+- runFlow: ../common/login.yaml
+- tapOn: "Build authentication"
+- assertVisible: "Pomodoro Timer"
+- assertVisible: "Started research"

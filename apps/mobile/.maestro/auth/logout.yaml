@@ -1,0 +1,8 @@
+appId: com.timelin.mobile
+---
+- launchApp:
+    clearState: true
+- runFlow: ../common/login.yaml
+- tapOn: "Settings"
+- tapOn: "Log out"
+- assertVisible: "Sign in"

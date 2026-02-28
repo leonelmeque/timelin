@@ -1,0 +1,7 @@
+appId: com.timelin.mobile
+tags:
+  - smoke
+---
+- launchApp:
+    clearState: true
+- runFlow: ../common/login.yaml

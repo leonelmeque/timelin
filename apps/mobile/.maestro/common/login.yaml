@@ -1,0 +1,10 @@
+appId: com.timelin.mobile
+---
+- tapOn:
+    id: "email_input"
+- inputText: "test@example.com"
+- tapOn:
+    id: "password_input"
+- inputText: "password123"
+- tapOn: "Sign in"
+- assertVisible: "Tasks"
