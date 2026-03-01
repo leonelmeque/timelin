@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.4](https://github.com/leonelmeque/timelin/compare/mobile-v0.6.3...mobile-v0.6.4) (2026-02-28)
+
+
+### Features
+
+* **mobile:** add Maestro E2E flows, Storybook config, and component stories ([0f4ca1e](https://github.com/leonelmeque/timelin/commit/0f4ca1e2f2637bd1fa8c588686fbabb93696dad1))
+
 ## [0.6.3](https://github.com/leonelmeque/timelin/compare/mobile-v0.6.2...mobile-v0.6.3) (2026-02-27)
 
 
