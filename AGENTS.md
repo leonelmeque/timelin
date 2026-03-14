@@ -143,3 +143,25 @@ cd apps/mobile && maestro test .maestro/
 - `@expo/metro-runtime` must be installed for Expo web support.
 - Metro config (`apps/mobile/metro.config.js`) includes monorepo node_modules resolution — don't remove `nodeModulesPaths` or `watchFolders`.
 - The mobile `tsconfig.json` extends both `../../tsconfig.base.json` and `expo/tsconfig.base`.
+
+## Cursor Cloud specific instructions
+
+### Environment prerequisites
+
+Bun is required but not pre-installed on Cloud Agent VMs. The update script installs it automatically. After `bun install`, all dependencies for both apps are ready — no `.env` files or external services are needed (the mobile app uses a fully in-memory mock server).
+
+### Running services
+
+| Service | Command (from repo root) | Port | Notes |
+|---------|--------------------------|------|-------|
+| Mobile (Expo web) | `bun run mobile:web` | 8081 | Use `npx expo start --web --port 8081` in `apps/mobile/` for non-interactive mode |
+| Web (Next.js) | `bun run web:dev` | 3000 | Standard Next.js dev server |
+
+No external databases, APIs, Docker, or environment variables are required — the mobile app's mock server (`src/mocks/mock-server.ts`) intercepts all `/api/*` fetch calls in-memory.
+
+### Testing caveats
+
+- **Jest**: Only pure utility tests pass reliably (`tests/unit/utils/`). Component tests under `tests/unit/components/` and `tests/unit/ui/` have pre-existing `transformIgnorePatterns` issues with `@rn-primitives/slot` JSX and a missing `@testing-library/jest-native` dependency. These are known upstream issues — do not try to fix them as part of unrelated work.
+- **Playwright E2E**: Requires Chromium installed (`npx playwright install chromium`) and the Expo web server running on port 8081. The `playwright.config.ts` auto-starts the Expo dev server via its `webServer` config.
+- **Web lint** (`bun run web:build` or `cd apps/web && bun run lint`): Has a pre-existing `no-undef` error for `React` in `app/layout.tsx` (Next.js deprecation of `next lint`).
+- **ESLint config**: Root-level `.eslintrc.js` covers both apps; there is no per-app eslint config.
